@@ -4,8 +4,6 @@
 #include "Piece.h"
 #include <memory>
 
-#include <memory>
-
 class Square {
     public:
         int row, col;
