@@ -1,3 +1,4 @@
+#include <vector>
 #include "Piece.h"
 
 class Pawn : public Piece {

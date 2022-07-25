@@ -11,7 +11,7 @@ int main() {
     string s;
 
     while (cin >> s) {		// match
-        Board b;		// default board
+        Board b(8,8);		// initialize a default board
         
         while (s != "game ___"){
             cin >> s;
