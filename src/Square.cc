@@ -12,9 +12,10 @@ using namespace std;
 
 // Square::Square(int row, int col, Piece p) : row{row}, col{col}, 
 //     piece{unique_ptr<int> new Piece(p)} {};
-Square::Square(int& row, int& col, Piece* p) : row{row}, col{col}, 
-    piece{move(p)} {};
-Square::~Square() {};
+Square::Square(int& row, int& col, Piece* p) 
+    : row{row}, col{col}, piece{move(p)} {}
+
+Square::~Square() {}
 
 // this is NOT a deep copy
 // but now it is!
@@ -48,5 +49,5 @@ Square::Square(Square& o) : row{o.row}, col{o.col} {
         default:
             break;
     }
-}; 
+}
 
