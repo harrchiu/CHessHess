@@ -70,8 +70,8 @@ void Game::setup() {
                 //Check Valid Square
                 cin >> inSquare;
                 if (inSquare.length() == 2) {
-                    unsigned int x = cols.find(toupper(inSquare[0]));
-                    unsigned int y = rows.find(inSquare[1]);
+                    size_t x = cols.find(toupper(inSquare[0]));
+                    size_t y = rows.find(inSquare[1]);
                     if (x != string::npos && y != string::npos) {
                         board->grid.at(y).at(x).piece = move(myPiece);
                         cout << inPiece << " added at " << inSquare << endl;
@@ -89,8 +89,8 @@ void Game::setup() {
             //Check Valid Square
             cin >> inSquare;
             if (inSquare.length() == 2) {
-                unsigned int x = cols.find(toupper(inSquare[0]));
-                unsigned int y = rows.find(inSquare[1]);
+                size_t x = cols.find(toupper(inSquare[0]));
+                size_t y = rows.find(inSquare[1]);
                 if (x != string::npos && y != string::npos) {
                     board->grid.at(y).at(x).piece = nullptr;
                     cout << "Piece at " << inSquare << " removed" << endl;

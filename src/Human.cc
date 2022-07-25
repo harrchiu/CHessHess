@@ -11,7 +11,7 @@ Move Human::getMove(Board *b) {
     string rows = "87654321";
     string startSquare;
     string endSquare;
-    unsigned int x,y,x2,y2;
+    size_t x,y,x2,y2;
     bool validSquare = false;
     
     while (!validSquare) {
