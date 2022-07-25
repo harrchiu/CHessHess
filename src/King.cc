@@ -15,3 +15,7 @@ vector<vector<pair<int,int>>> King::getMoveDirections() {
         {{-1,-1}}
     };
 };
+
+PieceType King::type() {
+    return PieceType::King;
+};

@@ -12,3 +12,6 @@ vector<vector<pair<int,int>>> Bishop::getMoveDirections(){
     };
 };
 
+PieceType Bishop::type() {
+    return PieceType::Bishop;
+};

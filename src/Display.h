@@ -1,3 +1,6 @@
+#ifndef DISPLAY
+#define DISPLAY
+
 #include "Board.h"
 
 class Display {
@@ -9,3 +12,4 @@ class Display {
         virtual void display() = 0;
 };
 
+#endif

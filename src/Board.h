@@ -1,3 +1,6 @@
+#ifndef BOARD
+#define BOARD
+
 #include <vector>
 
 #include "Move.h"
@@ -24,3 +27,5 @@ class Board {
         int getCols();
         bool isOnBoard(const int, const int);
 };
+
+#endif

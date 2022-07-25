@@ -1,3 +1,6 @@
+#ifndef GAME
+#define GAME
+
 #include <string>
 #include "Piece.h"
 #include "Board.h"

@@ -1,3 +1,6 @@
+#ifndef MOVE
+#define MOVE
+
 #include <utility>
 #include "Piece.h"
 
@@ -9,3 +12,5 @@ struct Move {
 
     PieceType promotedTo;   // for pawn-promotion moves
 };
+
+#endif

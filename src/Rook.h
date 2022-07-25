@@ -1,3 +1,6 @@
+#ifndef ROOK
+#define ROOK
+
 #include <vector>
 #include "Piece.h"
 
@@ -5,3 +8,5 @@ class Rook : public Piece {
     std::vector<std::vector<std::pair<int,int>>> getMoveDirections() override;
     virtual PieceType type();
 };
+
+#endif

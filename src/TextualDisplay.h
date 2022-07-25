@@ -1,3 +1,6 @@
+#ifndef TEXTUAL_DISPLAY
+#define TEXTUAL_DISPLAY
+
 #include "Display.h"
 
 class TextualDisplay : public Display {
@@ -5,3 +8,5 @@ class TextualDisplay : public Display {
         void update() override;
         void display() override;
 };
+
+#endif

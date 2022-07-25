@@ -1,3 +1,6 @@
+#ifndef SQUARE
+#define SQUARE
+
 class Square {
     public:
         int row, col;
@@ -5,3 +8,5 @@ class Square {
         Square(int, int, Piece*);
         ~Square();
 };
+
+#endif

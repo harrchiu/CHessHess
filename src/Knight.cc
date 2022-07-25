@@ -15,3 +15,7 @@ vector<vector<pair<int,int>>> Knight::getMoveDirections() {
         {{-2,-1}}
     };
 };
+
+PieceType Knight::type() {
+    return PieceType::Knight;
+};

@@ -30,3 +30,7 @@ vector<vector<pair<int,int>>> Pawn::getMoveDirections() {
         };
     }
 */
+
+PieceType Pawm::type() {
+    return PieceType::Pawn;
+};
