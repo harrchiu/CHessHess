@@ -7,6 +7,7 @@ class TextualDisplay : public Display {
     public:
         void update() override;
         void display() override;
+        TextualDisplay(Board *b);
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include "Ai3.h"
 #include "Ai4.h"
 #include "Piece.h"
+#include "TextualDisplay.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ int main() {
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
         Game g(&b);
+        // TextualDisplay td(&b);
         
         while (s != "game"){
             cin >> s;

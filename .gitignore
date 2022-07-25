@@ -1,0 +1,8 @@
+# ignore VS Code-created folder
+.vscode
+
+#ignore output files
+*.o
+*.d
+*.exe
+chess
