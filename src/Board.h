@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <vector>
+#include <utility>
 
 #include "Move.h"
 #include "Square.h"
