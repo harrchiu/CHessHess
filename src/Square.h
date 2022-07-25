@@ -10,7 +10,7 @@ class Square {
         std::unique_ptr<Piece> piece;
         // Square(int, int, std::unique_ptr<Piece>);
         Square(int&, int&, Piece*);    // before
-        Square(Square&);         //
+        Square(const Square&);         //
         ~Square();
 };
 

@@ -36,7 +36,7 @@ void Game::setup() {
         string inSquare;
         cin >> cmd;
         // + Add Piece Case
-        if (cmd.compare("+") == 0) {
+        if (cmd == "+") {
             cin >> inPiece;
             //Check Valid Piece (Add Piece Case will end if not valid)
             if (validPieces.find(toupper(inPiece)) != string::npos) {
@@ -85,7 +85,7 @@ void Game::setup() {
                 cout << "Invalid Piece" << endl;
             }
         // - Remove Piece Case
-        } else if (cmd.compare("-") == 0) {
+        } else if (cmd == "-") {
             //Check Valid Square
             cin >> inSquare;
             if (inSquare.length() == 2) {
@@ -100,7 +100,7 @@ void Game::setup() {
             } else {
                 cout << "Invalid Square" << endl;
             }
-        } else if (cmd.compare("=") == 0) {
+        } else if (cmd == "=") {
             string colour;
             cin >> colour;
             if (colour[0] == 'B' || colour[0] == 'b') {
@@ -112,8 +112,9 @@ void Game::setup() {
             } else {
                 cout << "Invalid Colour" << endl;
             }
-        } else if (cmd.compare("done") == 0) {
+        } else if (cmd == "done") {
             //Check for exactly one white king and one black king
+            keepGoing = false;
             int whiteKingCount = 0;
             int blackKingCount = 0;
             for (vector<Square>& vec : board->grid) {
@@ -129,27 +130,33 @@ void Game::setup() {
             }
             if (whiteKingCount != 1) {
                 cout << "Board must contain EXACTLY one white king" << endl;
+                keepGoing = true;
             }
             if (blackKingCount != 1) {
                 cout << "Board must contain EXACTLY one black king" << endl;
+                keepGoing = true;
             }
             //Check for pawns in first and last row
             for (Square &square : board->grid.at(0)) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in first row" << endl;
+                    keepGoing = true;
                 }
             }
             for (Square &square : board->grid.back()) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in last row" << endl;
+                    keepGoing = true;
                 }
             }
             //Check that no king is in check
             pair<bool,bool> checkPair = board->isCheck();
             if (checkPair.first) {
                 cout << "White king is in check" << endl;
+                keepGoing = true;
             } if (checkPair.second) {
                 cout << "Black king is in check" << endl;
+                keepGoing = true;
             }
         }
     }    
@@ -160,15 +167,23 @@ void Game::setPlayer(PieceColour c, Player* p) {
 };
 
 string Game::playGame() {
+    string cmd;
     while (true) {
-        Player* curPlayer;
-        if (isWhiteToMove) {
-            curPlayer = players[0];
+        cin >> cmd;
+        if (cmd.compare("move")) {
+            Player* curPlayer;
+            if (isWhiteToMove) {
+                curPlayer = players[0];
+            } else {
+                curPlayer = players[1];
+            }
+            Move playerMove = curPlayer->getMove(board);
+            makeMove(playerMove);
+        } else if (cmd.compare("resign")) {
+            
         } else {
-            curPlayer = players[1];
+            cout << "Invalid Game Command" << endl;
         }
-        Move playerMove = curPlayer->getMove(board);
-        makeMove(playerMove);
 
     }
 }

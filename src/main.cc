@@ -15,39 +15,46 @@ using namespace std;
 
 int main() {
     int home=0, away=0;
-    home++; away++;
+    bool didSetup = false;
     string s;
     string result;
 
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
-        Game g(&b);
-        // TextualDisplay td(&b);
+        Game g(&b);  
+        TextualDisplay td(&b);
         
         while (s != "game"){
-            cin >> s;
-            if (s == "setup")
+            if (s == "setup"){
                 g.setup();
+                didSetup = true;
+            }
+            td.display();
+            cin >> s;
         }
+
         string whitePlayer;
         string blackPlayer;
         bool keepGoing = true;
+        if (!didSetup) {
+            b.setupInitialPosition();
+        }
 
         //set white player
         cout << "Set White Player: ";
-        cin >> whitePlayer;
         while (keepGoing) {
+            cin >> whitePlayer;
             keepGoing = false;
             if (whitePlayer[0] == 'h' || whitePlayer[0] == 'h') {
                 g.setPlayer(PieceColour::WHITE, new Human());
             } else if (whitePlayer[0] == 'a' || whitePlayer[0] == 'A') {
-                if (whitePlayer.find(1) != string::npos) {
+                if (whitePlayer.find('1') != string::npos) {
                     g.setPlayer(PieceColour::WHITE, new Ai1());
-                } else if (whitePlayer.find(2) != string::npos) {
+                } else if (whitePlayer.find('2') != string::npos) {
                     g.setPlayer(PieceColour::WHITE, new Ai2());
-                } else if (whitePlayer.find(3) != string::npos) {
+                } else if (whitePlayer.find('3') != string::npos) {
                     g.setPlayer(PieceColour::WHITE, new Ai3());
-                } else if (whitePlayer.find(4) != string::npos) {
+                } else if (whitePlayer.find('4') != string::npos) {
                     g.setPlayer(PieceColour::WHITE, new Ai4());
                 }
                 else {
@@ -64,22 +71,23 @@ int main() {
         //set black player
         keepGoing = true;
         cout << "Set Black Player: ";
-        cin >> blackPlayer;
         while (keepGoing) {
+            cin >> blackPlayer;
             keepGoing = false;
             if (blackPlayer[0] == 'h' || blackPlayer[0] == 'h') {
                 g.setPlayer(PieceColour::BLACK, new Human());
             } else if (blackPlayer[0] == 'a' || blackPlayer[0] == 'A') {
-                if (blackPlayer.find(1) != string::npos) {
+                if (blackPlayer.find('1') != string::npos) {
                     g.setPlayer(PieceColour::BLACK, new Ai1());
-                } else if (blackPlayer.find(2) != string::npos) {
+                } else if (blackPlayer.find('2') != string::npos) {
                     g.setPlayer(PieceColour::BLACK, new Ai2());
-                } else if (blackPlayer.find(3) != string::npos) {
+                } else if (blackPlayer.find('3') != string::npos) {
                     g.setPlayer(PieceColour::BLACK, new Ai3());
-                } else if (blackPlayer.find(4) != string::npos) {
+                } else if (blackPlayer.find('4') != string::npos) {
                     g.setPlayer(PieceColour::BLACK, new Ai4());
                 }
                 else {
+                    cout << "here";
                     keepGoing = true;
                     cout << "Invalid Black Player" << endl;
                 }
@@ -88,8 +96,16 @@ int main() {
                 cout << "Invalid Black Player" << endl;
             }
         }
+        
+        td.display();
+        result = g.playGame();
 
-        result = g.playGame();	
+        if (result == "somfalsdkfalksdjf"){
+            ++home;
+        }
+        else{
+            ++away;
+        }
 
         // handle result here
     }

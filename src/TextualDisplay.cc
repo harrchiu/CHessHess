@@ -22,7 +22,7 @@ void TextualDisplay::display() {
             if (!square.piece) {
                 cout << ((i+j)%2 == 0 ? ' ' : '_');
             } else {
-                cout << (square.piece->getIsWhite()
+                cout << (char) (square.piece->getIsWhite()
                             ? toupper(letters[square.piece->type()]) 
                             : letters[square.piece->type()]);
             }

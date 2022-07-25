@@ -17,9 +17,7 @@ Square::Square(int& row, int& col, Piece* p)
 
 Square::~Square() {}
 
-// this is NOT a deep copy
-// but now it is!
-Square::Square(Square& o) : row{o.row}, col{o.col} {
+Square::Square(const Square& o) : row{o.row}, col{o.col} {
     Piece* o_piece = o.piece.get();
     if (o_piece == nullptr){
         return;
