@@ -10,6 +10,6 @@ class Piece {
     public:
         virtual std::pair<int,int> getMoveDirections();
         virtual PieceType type();
-}
+};
 
 #endif
