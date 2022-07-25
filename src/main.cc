@@ -15,6 +15,7 @@ using namespace std;
 
 int main() {
     int home=0, away=0;
+    home++; away++;
     string s;
     string result;
 

@@ -1,5 +1,5 @@
-#ifndef GAME
-#define GAME
+#ifndef GAME_H
+#define GAME_H
 
 #include <string>
 #include "Piece.h"
@@ -15,11 +15,12 @@ class Game {
         Player players[2];
     public:
         void setPlayer(PieceColour c,Player p);
-        Game(Board b);
         void init();
         void setup();
-        string playGame();
+        std::string playGame();
         void makeMove(Move m);
+        Game(Board& b);
+        ~Game();
 };
 
 #endif

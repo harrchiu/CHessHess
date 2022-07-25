@@ -1,21 +1,27 @@
 #include <vector>
+#include "Piece.h"
 #include "King.h"
+#include "PotentialMove.h"
 
 using namespace std;
 
-vector<vector<pair<int,int>>> King::getMoveDirections() {
-    return {
-        {{1,0}},
-        {{-1,0}},
-        {{0,1}},
-        {{0,-1}},
-        {{1,1}},
-        {{-1,1}},
-        {{1,-1}},
-        {{-1,-1}}
-    };
+vector<vector<PotentialMove>> King::getMoveDirections() {
+    vector<pair<int,int>> king_disp = { {1,0},{-1,0},{0,1},{0,-1},
+        {1,1},{-1,1},{1,-1},{-1,-1}};
+
+    vector<vector<PotentialMove>> pMoves;
+    PotentialMoveType pmt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
+
+    for (auto disp : king_disp){
+        pMoves.push_back({PotentialMove(disp.first,disp.second,pmt)});
+    }
+
+    return pMoves;  
 };
 
 PieceType King::type() {
-    return PieceType::King;
+    return PieceType::KING;
 };
+
+King::King(bool isWhite) : Piece(isWhite) {};
+King::~King(){};

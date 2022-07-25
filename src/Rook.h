@@ -1,5 +1,5 @@
-#ifndef ROOK
-#define ROOK
+#ifndef ROOK_H
+#define ROOK_H
 
 #include <vector>
 #include "Piece.h"
@@ -7,10 +7,11 @@
 
 
 class Rook : public Piece {
-    std::vector<std::vector<PotentialMove>> getMoveDirections() override;
-    virtual PieceType type();
-    Rook(bool);
-    ~Rook() override;
+    public:
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
+        Rook(bool);
+        ~Rook() override;
 };
 
 #endif

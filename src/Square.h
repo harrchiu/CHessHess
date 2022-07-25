@@ -1,5 +1,8 @@
-#ifndef SQUARE
-#define SQUARE
+#ifndef SQUARE_H
+#define SQUARE_H
+
+#include "Piece.h"
+#include <memory>
 
 #include <memory>
 
@@ -7,7 +10,9 @@ class Square {
     public:
         int row, col;
         std::unique_ptr<Piece> piece;
-        Square(int, int, Piece*);
+        // Square(int, int, std::unique_ptr<Piece>);
+        Square(int&, int&, Piece*);    // before
+        Square(Square&);         //
         ~Square();
 };
 

@@ -1,5 +1,52 @@
 #include "Square.h"
 #include "Piece.h"
+#include "Pawn.h"
+#include "King.h"
+#include "Knight.h"
+#include "Rook.h"
+#include "Queen.h"
+#include "Bishop.h"
+#include <memory>
 
-Square::Square(int row, int col, Piece* p) : row{row}, col{col}, piece{make_unique<Piece>(p)} {};
+using namespace std;
+
+// Square::Square(int row, int col, Piece p) : row{row}, col{col}, 
+//     piece{unique_ptr<int> new Piece(p)} {};
+Square::Square(int& row, int& col, Piece* p) : row{row}, col{col}, 
+    piece{move(p)} {};
 Square::~Square() {};
+
+// this is NOT a deep copy
+// but now it is!
+Square::Square(Square& o) : row{o.row}, col{o.col} {
+    Piece* o_piece = o.piece.get();
+    if (o_piece == nullptr){
+        return;
+    }
+    
+    bool isWhite = o_piece->getIsWhite();
+
+    switch (o_piece->type()) {
+        case PieceType::PAWN:
+            piece = make_unique<Pawn>(isWhite);
+            break;
+        case PieceType::ROOK:
+            piece = make_unique<Rook>(isWhite);
+            break;
+        case PieceType::KNIGHT:
+            piece = make_unique<Knight>(isWhite);
+            break;
+        case PieceType::BISHOP:
+            piece = make_unique<Bishop>(isWhite);
+            break;
+        case PieceType::QUEEN:
+            piece = make_unique<Queen>(isWhite);
+            break;
+        case PieceType::KING:
+            piece = make_unique<King>(isWhite);
+            break;
+        default:
+            break;
+    }
+}; 
+

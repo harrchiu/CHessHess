@@ -1,5 +1,5 @@
-#ifndef MOVE
-#define MOVE
+#ifndef MOVE_H
+#define MOVE_H
 
 #include <utility>
 #include "Piece.h"

@@ -1,16 +1,16 @@
-#ifndef PIECE
-#define PIECE
+#ifndef PIECE_H
+#define PIECE_H
 
 #include <utility> 
 #include "PotentialMove.h" 
 
 enum PieceColour { WHITE=0, BLACK=1 };
-enum PieceType { Pawn=0, Rook=1, Knight=2, Bishop=3, Queen=4, King=5 };
-
+enum PieceType { PAWN=0, ROOK=1, KNIGHT=2, BISHOP=3, QUEEN=4, KING=5 };
+ 
 class Piece {
     bool isWhite = false;
     public:
-        virtual PieceType type();
+        virtual PieceType type() = 0;
         bool getIsWhite();
 
         /* idea behind getMoveDirections()
