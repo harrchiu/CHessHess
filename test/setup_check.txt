@@ -1,0 +1,4 @@
+setup
++ k g8 + r f7 + p g7 + p c6 + Q d6 + R e8 + p h6 + p d5 + p f5 + b c4 + P a4 + q d2
++ P f2 + P g3 + P h3 + B g2 + K h2
+done

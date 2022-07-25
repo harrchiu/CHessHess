@@ -125,6 +125,7 @@ vector<Move> Board::getMoves(bool isSideWhite) {
                     int newC = c + pm.colMov;
                     if (!isOnBoard(newR, newC)) break;
                     
+
                     // pawn is fucked
                     // if (curPiece->type == Pawn){
                     //     // capture?
