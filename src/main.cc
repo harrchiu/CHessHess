@@ -10,7 +10,6 @@
 #include "Ai4.h"
 #include "Piece.h"
 
-
 using namespace std;
 
 int main() {
@@ -21,7 +20,7 @@ int main() {
 
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
-        Game g(b);
+        Game g(&b);
         
         while (s != "game"){
             cin >> s;
@@ -38,16 +37,16 @@ int main() {
         while (keepGoing) {
             keepGoing = false;
             if (whitePlayer[0] == 'h' || whitePlayer[0] == 'h') {
-                g.setPlayer(PieceColour::WHITE,Human());
+                g.setPlayer(PieceColour::WHITE, new Human());
             } else if (whitePlayer[0] == 'a' || whitePlayer[0] == 'A') {
                 if (whitePlayer.find(1) != string::npos) {
-                    g.setPlayer(PieceColour::WHITE,Ai1());
+                    g.setPlayer(PieceColour::WHITE, new Ai1());
                 } else if (whitePlayer.find(2) != string::npos) {
-                    g.setPlayer(PieceColour::WHITE,Ai2());
+                    g.setPlayer(PieceColour::WHITE, new Ai2());
                 } else if (whitePlayer.find(3) != string::npos) {
-                    g.setPlayer(PieceColour::WHITE,Ai3());
+                    g.setPlayer(PieceColour::WHITE, new Ai3());
                 } else if (whitePlayer.find(4) != string::npos) {
-                    g.setPlayer(PieceColour::WHITE,Ai4());
+                    g.setPlayer(PieceColour::WHITE, new Ai4());
                 }
                 else {
                     keepGoing = true;
@@ -67,16 +66,16 @@ int main() {
         while (keepGoing) {
             keepGoing = false;
             if (blackPlayer[0] == 'h' || blackPlayer[0] == 'h') {
-                g.setPlayer(PieceColour::BLACK,Human());
+                g.setPlayer(PieceColour::BLACK, new Human());
             } else if (blackPlayer[0] == 'a' || blackPlayer[0] == 'A') {
                 if (blackPlayer.find(1) != string::npos) {
-                    g.setPlayer(PieceColour::BLACK,Ai1());
+                    g.setPlayer(PieceColour::BLACK, new Ai1());
                 } else if (blackPlayer.find(2) != string::npos) {
-                    g.setPlayer(PieceColour::BLACK,Ai2());
+                    g.setPlayer(PieceColour::BLACK, new Ai2());
                 } else if (blackPlayer.find(3) != string::npos) {
-                    g.setPlayer(PieceColour::BLACK,Ai3());
+                    g.setPlayer(PieceColour::BLACK, new Ai3());
                 } else if (blackPlayer.find(4) != string::npos) {
-                    g.setPlayer(PieceColour::BLACK,Ai4());
+                    g.setPlayer(PieceColour::BLACK, new Ai4());
                 }
                 else {
                     keepGoing = true;
@@ -92,6 +91,5 @@ int main() {
 
         // handle result here
     }
-
     return 0;
 }

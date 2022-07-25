@@ -4,7 +4,8 @@
 #include "Player.h" 
 
 class Ai2 : public Player {
-
+    public:
+        Move getMove(Board*) override;
 };
 
 #endif

@@ -6,7 +6,7 @@
 #include "PotentialMove.h" 
 
 enum PieceColour { WHITE=0, BLACK=1 };
-enum PieceType { PAWN=0, ROOK=1, KNIGHT=2, BISHOP=3, QUEEN=4, KING=5 };
+enum PieceType { PAWN=0, ROOK=1, KNIGHT=2, BISHOP=3, QUEEN=4, KING=5, EMPTY=6 };
  
 class Piece {
     bool isWhite = false;

@@ -6,7 +6,8 @@
 
 class Player {
     public:
-        Move getMove(Board &B);
+        virtual Move getMove(Board*) = 0;
+        virtual ~Player();
 };
 
 #endif

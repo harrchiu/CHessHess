@@ -15,11 +15,14 @@
 
 using namespace std;
 
-Game::Game(Board &b) : board{b}{
+Game::Game(Board *b) : board{b} {
     
 }
 
-Game::~Game(){}
+Game::~Game(){
+    delete players[0];
+    delete players[1];
+}
 
 void Game::setup() {
     string cmd;
@@ -70,7 +73,7 @@ void Game::setup() {
                     unsigned int x = cols.find(toupper(inSquare[0]));
                     unsigned int y = rows.find(inSquare[1]);
                     if (x != string::npos && y != string::npos) {
-                        board.grid.at(y).at(x).piece = move(myPiece);
+                        board->grid.at(y).at(x).piece = move(myPiece);
                         cout << inPiece << " added at " << inSquare << endl;
                     } else {
                         cout << "Invalid Square" << endl;
@@ -89,7 +92,7 @@ void Game::setup() {
                 unsigned int x = cols.find(toupper(inSquare[0]));
                 unsigned int y = rows.find(inSquare[1]);
                 if (x != string::npos && y != string::npos) {
-                    board.grid.at(y).at(x).piece = nullptr;
+                    board->grid.at(y).at(x).piece = nullptr;
                     cout << "Piece at " << inSquare << " removed" << endl;
                 } else {
                     cout << "Invalid Square" << endl;
@@ -113,7 +116,7 @@ void Game::setup() {
             //Check for exactly one white king and one black king
             int whiteKingCount = 0;
             int blackKingCount = 0;
-            for (vector<Square>& vec : board.grid) {
+            for (vector<Square>& vec : board->grid) {
                 for (Square &square : vec) {
                     if (square.piece && square.piece->type() == PieceType::KING){ 
                         if (square.piece->getIsWhite()) {
@@ -131,18 +134,18 @@ void Game::setup() {
                 cout << "Board must contain EXACTLY one black king" << endl;
             }
             //Check for pawns in first and last row
-            for (Square &square : board.grid.at(0)) {
+            for (Square &square : board->grid.at(0)) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in first row" << endl;
                 }
             }
-            for (Square &square : board.grid.back()) {
+            for (Square &square : board->grid.back()) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in last row" << endl;
                 }
             }
             //Check that no king is in check
-            pair<bool,bool> checkPair = board.isCheck();
+            pair<bool,bool> checkPair = board->isCheck();
             if (checkPair.first) {
                 cout << "White king is in check" << endl;
             } if (checkPair.second) {
@@ -152,25 +155,25 @@ void Game::setup() {
     }    
 }
 
-void Game::setPlayer(PieceColour c, Player p) {
+void Game::setPlayer(PieceColour c, Player* p) {
     players[c] = p;
 };
 
 string Game::playGame() {
     while (true) {
-        Player curPlayer;
+        Player* curPlayer;
         if (isWhiteToMove) {
             curPlayer = players[0];
         } else {
             curPlayer = players[1];
         }
-        Move playerMove = curPlayer.getMove(board);
+        Move playerMove = curPlayer->getMove(board);
         makeMove(playerMove);
 
     }
 }
 
 void Game::makeMove(Move m) {
-    board.makeMove(m,isWhiteToMove);
+    board->makeMove(m,isWhiteToMove);
     isWhiteToMove = !isWhiteToMove;
 }

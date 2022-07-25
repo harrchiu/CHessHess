@@ -133,3 +133,7 @@ void Board::applyMove(Move m) {
 vector<vector<Square>>& Board::getBoard() {
     return grid;
 }
+
+pair<bool,bool> Board::isCheck() {
+    return {true,true};
+}

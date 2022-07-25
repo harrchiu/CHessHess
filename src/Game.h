@@ -11,15 +11,15 @@ class Game {
         //white is 0,black is 1
         // PieceColour curTurn;
         bool isWhiteToMove;
-        Board board;
-        Player players[2];
+        Board *board;
+        Player* players[2];
     public:
-        void setPlayer(PieceColour c,Player p);
+        void setPlayer(PieceColour c,Player* p);
         void init();
         void setup();
         std::string playGame();
         void makeMove(Move m);
-        Game(Board& b);
+        Game(Board* b);
         ~Game();
 };
 
