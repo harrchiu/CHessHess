@@ -1,10 +1,11 @@
-#ifndef DISPLAY
-#define DISPLAY
+#ifndef DISPLAY_H
+#define DISPLAY_H
 
 #include "Board.h"
 
 class Display {
-    Board* board;        
+    protected:
+        Board* board;        
     public:
         Display(Board*);
         ~Display();

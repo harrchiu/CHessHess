@@ -28,7 +28,7 @@ vector<vector<PotentialMove>> Rook::getMoveDirections() {
 
 
 PieceType Rook::type() {
-    return PieceType::Rook;
+    return PieceType::ROOK;
 };
 
 Rook::Rook(bool isWhite) : Piece(isWhite) {};

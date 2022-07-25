@@ -1,5 +1,5 @@
-#ifndef GAME
-#define GAME
+#ifndef GAME_H
+#define GAME_H
 
 #include <string>
 #include "Piece.h"
@@ -8,9 +8,13 @@
 class Game {
         //white is 0,black is 1
         PieceColour curTurn;
-        Board board;
     public:
+        Board board;
         void init();
         void setup();
-        string playGame();
+        std::string playGame();
+        Game(Board& b);
+        ~Game();
 };
+
+#endif

@@ -1,15 +1,16 @@
-#ifndef KNIGHT
-#define KNIGHT
+#ifndef KNIGHT_H
+#define KNIGHT_H
 
 #include <vector>
 #include "Piece.h"
 #include "PotentialMove.h"
 
 class Knight : public Piece {
-    std::vector<std::vector<PotentialMove>> getMoveDirections() override;
-    virtual PieceType type();
-    Knight(bool);
-    ~Knight() override;
+    public:
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
+        Knight(bool);
+        ~Knight() override;
 };
 
 #endif

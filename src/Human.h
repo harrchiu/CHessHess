@@ -1,5 +1,5 @@
-#ifndef HUMAN
-#define HUMAN
+#ifndef HUMAN_H
+#define HUMAN_H
 
 #include "Player.h" 
 

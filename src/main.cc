@@ -8,6 +8,7 @@ using namespace std;
 
 int main() {
     int home=0, away=0;
+    home++; away++;
     string s;
 
     while (cin >> s) {		// match
@@ -19,7 +20,7 @@ int main() {
             if (s == "setup")
                 g.setup();
         }
-        result = g.playGame();	
+        string result = g.playGame();	
 
         // handle result here
     }

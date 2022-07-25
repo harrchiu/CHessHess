@@ -1,17 +1,22 @@
 #include <vector>
 #include "Piece.h"
 #include "Pawn.h"
+#include "PotentialMove.h"
 
 using namespace std;
 
-vector<vector<pair<int,int>>> Pawn::getMoveDirections() {
+vector<vector<PotentialMove>> Pawn::getMoveDirections() {
     // "white moves up the board" = smaller row
-    int verticalDir = isWhite ? -1 : 1;
+    int verticalDir = getIsWhite() ? -1 : 1;
+    PotentialMoveType pmt_opposite = getIsWhite() ? DEST_BLACK : DEST_WHITE;
 
-    vector<vector<pair<int,int>>> dirs;
-    if ()
- 
-    return dirs;
+    vector<vector<PotentialMove>> pMoves = {
+        {PotentialMove(verticalDir, 0, DEST_EMPTY)},
+        {PotentialMove(verticalDir, -1, pmt_opposite)},
+        {PotentialMove(verticalDir, 1, pmt_opposite)}
+    };
+
+    return pMoves;
 };
 
 /*
@@ -31,6 +36,9 @@ vector<vector<pair<int,int>>> Pawn::getMoveDirections() {
     }
 */
 
-PieceType Pawm::type() {
-    return PieceType::Pawn;
+PieceType Pawn::type() {
+    return PieceType::PAWN;
 };
+
+Pawn::Pawn(bool isWhite) : Piece(isWhite) {};
+Pawn::~Pawn(){};

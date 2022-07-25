@@ -1,7 +1,16 @@
+#ifndef KING_H
+#define KING_H
+
 #include <vector>
 #include "Piece.h"
+#include "PotentialMove.h"
 
 class King : public Piece {
-    std::vector<std::vector<std::pair<int,int>>> getMoveDirections() override;
-    virtual PieceType type();
+    public:
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
+        King(bool);
+        ~King() override;
 };
+
+#endif

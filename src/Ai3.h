@@ -1,5 +1,5 @@
-#ifndef AI_3
-#define AI_3
+#ifndef AI_3_H
+#define AI_3_H
 
 #include "Player.h" 
 

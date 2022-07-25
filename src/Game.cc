@@ -15,6 +15,12 @@
 
 using namespace std;
 
+Game::Game(Board &b) : board{b}{
+    
+}
+
+Game::~Game(){}
+
 void Game::setup() {
     string cmd;
     bool keepGoing = true;
@@ -23,33 +29,37 @@ void Game::setup() {
     string rows = "87654321";
 
     while (keepGoing) {
+        char inPiece;
+        string inSquare;
         cin >> cmd;
         // + Add Piece Case
         if (cmd.compare("+") == 0) {
-            string inPiece;
-            string inSquare;
             cin >> inPiece;
             //Check Valid Piece (Add Piece Case will end if not valid)
             if (validPieces.find(toupper(inPiece)) != string::npos) {
                 int pieceType = validPieces.find(toupper(inPiece));
-                switch pieceType: {
-                    case PieceType::Pawn:
-                        unique_ptr<Piece> myPiece(new Pawn());
+                bool isWhite = inPiece == toupper(inPiece);
+
+                unique_ptr<Piece> myPiece;
+
+                switch (pieceType) {
+                    case PieceType::PAWN:
+                        myPiece = make_unique<Pawn>(isWhite);
                         break;
-                    case PieceType::Rook:
-                        unique_ptr<Piece> myPiece(new Rook());
+                    case PieceType::ROOK:
+                        myPiece = make_unique<Rook>(isWhite);
                         break;
-                    case PieceType::Knight:
-                        unique_ptr<Piece> myPiece(new Knight());
+                    case PieceType::KNIGHT:
+                        myPiece = make_unique<Knight>(isWhite);
                         break;
-                    case PieceType::Bishop:
-                        unique_ptr<Piece> myPiece(new Bishop());
+                    case PieceType::BISHOP:
+                        myPiece = make_unique<Bishop>(isWhite);
                         break;
-                    case PieceType::Queen:
-                        unique_ptr<Piece> myPiece(new Queen());
+                    case PieceType::QUEEN:
+                        myPiece = make_unique<Queen>(isWhite);
                         break;
-                    case PieceType::King:
-                        unique_ptr<Piece> myPiece(new King());
+                    case PieceType::KING:
+                        myPiece = make_unique<King>(isWhite);
                         break;
                     default:
                         break;
@@ -57,10 +67,10 @@ void Game::setup() {
                 //Check Valid Square
                 cin >> inSquare;
                 if (inSquare.length() == 2) {
-                    int x = cols.find(inSquare[0].toupper());
+                    int x = cols.find(toupper(inSquare[0]));
                     int y = rows.find(inSquare[1]);
                     if (x != string::npos && y != string::npos) {
-                        board.grid.at(y).at(x).piece = myPiece;
+                        board.grid.at(y).at(x).piece = move(myPiece);
                         cout << inPiece << " added at " << inSquare << endl;
                     } else {
                         cout << "Invalid Square" << endl;
@@ -76,7 +86,7 @@ void Game::setup() {
             //Check Valid Square
             cin >> inSquare;
             if (inSquare.length() == 2) {
-                int x = cols.find(inSquare[0].toupper());
+                int x = cols.find(toupper(inSquare[0]));
                 int y = rows.find(inSquare[1]);
                 if (x != string::npos && y != string::npos) {
                     board.grid.at(y).at(x).piece = nullptr;
@@ -87,13 +97,13 @@ void Game::setup() {
             } else {
                 cout << "Invalid Square" << endl;
             }
-        } else if (cmd.compare("=" == 0)) {
+        } else if (cmd.compare("=") == 0) {
             string colour;
             cin >> colour;
-            if (colour.toupper().compare("BLACK") == 0 || colour.toupper().compare("B")) {
+            if (colour[0] == 'B' || colour[0] == 'b') {
                 curTurn = PieceColour::Black;
                 cout << "Black's Turn" << endl;
-            } else if (colour.toupper().compare("WHITE") == 0 || colour.toupper().compare("W")) {
+            } else if (colour[0] == 'W' || colour[0] == 'w') {
                 curTurn = PieceColour::White;
                 cout << "White's Turn" << endl;
             } else {
@@ -103,10 +113,10 @@ void Game::setup() {
             //Check for exactly one white king and one black king
             int whiteKingCount = 0;
             int blackKingCount = 0;
-            for (auto vec : grid) {
-                for (auto square : vec) {
-                    if (square.piece && square.piece->type == PieceType::King){ 
-                        if (square.piece->isWhite) {
+            for (vector<Square> vec : board.grid) {
+                for (Square &square : vec) {
+                    if (square.piece && square.piece->type() == PieceType::KING){ 
+                        if (square.piece->getIsWhite()) {
                             ++whiteKingCount;
                         } else {
                             ++blackKingCount;
@@ -121,18 +131,18 @@ void Game::setup() {
                 cout << "Board must contain EXACTLY one black king" << endl;
             }
             //Check for pawns in first and last row
-            for (auto square : grid.at(0)) {
-                if (square.piece && square.piece->type == PieceType::Pawn){
+            for (Square &square : board.grid.at(0)) {
+                if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in first row" << endl;
                 }
             }
-            for (auto square : grid.back()) {
-                if (square.piece && square.piece->type == PieceType::Pawn){
+            for (Square &square : board.grid.back()) {
+                if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in last row" << endl;
                 }
             }
             //Check that no king is in check
-            pair<bool,bool> checkPair = isCheck();
+            pair<bool,bool> checkPair = board.isCheck();
             if (checkPair.first) {
                 cout << "White king is in check" << endl;
             } if (checkPair.second) {

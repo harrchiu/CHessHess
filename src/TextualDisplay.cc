@@ -1,24 +1,28 @@
 #include <vector>
 #include <iostream>
 #include "Piece.h"
+#include "TextualDisplay.h"
 
 using namespace std;
 
 void TextualDisplay::update() {}
     
 void TextualDisplay::display() {
-    char[6] letters = {'p','r','n','b','q','k'};
+    char letters[6] = {'p','r','n','b','q','k'};
+
 
     vector<vector<Square>> myBoard = board->getBoard(); 
-    for (int i=0;i<myBoard.getRows();++i) {
-        cout << myBoard.getRows() - i << ' ';
-        for (int j=0;j<myBoard.getCols();++j) {
-            if (!myBoard[i][j].piece) {
-                cout << ((i+j)%2 == 0) ? ' ' : '_';
+    
+    for (int i=0;i<myBoard.size();++i) {
+        cout << myBoard.size() - i << ' ';
+        for (int j=0;j<myBoard[i].size();++j) {
+            Square square = myBoard[i][j];
+            if (!square.piece) {
+                cout << ((i+j)%2 == 0 ? ' ' : '_');
             } else {
-                cout << (square.piece->isWhite 
-                            ? letters[square.piece->type].toUpper() 
-                            : letters[square.piece->type]);
+                cout << (square.piece->getIsWhite()
+                            ? toupper(letters[square.piece->type()]) 
+                            : letters[square.piece->type()]);
             }
         }
         cout << endl;

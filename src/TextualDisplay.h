@@ -1,5 +1,5 @@
-#ifndef TEXTUAL_DISPLAY
-#define TEXTUAL_DISPLAY
+#ifndef TEXTUAL_DISPLAY_H
+#define TEXTUAL_DISPLAY_H
 
 #include "Display.h"
 

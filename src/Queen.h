@@ -1,15 +1,16 @@
-#ifndef QUEEN
-#define QUEEN
+#ifndef QUEEN_H
+#define QUEEN_H
 
 #include <vector>
 #include "Piece.h"
 #include "PotentialMove.h"
 
 class Queen : public Piece {
-    std::vector<std::vector<PotentialMove>> getMoveDirections() override;
-    virtual PieceType type();
-    Queen(bool);
-    ~Queen() override;
+    public:
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
+        Queen(bool);
+        ~Queen() override;
 };
 
 #endif

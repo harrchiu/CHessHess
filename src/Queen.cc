@@ -40,7 +40,7 @@ vector<vector<PotentialMove>> Queen::getMoveDirections() {
 };
 
 PieceType Queen::type() {
-    return PieceType::Queen;
+    return PieceType::QUEEN;
 };
 
 Queen::Queen(bool isWhite) : Piece(isWhite) {};

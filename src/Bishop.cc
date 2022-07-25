@@ -26,7 +26,7 @@ vector<vector<PotentialMove>> Bishop::getMoveDirections(){
 };
 
 PieceType Bishop::type() {
-    return PieceType::Bishop;
+    return PieceType::BISHOP;
 };
 
 Bishop::Bishop(bool isWhite) : Piece(isWhite) {};

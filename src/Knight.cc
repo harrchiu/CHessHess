@@ -20,7 +20,7 @@ vector<vector<PotentialMove>> Knight::getMoveDirections() {
 };
 
 PieceType Knight::type() {
-    return PieceType::Knight;
+    return PieceType::KNIGHT;
 };
 
 Knight::Knight(bool isWhite) : Piece(isWhite) {};

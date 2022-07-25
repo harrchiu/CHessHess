@@ -1,5 +1,5 @@
-#ifndef POTENTIAL_MOVE
-#define POTENTIAL_MOVE
+#ifndef POTENTIAL_MOVE_H
+#define POTENTIAL_MOVE_H
 
 #include <utility>
 
