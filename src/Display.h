@@ -1,5 +1,11 @@
+#include "Board.h"
+
 class Display {
+    Board* board;        
     public:
-        void update();
-        void display();
+        Display(Board*);
+        ~Display();
+        virtual void update() = 0;
+        virtual void display() = 0;
 };
+

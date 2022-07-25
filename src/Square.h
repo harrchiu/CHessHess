@@ -1,8 +1,7 @@
-#include "Piece.h"
-
 class Square {
     public:
-        int rank;
-        int file;
+        int row, col;
         Piece* piece;
+        Square(int, int, Piece*);
+        ~Square();
 };
