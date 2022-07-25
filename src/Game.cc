@@ -15,6 +15,8 @@
 
 using namespace std;
 
+Game::Game(Board b) : board{b} {};
+
 void Game::setup() {
     string cmd;
     bool keepGoing = true;
@@ -140,4 +142,27 @@ void Game::setup() {
             }
         }
     }    
+}
+
+void Game::setPlayer(PieceColour c, Player p) {
+    players[c] = p;
+};
+
+string Game::playGame() {
+    while (true) {
+        Player curPlayer;
+        if (isWhiteToMove) {
+            curPlayer = players[0];
+        } else {
+            curPlayer = players[1];
+        }
+        Move playerMove = curPlayer.getMove(board);
+        makeMove(playerMove);
+
+    }
+}
+
+void Game::makeMove(Move m) {
+    board.makeMove(m,isWhiteToMove);
+    isWhiteToMove = !isWhiteToMove;
 }

@@ -4,7 +4,7 @@
 #include <utility> 
 #include "PotentialMove.h" 
 
-enum PieceColour { White=0, Black=1 };
+enum PieceColour { WHITE=0, BLACK=1 };
 enum PieceType { Pawn=0, Rook=1, Knight=2, Bishop=3, Queen=4, King=5 };
 
 class Piece {

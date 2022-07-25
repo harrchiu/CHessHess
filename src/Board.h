@@ -27,6 +27,8 @@ class Board {
         int getRows();  // getters/helper fn
         int getCols();
         bool isOnBoard(const int, const int);
+        void makeMove(Move m, bool isWhiteToMove);
+        void applyMove(Move m);
 };
 
 #endif

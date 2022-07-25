@@ -112,3 +112,16 @@ vector<Move> Board::getLegalMoves(bool isSideWhite) {
 
     return legalMoves;
 }
+
+void Board::makeMove(Move m, bool isWhiteToMove) {
+    vector<Move> validMoves = getLegalMoves(isWhiteToMove);
+    for(int i=0;i<validMoves.size();i++) {
+        if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
+            applyMove(validMoves[i]);
+        }
+    }
+}
+
+void Board::applyMove(Move m) {
+    
+}
