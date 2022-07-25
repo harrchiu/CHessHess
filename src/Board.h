@@ -1,12 +1,12 @@
 #include <vector>
-#include 'move.h'
-#include 'square'
+#include "move.h"
+#include "square.h"
 
 class Board {
     public:
-        vector<Move> playedMoveList;
-        vector<Move> getValidMoves();
-        boolean isCheck();
-        boolean isMate();
-        vector<vector<Square> getBoard(); 
+        std::vector<Move> playedMoveList;
+        std::vector<Move> getValidMoves();
+        bool isCheck();
+        bool isMate();
+        std::vector<std::vector<Square>> getBoard(); 
 };
