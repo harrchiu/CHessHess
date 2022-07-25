@@ -2,6 +2,7 @@
 #define BOARD
 
 #include <vector>
+#include <utility>
 
 #include "Move.h"
 #include "Square.h"
@@ -19,8 +20,8 @@ class Board {
         std::vector<Move> playedMoveList;
         std::vector<Move> getMoves(bool isSideWhite);// helper for getLegalMoves
         std::vector<Move> getLegalMoves(bool isSideWhite);
-        pair<bool,bool> isCheck();  // <white, black>
-        pair<bool,bool> isMate();  
+        std::pair<bool,bool> isCheck();  // <white, black>
+        std::pair<bool,bool> isMate();  
         std::vector<std::vector<Square>> getBoard(); 
 
         int getRows();  // getters/helper fn

@@ -1,6 +1,8 @@
 #ifndef SQUARE
 #define SQUARE
 
+#include <memory>
+
 class Square {
     public:
         int row, col;
