@@ -22,7 +22,7 @@ class Board {
         std::vector<Move> getLegalMoves(bool isSideWhite);
         std::pair<bool,bool> isCheck();  // <white, black>
         std::pair<bool,bool> isMate();  
-        std::vector<std::vector<Square>> getBoard(); 
+        std::vector<std::vector<Square>>& getBoard(); 
 
         int getRows();  // getters/helper fn
         int getCols();

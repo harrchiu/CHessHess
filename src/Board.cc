@@ -118,7 +118,7 @@ vector<Move> Board::getLegalMoves(bool isSideWhite) {
 
 void Board::makeMove(Move m, bool isWhiteToMove) {
     vector<Move> validMoves = getLegalMoves(isWhiteToMove);
-    for(int i=0;i<validMoves.size();i++) {
+    for(int i=0;i<(int) validMoves.size();i++) {
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
             applyMove(validMoves[i]);
         }
@@ -126,5 +126,10 @@ void Board::makeMove(Move m, bool isWhiteToMove) {
 }
 
 void Board::applyMove(Move m) {
-    
+
+}
+
+
+vector<vector<Square>>& Board::getBoard() {
+    return grid;
 }

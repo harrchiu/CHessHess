@@ -2,6 +2,7 @@
 #define PIECE_H
 
 #include <utility> 
+#include <vector>
 #include "PotentialMove.h" 
 
 enum PieceColour { WHITE=0, BLACK=1 };

@@ -67,8 +67,8 @@ void Game::setup() {
                 //Check Valid Square
                 cin >> inSquare;
                 if (inSquare.length() == 2) {
-                    int x = cols.find(toupper(inSquare[0]));
-                    int y = rows.find(inSquare[1]);
+                    unsigned int x = cols.find(toupper(inSquare[0]));
+                    unsigned int y = rows.find(inSquare[1]);
                     if (x != string::npos && y != string::npos) {
                         board.grid.at(y).at(x).piece = move(myPiece);
                         cout << inPiece << " added at " << inSquare << endl;
@@ -86,8 +86,8 @@ void Game::setup() {
             //Check Valid Square
             cin >> inSquare;
             if (inSquare.length() == 2) {
-                int x = cols.find(toupper(inSquare[0]));
-                int y = rows.find(inSquare[1]);
+                unsigned int x = cols.find(toupper(inSquare[0]));
+                unsigned int y = rows.find(inSquare[1]);
                 if (x != string::npos && y != string::npos) {
                     board.grid.at(y).at(x).piece = nullptr;
                     cout << "Piece at " << inSquare << " removed" << endl;
@@ -101,10 +101,10 @@ void Game::setup() {
             string colour;
             cin >> colour;
             if (colour[0] == 'B' || colour[0] == 'b') {
-                curTurn = PieceColour::Black;
+                isWhiteToMove = false;
                 cout << "Black's Turn" << endl;
             } else if (colour[0] == 'W' || colour[0] == 'w') {
-                curTurn = PieceColour::White;
+                isWhiteToMove = true;
                 cout << "White's Turn" << endl;
             } else {
                 cout << "Invalid Colour" << endl;
@@ -113,7 +113,7 @@ void Game::setup() {
             //Check for exactly one white king and one black king
             int whiteKingCount = 0;
             int blackKingCount = 0;
-            for (vector<Square> vec : board.grid) {
+            for (vector<Square>& vec : board.grid) {
                 for (Square &square : vec) {
                     if (square.piece && square.piece->type() == PieceType::KING){ 
                         if (square.piece->getIsWhite()) {

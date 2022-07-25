@@ -13,9 +13,9 @@ void TextualDisplay::display() {
 
     vector<vector<Square>> myBoard = board->getBoard(); 
     
-    for (int i=0;i<myBoard.size();++i) {
+    for (int i=0;i<(int)myBoard.size();++i) {
         cout << myBoard.size() - i << ' ';
-        for (int j=0;j<myBoard[i].size();++j) {
+        for (int j=0;j<(int)myBoard[i].size();++j) {
             Square square = myBoard[i][j];
             if (!square.piece) {
                 cout << ((i+j)%2 == 0 ? ' ' : '_');
