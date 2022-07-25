@@ -1,7 +1,7 @@
 class Square {
     public:
         int row, col;
-        Piece* piece;
+        std::unique_ptr<Piece> piece;
         Square(int, int, Piece*);
         ~Square();
 };

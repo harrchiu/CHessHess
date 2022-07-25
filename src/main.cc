@@ -12,13 +12,13 @@ int main() {
 
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
+        Game g(b);
         
         while (s != "game ___"){
             cin >> s;
             if (s == "setup")
-                b.setup();
+                g.setup();
         }
-        Game g(b);	
         result = g.playGame();	
 
         // handle result here

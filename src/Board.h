@@ -5,7 +5,6 @@
 
 class Board {
     int rows, cols;
-    std::vector<std::vector<Square>> grid;
     
     public:
         Board(int, int);
@@ -13,6 +12,7 @@ class Board {
         ~Board();
         
         void setup();
+        std::vector<std::vector<Square>> grid;
         std::vector<Move> playedMoveList;
         std::vector<Move> getMoves(bool isSideWhite);// helper for getLegalMoves
         std::vector<Move> getLegalMoves(bool isSideWhite);
