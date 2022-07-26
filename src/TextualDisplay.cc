@@ -28,7 +28,7 @@ void TextualDisplay::update(const Move &m) {
     // TODO: ryan: implement update
 }
     
-void TextualDisplay::display() {
+void TextualDisplay::display(State s) {
     for (int i = 0; i < rows; ++i) {
         cout << rows - i << ' ';
         for (int j = 0; j < cols; ++j) {

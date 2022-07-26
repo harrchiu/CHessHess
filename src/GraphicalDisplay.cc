@@ -17,6 +17,6 @@ void GraphicalDisplay::update(const Move &m) {
     // TODO: ryan: implement update
 }
     
-void GraphicalDisplay::display() {
+void GraphicalDisplay::display(State s) {
     // TODO: ryan: implement display
 }

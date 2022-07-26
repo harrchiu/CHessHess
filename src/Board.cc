@@ -151,7 +151,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                             break;
                         case MoveType::DOUBLE_PAWN: {
                             int vertDir = pm.rowMov/2;  // moved by 2
-                            cout << "direction: " << r << ":" << vertDir << "=" << r + vertDir << endl;
+                            // cout << "direction: " << r << ":" << vertDir << "=" << r + vertDir << endl;
                             isValid = grid[newR][newC].piece == nullptr &&
                                 grid[r + vertDir][newC].piece == nullptr;
                             break;
@@ -341,9 +341,9 @@ bool Board::isCheck(bool isSideWhite) {
     return false;
 }
 
-void Board::display() {
-    td.display();
-    gd.display();
+void Board::display(State s) {
+    td.display(s);
+    gd.display(s);
 }
 
 void Board::printLegalMoves() {

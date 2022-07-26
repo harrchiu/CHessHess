@@ -39,7 +39,7 @@ class Board {
         void applyMove(Move&);
         void undoLastMove();  // do nothing if no moves have been played
         void printLegalMoves();
-        void display();
+        void display(State);
 };
 
 #endif

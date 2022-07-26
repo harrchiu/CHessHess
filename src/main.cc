@@ -104,20 +104,11 @@ int main() {
 
         // handle result here
         switch (outcome) {
-            case Outcome::BLACK_RESIGN:
-                cout << "White wins!" << endl;
-                ++whiteWins;
-            case Outcome::WHITE_RESIGN:
-                cout << "Black wins!" << endl;
-                ++blackWins;
             case Outcome::BLACK_WIN:
-                cout << "Checkmate! Black wins!" << endl;
                 ++blackWins;
             case Outcome::WHITE_WIN:
-                cout << "Checkmate! White wins!" << endl;
                 ++whiteWins;
             case Outcome::STALEMATE:
-                cout << "Stalemate!" << endl;
                 whiteWins += 0.5;
                 blackWins += 0.5;
             default:
