@@ -231,12 +231,15 @@ void Board::applyMove(Move& m) {
     //Now move the piece from the start to the end square (auto overwrites)
     grid.at(m.end.first).at(m.end.second).piece = 
         move(grid.at(m.start.first).at(m.start.second).piece);
+    playedMoveList.push_back(m);
 }                   
 
 void Board::undoLastMove(){
+
     if (playedMoveList.empty()) return;
     Move m = playedMoveList.back();
     playedMoveList.pop_back();
+
     //If CASTLE_Q, reverse the rook move 
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
         grid.at(m.start.first).at(0).piece = 
@@ -279,7 +282,7 @@ void Board::undoLastMove(){
                 p = make_unique<Queen>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
             case PieceType::KING:
                 p = make_unique<King>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
-            case PieceType::EMPTY:
+            default:
                 break;
         }
     }

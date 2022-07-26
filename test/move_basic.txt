@@ -1,5 +1,5 @@
 setup
-+ K e1
-+ k e8
-+ p e3
++ K a1
++ k a2
++ r f6
 done
