@@ -40,40 +40,16 @@ void Game::setup() {
             cin >> inPiece;
             //Check Valid Piece (Add Piece Case will end if not valid)
             if (validPieces.find(toupper(inPiece)) != string::npos) {
-                int pieceType = validPieces.find(toupper(inPiece));
+                PieceType pieceType = (PieceType) validPieces.find(toupper(inPiece));
                 bool isWhite = inPiece == toupper(inPiece);
 
-                unique_ptr<Piece> myPiece;
-
-                switch (pieceType) {
-                    case PieceType::PAWN:
-                        myPiece = make_unique<Pawn>(isWhite);
-                        break;
-                    case PieceType::ROOK:
-                        myPiece = make_unique<Rook>(isWhite);
-                        break;
-                    case PieceType::KNIGHT:
-                        myPiece = make_unique<Knight>(isWhite);
-                        break;
-                    case PieceType::BISHOP:
-                        myPiece = make_unique<Bishop>(isWhite);
-                        break;
-                    case PieceType::QUEEN:
-                        myPiece = make_unique<Queen>(isWhite);
-                        break;
-                    case PieceType::KING:
-                        myPiece = make_unique<King>(isWhite);
-                        break;
-                    default:
-                        break;
-                }
                 //Check Valid Square
                 cin >> inSquare;
                 if (inSquare.length() == 2) {
                     size_t x = cols.find(toupper(inSquare[0]));
                     size_t y = rows.find(inSquare[1]);
                     if (x != string::npos && y != string::npos) {
-                        board->grid.at(y).at(x).piece = move(myPiece);
+                        board->setSquare(y,x,pieceType,isWhite);
                         cout << inPiece << " added at " << inSquare << endl;
                     } else {
                         cout << "Invalid Square" << endl;
@@ -193,7 +169,7 @@ string Game::playGame() {
 
 bool Game::attemptMove(Move m) {
     vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
-    for(int i=0;i<validMoves.size();i++) {
+    for(int i=0;i<(int)validMoves.size();i++) {
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
             board->applyMove(validMoves[i]);
         }
