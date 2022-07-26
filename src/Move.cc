@@ -10,9 +10,9 @@ using namespace std;
 //     start{make_pair(sr,sc)}, end{make_pair(er,ec)}, piece{piece}, 
 //     capturedPiece{captured}, promotedTo{promotedTo}
 // {}
-Move::Move(int sr, int sc,int er, int ec, PieceType piece, 
+Move::Move(int sr, int sc,int er, int ec, bool isSideWhite, PieceType piece, 
     PieceType captured,PieceType promotedTo) :
-    start{make_pair(sr,sc)}, end{make_pair(er,ec)}, 
+    start{make_pair(sr,sc)}, end{make_pair(er,ec)}, isSideWhite{isSideWhite},
     piece{piece}, capturedPiece{captured}, promotedTo{promotedTo} {};
 
 std::ostream &operator<<(std::ostream &, const Move &m) {

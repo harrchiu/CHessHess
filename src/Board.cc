@@ -74,14 +74,14 @@ void Board::setupInitialPosition() {
 
     // rest
     for (int r: {0,7}){
-        setSquare(r, 0, PieceType::ROOK, r == 7);
+        setSquare(r, 0, PieceType::ROOK,   r == 7);
         setSquare(r, 1, PieceType::KNIGHT, r == 7);
         setSquare(r, 2, PieceType::BISHOP, r == 7);
-        setSquare(r, 3, PieceType::QUEEN, r == 7);
-        setSquare(r, 4, PieceType::KING, r == 7);
+        setSquare(r, 3, PieceType::QUEEN,  r == 7);
+        setSquare(r, 4, PieceType::KING,   r == 7);
         setSquare(r, 5, PieceType::BISHOP, r == 7);
         setSquare(r, 6, PieceType::KNIGHT, r == 7);
-        setSquare(r, 7, PieceType::ROOK, r == 7);
+        setSquare(r, 7, PieceType::ROOK,   r == 7);
     }
 }
 
@@ -155,8 +155,8 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     }
                     if (!isValid) break;
 
-                    moves.push_back(Move(r,c,newR,newC,curPiece->type(), 
-                        destType, promotedTo));
+                    moves.push_back(Move(r,c,newR,newC,isWhiteToMove,
+                        curPiece->type(), destType, promotedTo));
                     //     // capture?
                     //     // enpassant?
                     //     // first move?
@@ -347,13 +347,16 @@ void Board::display() {
 
 void Board::printLegalMoves() {
      // print all legal moves
-    cout << "legal moves for white: ";
-    for (Move m: getLegalMoves(true)) {
+    vector<Move> whiteMoves = getLegalMoves(true);
+    vector<Move> blackMoves = getLegalMoves(false);
+
+    cout << whiteMoves.size() << " legal moves for white: ";
+    for (Move m: whiteMoves) {
         cout << m << ", ";
     }
 
-    cout << "\nlegal moves for black: ";
-        for (Move m: getLegalMoves(false)) {
+    cout << endl << blackMoves.size() << " legal moves for black: ";
+        for (Move m: blackMoves) {
         cout << m << ", ";
     }
     cout << endl;
