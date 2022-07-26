@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <string>
+#include <memory>
 #include "Piece.h"
 #include "Board.h"
 #include "Player.h"
@@ -14,12 +15,12 @@ class Game {
         // PieceColour curTurn;
         bool isWhiteToMove;
         Board* board;
-        Player* players[2];
+        std::unique_ptr<Player> players[2];
     public:
         Game(Board* b);
         ~Game();
         
-        void setPlayer(PieceColour c,Player* p);
+        void setPlayer(PieceColour c,std::unique_ptr<Player> p);
         void init();
         void setup();
         Outcome playGame();
