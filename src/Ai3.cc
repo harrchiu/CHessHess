@@ -56,6 +56,15 @@ signed int Ai3::checkMostDetrimentalResponseScore(Board* b) {
     signed int worstScore;
     signed int curScore;
 
+    if (validMoves.empty()){
+        if (b->isCheck(color)){
+            return 9000; 
+        }
+        else{
+            return 0;
+        }
+    }
+
     b->applyMove(validMoves.at(0));
     worstScore = checkBoardScore(b);
     b->undoLastMove();
@@ -66,7 +75,7 @@ signed int Ai3::checkMostDetrimentalResponseScore(Board* b) {
         if (curScore < worstScore) worstScore = curScore;
         b->undoLastMove();
 
-        cout << validMoves.at(i) << curScore << "\n";;
+        // cout << validMoves.at(i) << curScore << "\n";;
 
     }
     return worstScore;
@@ -90,7 +99,7 @@ Move Ai3::getMove(Board* b) {
         // score = checkBoardScore(b);
         b->undoLastMove();
 
-        cout << validMoves.at(i) << " Max score: " << score << "\n";
+        // cout << validMoves.at(i) << " Max score: " << score << "\n";
         points.push_back(score);
         if (score > bestScore) bestScore = score;
     }
