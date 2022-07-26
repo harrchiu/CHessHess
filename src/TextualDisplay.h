@@ -5,6 +5,7 @@
 #include "Display.h"
 #include "State.h"
 
+// class to represent a textual display
 class TextualDisplay : public Display {
     std::vector<std::vector<char>> displayGrid;
 

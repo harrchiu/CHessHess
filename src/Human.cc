@@ -6,8 +6,10 @@
 
 using namespace std;
 
+// CTOR
 Human::Human(PieceColour p) : Player{p} {}
 
+// getMove - gets a move from cin
 Move Human::getMove(Board *b) {
     string cols = "ABCDEFGH";
     string rows = "87654321";
@@ -16,6 +18,7 @@ Move Human::getMove(Board *b) {
     size_t c,r,x2,y2;
     bool validSquare = false;
     
+    // get a valid start square
     while (!validSquare) {
         cin >> startSquare;
         if (startSquare.length() == 2) {
@@ -28,6 +31,7 @@ Move Human::getMove(Board *b) {
             }
         }
     }
+    // get a valid end square
     validSquare = false;
     while (!validSquare) {
         cin >> endSquare;

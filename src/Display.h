@@ -4,6 +4,7 @@
 #include "Move.h"
 #include "State.h"
 
+// class to represent displays
 class Display {
     protected:
         const int rows, cols;      

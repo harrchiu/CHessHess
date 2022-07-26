@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// getMoveDirections - returns all potential moves a queen can perform
 vector<vector<PotentialMove>> Queen::getMoveDirections() {
     vector<vector<PotentialMove>> pMoves(8);
     
@@ -28,24 +29,14 @@ vector<vector<PotentialMove>> Queen::getMoveDirections() {
     }
 
     return pMoves;
-    // return {
-    //     // bishop
-    //     {{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7}},
-    //     {{-1,1},{-2,2},{-3,3},{-4,4},{-5,5},{-6,6},{-7,7}},
-    //     {{1,-1},{2,-2},{3,-3},{4,-4},{5,-5},{6,-6},{7,-7}},
-    //     {{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7}},
-
-    //     // rook
-    //     {{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0}},
-    //     {{-1,0},{-2,0},{-3,0},{-4,0},{-5,0},{-6,0},{-7,0}},
-    //     {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7}},
-    //     {{0,-1},{0,-2},{0,-3},{0,-4},{0,-5},{0,-6},{0,-7}},
-    // };
 };
 
+// type - returns type QUEEN
 PieceType Queen::type() {
     return PieceType::QUEEN;
 };
 
+// CTOR
 Queen::Queen(bool isWhite) : Piece(isWhite) {};
+// DTOR
 Queen::~Queen(){};

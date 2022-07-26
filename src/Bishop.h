@@ -5,6 +5,7 @@
 #include "Piece.h"
 #include "PotentialMove.h"
 
+//Class to represent Bishop piece
 class Bishop : public Piece {
     public:
         Bishop(bool);

@@ -5,6 +5,7 @@
 #include "Piece.h"
 #include "PotentialMove.h"
 
+// class to represent a Queen Piece
 class Queen : public Piece {
     public:
         Queen(bool);

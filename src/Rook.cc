@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// getMoveDirections - returns all potential moves a queen can perform
 vector<vector<PotentialMove>> Rook::getMoveDirections() {
     vector<vector<PotentialMove>> pMoves(4);
     bool dEmpty = true;
@@ -20,18 +21,14 @@ vector<vector<PotentialMove>> Rook::getMoveDirections() {
     }
 
     return pMoves;
-    // return {
-    //     {{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0}},
-    //     {{-1,0},{-2,0},{-3,0},{-4,0},{-5,0},{-6,0},{-7,0}},
-    //     {{0,1},{0,2},{0,3},{0,4},{0,5},{0,6},{0,7}},
-    //     {{0,-1},{0,-2},{0,-3},{0,-4},{0,-5},{0,-6},{0,-7}},
-    // };
 };
 
-
+// type - returns type ROOK
 PieceType Rook::type() {
     return PieceType::ROOK;
 };
 
+// CTOR
 Rook::Rook(bool isWhite) : Piece(isWhite) {};
+// DTOR
 Rook::~Rook(){};

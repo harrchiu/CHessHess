@@ -4,6 +4,7 @@
 #include "Display.h"
 #include "State.h"
 
+//class to represent a graphical display
 class GraphicalDisplay : public Display {
     public:
         GraphicalDisplay(int, int);

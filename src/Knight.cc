@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// getMoveDirections - gets all potential moves a Knight can perform
 vector<vector<PotentialMove>> Knight::getMoveDirections() {
     vector<pair<int,int>> knight_disp = { {1,2},{-1,2},{1,-2},{-1,-2},
         {2,1},{-2,1},{2,-1},{-2,-1} };
@@ -23,6 +24,7 @@ vector<vector<PotentialMove>> Knight::getMoveDirections() {
     return pMoves;  
 };
 
+// type - returns KNIGHT type
 PieceType Knight::type() {
     return PieceType::KNIGHT;
 };

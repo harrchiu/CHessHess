@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Piece.h"
 
+// struct to represent a chess move
 struct Move {
     public:
         Move(int,int,int,int, bool isWhiteToMove=true, MoveType moveType=MoveType::NORMAL,
