@@ -67,4 +67,12 @@ void TextualDisplay::display(State s) {
         cout << endl;
     }
     cout << endl << "  abcdefgh" << endl;
+    
+    if (s == State::WHITE_CHECK) cout << endl << "White is in check." << endl;
+    else if (s == State::BLACK_CHECK) cout << endl << "Black is in check." << endl;
+    else if (s == State::WHITE_WIN) cout << endl << "Checkmate! White wins!" << endl;
+    else if (s == State::BLACK_WIN) cout << endl << "Checkmate! Black wins!" << endl;
+    else if (s == State::STALEMATE) cout << endl << "Stalemate!" << endl;
+    else if (s == State::WHITE_RESIGN) cout << endl << "Black wins!" << endl;
+    else if (s == State::BLACK_RESIGN) cout << endl << "White wins!" << endl;
 }
