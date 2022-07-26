@@ -30,7 +30,7 @@ class Board {
         bool isOnBoard(const int, const int);
 
         void applyMove(Move&);
-        void undoLastMove(Move&);  // do nothing if no moves have been played
+        void undoLastMove();  // do nothing if no moves have been played
 };
 
 #endif
