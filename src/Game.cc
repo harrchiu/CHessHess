@@ -147,8 +147,6 @@ Outcome Game::playGame() {
     cout << "Lets Play!" << endl;
     string cmd;
     while (true) {
-        board->printLegalMoves();
-        
         cin >> cmd;
         if (cmd.compare("move") == 0) {
             cout << "Make your move" << endl;
@@ -193,9 +191,9 @@ Outcome Game::playGame() {
 bool Game::attemptMove(Move m) {
     vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
 
-    for(int i=0;i<(int)validMoves.size();i++) {
+    for(int i=0;i<(int)validMoves.size();++i) {
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
-            board->applyMove(validMoves[i]);
+            board->applyMove(validMoves[i], true);
             return true;
         }
     }

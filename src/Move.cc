@@ -10,10 +10,10 @@ using namespace std;
 //     start{make_pair(sr,sc)}, end{make_pair(er,ec)}, piece{piece}, 
 //     capturedPiece{captured}, promotedTo{promotedTo}
 // {}
-Move::Move(int sr, int sc,int er, int ec, bool isSideWhite, PieceType piece, 
+Move::Move(int sr, int sc,int er, int ec, bool isSideWhite, MoveType mt, PieceType piece, 
     PieceType captured,PieceType promotedTo) :
-    start{make_pair(sr,sc)}, end{make_pair(er,ec)}, isSideWhite{isSideWhite},
-    piece{piece}, capturedPiece{captured}, promotedTo{promotedTo} {};
+    start{make_pair(sr,sc)}, end{make_pair(er,ec)}, isSideWhite{isSideWhite}, 
+    piece{piece}, capturedPiece{captured}, promotedTo{promotedTo}, moveType{mt} {};
 
 std::ostream &operator<<(std::ostream &, const Move &m) {
     int gridSize = 8;
