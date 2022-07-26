@@ -19,6 +19,7 @@ int main() {
     string s;
     Outcome outcome;
 
+    // TODO: how to end a game
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
         Game g(&b);  
