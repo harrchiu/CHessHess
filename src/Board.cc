@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "Board.h"
 #include "Piece.h"
@@ -185,19 +186,30 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
 // precondition: move is valid
 void Board::applyMove(Move& m) {
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
-
+        grid.at(m.start.first).at(3).piece = move(grid.at(m.start.first).at(0).piece);
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
-        
+        grid.at(m.start.first).at(5).piece = move(grid.at(m.start.first).at(7).piece);
     } else if (m.moveType == MoveType::EN_PASSANT) {
-        
+        grid.at(m.start.first).at(m.end.second).piece.release();
     } else if (m.moveType == MoveType::PROMOTION) {
-        
+        switch (m.promotedTo) {
+            case PieceType::ROOK:
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Rook>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                break;
+            case PieceType::KNIGHT:
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Knight>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                break;
+            case PieceType::BISHOP:
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Bishop>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                break;
+            case PieceType::QUEEN:
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Queen>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                break;
+            case default:
+                break;
+        }
     } 
-
-        CASTLE_Q_SIDE,
-    CASTLE_K_SIDE,
-    EN_PASSANT,
-    PROMOTION,
+    grid.at(m.end.first).at(m.end.second).piece = move(grid.at(m.start.first).at(m.end.first).piece);
 }                   
 
 void Board::undoLastMove(Move& m){
