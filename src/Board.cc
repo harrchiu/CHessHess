@@ -422,13 +422,11 @@ bool Board::isCheck(bool isSideWhite, bool disableCastle) {
 // can SIDE reach the square (r,c)
 bool Board::canReach(bool isSideWhite, int r, int c, bool disableCastle){
     vector<Move> moves = getMoves(isSideWhite, disableCastle);
-
     for (Move m : moves){
         if (m.end.first == r && m.end.second == c){
             return true;
         }
     }
-
     return false;
 }
 
@@ -440,7 +438,6 @@ bool Board::hasSquareBeenTouched(int r, int c){
             return true;
         }
     }
-
     return false;
 }
 
@@ -455,13 +452,15 @@ void Board::printLegalMoves() {
     vector<Move> blackMoves = getLegalMoves(false);
 
     cout << whiteMoves.size() << " legal moves for white: ";
-    for (Move m: whiteMoves) {
-        cout << m << ", ";
+    for (int i=0;i<(int)whiteMoves.size();++i) {
+        cout << whiteMoves[i].getAlgNotation(whiteMoves);
+        if (i != (int)whiteMoves.size()-1) cout  << ", ";
     }
 
     cout << endl << blackMoves.size() << " legal moves for black: ";
-    for (Move m: blackMoves) {
-        cout << m << ", ";
+    for (int i=0;i<(int)blackMoves.size();++i) {
+        cout << blackMoves[i].getAlgNotation(blackMoves);
+        if (i != (int)blackMoves.size()-1) cout  << ", ";
     }
     cout << endl;
 }

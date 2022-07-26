@@ -26,19 +26,18 @@ class Board {
         // Board(const Board&);    // l-value copy (deep copy)
         ~Board();
         
-        void setup();
         std::vector<Move> playedMoveList = {};
-        std::vector<Move> getLegalMoves(bool isWhiteToMove);
         std::vector<std::vector<Square>>& getBoard(); 
-        void setupInitialPosition(); 
-
+        std::vector<Move> getLegalMoves(bool isWhiteToMove);
         bool isCheck(bool isSideWhite, bool disableCastle = false);
+        void setupInitialPosition();
+
         // move info/application
         void setSquare(int,int,PieceType,bool);
-        void applyMove(Move&,bool updateDisplay=false);
         bool undoLastMove(bool updateDisplay=false); // do nothing if no moves
-        void printLegalMoves();
+        void applyMove(Move&,bool updateDisplay=false);
         void display(State);
+        void printLegalMoves();
         
 };
 

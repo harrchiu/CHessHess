@@ -8,8 +8,8 @@ class Square {
         int row, col;
     public:
         // Square(int, int, std::unique_ptr<Piece>);
-        Square(int&, int&, Piece*);    // before
-        Square(const Square&);         //
+        Square(int&, int&, Piece*);    
+        Square(const Square&);         
         ~Square();
 
         std::unique_ptr<Piece> piece;

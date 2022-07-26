@@ -1,0 +1,9 @@
+setup
++ k a8
++ K a1
++ N d2
++ N f2
++ N d6
+done
+
+game h h
