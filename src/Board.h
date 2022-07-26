@@ -8,6 +8,7 @@
 #include "Square.h"
 #include "TextualDisplay.h"
 #include "GraphicalDisplay.h"
+#include "Piece.h"
 
 class Board {
     int rows, cols;
@@ -33,8 +34,11 @@ class Board {
         int getCols();
         bool isOnBoard(const int, const int);
 
+        void setSquare(int,int,PieceType,bool);
+
         void applyMove(Move&);
-        void undoLastMove(Move&);  // do nothing if no moves have been played
+        void undoLastMove();  // do nothing if no moves have been played
+        void printLegalMoves();
         void display();
 };
 

@@ -182,42 +182,141 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
             legalMoves.push_back(m);
         }
 
-        undoLastMove(m);
+        undoLastMove();
     }
     return legalMoves;
 }
 
 // precondition: move is valid
 void Board::applyMove(Move& m) {
+    //If CASTLE_Q, move grid[startX][0](rook) -> grid[x][3] 
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
-        grid.at(m.start.first).at(3).piece = move(grid.at(m.start.first).at(0).piece);
+        grid.at(m.start.first).at(3).piece = 
+            move(grid.at(m.start.first).at(0).piece);
+    //If CASTLE_K, move grid[startX][7](rook) -> grid[x][5] 
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
-        grid.at(m.start.first).at(5).piece = move(grid.at(m.start.first).at(7).piece);
+        grid.at(m.start.first).at(5).piece = 
+            move(grid.at(m.start.first).at(7).piece);
+    //If EN_PASSENT, remove grid[startX][endY]
     } else if (m.moveType == MoveType::EN_PASSANT) {
         grid.at(m.start.first).at(m.end.second).piece.release();
+    //If PROMOTE, change grid[startX][startY](the pawn before moving) 
     } else if (m.moveType == MoveType::PROMOTION) {
         switch (m.promotedTo) {
             case PieceType::ROOK:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Rook>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
+                grid.at(m.start.first).at(m.start.second).piece = 
+                    make_unique<Rook>(grid
+                                    .at(m.start.first)
+                                    .at(m.start.second).piece->getIsWhite());
                 break;
             case PieceType::KNIGHT:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Knight>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
+                grid.at(m.start.first).at(m.start.second).piece = 
+                    make_unique<Knight>(grid
+                                    .at(m.start.first)
+                                    .at(m.start.second).piece->getIsWhite());
                 break;
             case PieceType::BISHOP:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Bishop>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
+                grid.at(m.start.first).at(m.start.second).piece = 
+                    make_unique<Bishop>(grid
+                                    .at(m.start.first)
+                                    .at(m.start.second).piece->getIsWhite());
                 break;
             case PieceType::QUEEN:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Queen>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
+                grid.at(m.start.first).at(m.start.second).piece = 
+                    make_unique<Queen>(grid
+                                    .at(m.start.first)
+                                    .at(m.start.second).piece->getIsWhite());
                 break;
             default:
                 break;
         }
-    } 
-    grid.at(m.end.first).at(m.end.second).piece = move(grid.at(m.start.first).at(m.end.first).piece);
+    }
+    //Now move the piece from the start to the end square (auto overwrites)
+    grid.at(m.end.first).at(m.end.second).piece = 
+        move(grid.at(m.start.first).at(m.start.second).piece);
+    playedMoveList.push_back(m);
 }                   
 
-void Board::undoLastMove(Move& m){
+void Board::undoLastMove(){
 
+    if (playedMoveList.empty()) return;
+    Move m = playedMoveList.back();
+    playedMoveList.pop_back();
+
+    //If CASTLE_Q, reverse the rook move 
+    if (m.moveType == MoveType::CASTLE_Q_SIDE) {
+        grid.at(m.start.first).at(0).piece = 
+            move(grid.at(m.start.first).at(3).piece);
+    //If CASTLE_K, reverse the rook move
+    } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
+        grid.at(m.start.first).at(7).piece = 
+            move(grid.at(m.start.first).at(5).piece);
+    //If EN_PASSENT, add the taken pawn back
+    } else if (m.moveType == MoveType::EN_PASSANT) {
+        grid.at(m.start.first).at(m.end.second).piece = 
+            make_unique<Pawn>(!grid
+                                .at(m.end.first)
+                                .at(m.end.second).piece->getIsWhite()); 
+                                    // not the colour of the attacking piece
+    //If PROMOTE, change the piece back to a pawn
+    } else if (m.moveType == MoveType::PROMOTION) {
+        grid.at(m.end.first).at(m.end.second).piece = 
+            make_unique<Pawn>(grid
+                            .at(m.end.first)
+                            .at(m.end.second).piece->getIsWhite());
+    } 
+    //Move the piece at end back to start square
+    grid.at(m.start.first).at(m.start.second).piece =
+         move(grid.at(m.end.first).at(m.end.second).piece);
+    //If a piece was captured not through en_passent, add it back to the 
+    //end square
+    if (m.capturedPiece != PieceType::EMPTY && m.moveType != MoveType::EN_PASSANT) {
+        unique_ptr<Piece> p;
+        bool isWhite = !grid.at(m.start.first).at(m.start.second).piece->getIsWhite();
+        switch (m.capturedPiece) {
+            case PieceType::PAWN:
+                p = make_unique<Pawn>(isWhite);
+            case PieceType::ROOK:
+                p = make_unique<Rook>(isWhite);
+            case PieceType::KNIGHT:
+                p = make_unique<Knight>(isWhite);
+            case PieceType::BISHOP:
+                p = make_unique<Bishop>(isWhite);
+            case PieceType::QUEEN:
+                p = make_unique<Queen>(isWhite);
+            case PieceType::KING:
+                p = make_unique<King>(isWhite);
+            default:
+                break;
+        }
+    }
+}
+
+void Board::setSquare(int y,int x, PieceType pType,bool isWhite) {
+    unique_ptr<Piece> myPiece;
+    switch (pType) {
+        case PieceType::PAWN:
+            myPiece = make_unique<Pawn>(isWhite);
+            break;
+        case PieceType::ROOK:
+            myPiece = make_unique<Rook>(isWhite);
+            break;
+        case PieceType::KNIGHT:
+            myPiece = make_unique<Knight>(isWhite);
+            break;
+        case PieceType::BISHOP:
+            myPiece = make_unique<Bishop>(isWhite);
+            break;
+        case PieceType::QUEEN:
+            myPiece = make_unique<Queen>(isWhite);
+            break;
+        case PieceType::KING:
+            myPiece = make_unique<King>(isWhite);
+            break;
+        default:
+            break;
+    }
+    grid.at(y).at(x).piece = move(myPiece);
 }
 
 vector<vector<Square>>& Board::getBoard() {
@@ -242,4 +341,18 @@ bool Board::isCheck(bool isSideWhite) {
 void Board::display() {
     td.display();
     gd.display();
+}
+
+void Board::printLegalMoves() {
+     // print all legal moves
+    cout << "legal moves for white: ";
+    for (Move m: getLegalMoves(true)) {
+        cout << m << ", ";
+    }
+
+    cout << "\nlegal moves for black: ";
+        for (Move m: getLegalMoves(false)) {
+        cout << m << ", ";
+    }
+    cout << endl;
 }
