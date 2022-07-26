@@ -7,10 +7,11 @@
 
 class King : public Piece {
     public:
-        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
-        PieceType type() override;
         King(bool);
         ~King() override;
+        
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
 };
 
 #endif

@@ -10,9 +10,9 @@ Ai3::Ai3(PieceColour p) : Player{p} {}
 
 signed int Ai3::checkBoardScore(Board* b) {
     signed int score = 0;
-    for(int i=0;i<(int)b->grid.size();i++) {
-        for(int j=0;j<(int)b->grid.at(i).size();j++) {
-            Piece* pp = b->grid.at(i).at(j).piece.get();
+    for(int i=0;i<(int)b->getBoard().size();i++) {
+        for(int j=0;j<(int)b->getBoard().at(i).size();j++) {
+            Piece* pp = b->getBoard().at(i).at(j).piece.get();
             if (pp != nullptr) {
                 signed int pieceScore;
                 switch (pp->type()) {

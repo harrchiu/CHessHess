@@ -15,16 +15,16 @@ class Game {
         // PieceColour curTurn;
         bool isWhiteToMove;
         Board* board;
+        bool attemptMove(Move m);
         std::unique_ptr<Player> players[2];
     public:
         Game(Board* b);
         ~Game();
         
-        void setPlayer(PieceColour c,std::unique_ptr<Player> p);
         void init();
         void setup();
         Outcome playGame();
-        bool attemptMove(Move m);
+        void setPlayer(PieceColour c,std::unique_ptr<Player> p);
         void display(State = State::REGULAR);
 };
 

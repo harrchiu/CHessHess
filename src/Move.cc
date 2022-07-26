@@ -12,8 +12,8 @@ using namespace std;
 // {}
 Move::Move(int sr, int sc,int er, int ec, bool isSideWhite, MoveType mt, PieceType piece, 
     PieceType captured,PieceType promotedTo) :
-    start{make_pair(sr,sc)}, end{make_pair(er,ec)}, isSideWhite{isSideWhite}, 
-    piece{piece}, capturedPiece{captured}, promotedTo{promotedTo}, moveType{mt} {};
+    start{make_pair(sr,sc)}, end{make_pair(er,ec)}, 
+    piece{piece}, capturedPiece{captured}, isSideWhite{isSideWhite}, promotedTo{promotedTo}, moveType{mt} {};
 
 // unambiguously gives move notation in conjunction w otherMoves (if given)
 string Move::getAlgNotation(const vector<Move>& otherMoves) const {

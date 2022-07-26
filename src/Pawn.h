@@ -7,10 +7,11 @@
 
 class Pawn : public Piece {
     public: 
-        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
-        PieceType type() override;
         Pawn(bool);
         ~Pawn() override;
+        
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
 };
 
 #endif

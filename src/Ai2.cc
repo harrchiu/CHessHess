@@ -19,11 +19,11 @@ Move Ai2::getMove(Board* b){
         
         b->applyMove(validMoves.at(i));
         if (color == PieceColour::WHITE) {
-            if (b->isCheck(false)) {
+            if (b->isCheck(false,false)) {
                 checks.push_back(validMoves.at(i));
             }
         } else {
-            if (b->isCheck(true)) {
+            if (b->isCheck(true,false)) {
                 checks.push_back(validMoves.at(i));
             }
         }

@@ -5,8 +5,9 @@
 
 class Ai1 : public Player {
     public:
-        Move getMove(Board*) override;
         Ai1(PieceColour);
+        
+        Move getMove(Board*) override;
 };
 
 #endif

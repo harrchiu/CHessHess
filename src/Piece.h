@@ -11,9 +11,10 @@ enum PieceType { PAWN=0, ROOK=1, KNIGHT=2, BISHOP=3, QUEEN=4, KING=5, EMPTY=6 };
 class Piece {
     bool isWhite = false;
     public:
+        Piece(bool);
+        virtual ~Piece();
+        
         static const char letters[6];
-        virtual PieceType type() = 0;
-        bool getIsWhite();
 
         /* idea behind getMoveDirections()
             • returns vector of vectors of pairs
@@ -26,9 +27,9 @@ class Piece {
         */
         virtual std::vector<std::vector<PotentialMove>> 
             getMoveDirections() = 0;
+        virtual PieceType type() = 0;
+        bool getIsWhite();
             
-        Piece(bool);
-        virtual ~Piece();
 };
 
 #endif

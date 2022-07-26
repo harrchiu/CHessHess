@@ -7,10 +7,11 @@
 class GraphicalDisplay : public Display {
     public:
         GraphicalDisplay(int, int);
-        void setSquare(int, int, PieceType, bool) override;
+        
         void update(const Move &) override;
-        void restore(const Move &) override;
         void display(State) override;
+        void setSquare(int, int, PieceType, bool) override;
+        void restore(const Move &) override;
 };
 
 #endif
