@@ -8,7 +8,6 @@ using namespace std;
 vector<vector<PotentialMove>> Pawn::getMoveDirections() {
     // "white moves up the board" = smaller row
     int verticalDir = getIsWhite() ? -1 : 1;
-    vector<vector<PotentialMove>> pMoves;
     bool dEmpty = true;
     bool dWhite = !getIsWhite();
     bool dBlack = getIsWhite();
