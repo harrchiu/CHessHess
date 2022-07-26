@@ -26,7 +26,6 @@ int main() {
         while (s != "game") {
             if (s == "setup") {
                 g.setup();
-                td.display();
                 didSetup = true;
 
                b.printLegalMoves();
