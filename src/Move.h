@@ -3,9 +3,13 @@
 
 #include <utility>
 #include <iostream>
+#include <string>
+#include <vector>
+#include "Move.h"
 #include "Piece.h"
 
-struct Move {
+
+class Move {
     public:
         std::pair<int,int> start;
         std::pair<int,int> end;
@@ -15,6 +19,8 @@ struct Move {
 
         PieceType promotedTo;   // for pawn-promotion moves
         MoveType moveType;
+        
+        std::string getAlgNotation(const std::vector<Move>& otherMoves={}) const;
         
         Move(int,int,int,int, bool isWhiteToMove=true, MoveType moveType=MoveType::NORMAL,
             PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <math.h>
 
 #include "Game.h"
 #include "Board.h"
@@ -137,6 +138,14 @@ void Game::setup() {
     }    
 }
 
+bool strcmpNoCase(string& a, string &b){
+    for (int i=0;i<min(a.length(),b.length());++i){
+        if (toupper(a[i]) != toupper(b[i]))
+            return false;
+    }
+    return a.length() == b.length();
+}
+
 void Game::setPlayer(PieceColour c, unique_ptr<Player> p) {
     players[c] = move(p);
 };
@@ -183,7 +192,35 @@ Outcome Game::playGame() {
             } else {
                 cout << "Move was not valid!" << endl;
             }
-        } else if (cmd == "resign") {
+        } 
+        // algebraic notation ("Na5")
+        else if (cmd == "an"){
+            string move_AN;
+            cin >> move_AN;
+            vector<Move> legalMoves = board->getLegalMoves(isWhiteToMove);
+            vector<string> legalMovesAN;
+
+            for (Move &m:legalMoves){
+                legalMovesAN.push_back(m.getAlgNotation(legalMoves));
+            }  
+
+            Move playerMove(-1,-1,-1,-1,isWhiteToMove);
+            for (int mi=0;mi<(int)legalMoves.size();++mi){
+                if (strcmpNoCase(move_AN, legalMovesAN[mi])){
+                    playerMove = legalMoves[mi];
+                    break;
+                }
+            }
+
+            if (playerMove.start.first != -1 && attemptMove(playerMove)) {
+                isWhiteToMove = !isWhiteToMove;
+                cout << playerMove << " was made!" << endl;
+                display();
+            } else {
+                cout << "Move was not valid!" << endl;
+            }
+        }
+        else if (cmd == "resign") {
             if (isWhiteToMove) {
                 display(State::WHITE_RESIGN);   
                 return Outcome::BLACK_VICTORY;
@@ -199,7 +236,10 @@ Outcome Game::playGame() {
             } else {
                 cout << "No move to undo!" << endl;
             }
-        } else {
+        } else if (cmd == "legal"){
+            board->printLegalMoves();
+        }
+        else {
             cout << "Invalid Game Command" << endl;
         }
     }
@@ -288,3 +328,4 @@ void Game::display(State s) { //can send resign state
     }
     board->display(state);
 }
+
