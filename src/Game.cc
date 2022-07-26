@@ -144,10 +144,12 @@ void Game::setPlayer(PieceColour c, Player* p) {
 };
 
 string Game::playGame() {
+    cout << "Lets Play!" << endl;
     string cmd;
     while (true) {
         cin >> cmd;
-        if (cmd.compare("move")) {
+        if (cmd.compare("move") == 0) {
+            cout << "Make your move" << endl;
             Player* curPlayer;
             if (isWhiteToMove) {
                 curPlayer = players[0];
@@ -157,6 +159,9 @@ string Game::playGame() {
             Move playerMove = curPlayer->getMove(board);
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
+                cout << "Move was made!" << endl;
+            } else {
+                cout << "Move was not valid!" << endl;
             }
         } else if (cmd.compare("resign")) {
             
@@ -169,9 +174,11 @@ string Game::playGame() {
 
 bool Game::attemptMove(Move m) {
     vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
+
     for(int i=0;i<(int)validMoves.size();i++) {
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
             board->applyMove(validMoves[i]);
+            return true;
         }
     }
 
