@@ -11,7 +11,7 @@ enum PieceType { PAWN=0, ROOK=1, KNIGHT=2, BISHOP=3, QUEEN=4, KING=5, EMPTY=6 };
 class Piece {
     bool isWhite = false;
     public:
-        static constexpr char letters[6] = {'p','r','n','b','q','k'};
+        static const char letters[6];
         virtual PieceType type() = 0;
         bool getIsWhite();
 
