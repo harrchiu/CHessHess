@@ -134,7 +134,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
 
                     bool isValid = true;
                     switch (pm.mt){
-                        case MoveType::NORMAL:
+                        case MoveType::NORMAL: {
                             if (destType == PieceType::EMPTY)
                                 isValid = pm.canDestBeEmpty;
                             else {
@@ -142,27 +142,28 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                                     == pm.canDestBeWhite; 
                             }
                             break;
+                        }
                         case MoveType::CASTLE_K_SIDE:
                             break;
                         case MoveType::CASTLE_Q_SIDE:
                             break;
                         case MoveType::EN_PASSANT:
                             break;
-                        case MoveType::DOUBLE_PAWN:
+                        case MoveType::DOUBLE_PAWN: {
+                            int vertDir = pm.rowMov/2;  // moved by 2
+                            cout << "direction: " << r << ":" << vertDir << "=" << r + vertDir << endl;
+                            isValid = grid[newR][newC].piece == nullptr &&
+                                grid[r + vertDir][newC].piece == nullptr;
                             break;
-                        case MoveType::PROMOTION:
+                        }
+                        case MoveType::PROMOTION: {
                             break;
+                        }
                     }
                     if (!isValid) break;
 
                     moves.push_back(Move(r,c,newR,newC,isWhiteToMove,
                         curPiece->type(), destType, promotedTo));
-                    //     // capture?
-                    //     // enpassant?
-                    //     // first move?
-                    //     // castling
-                    // if (grid)
-                    
                 }
             }
 
