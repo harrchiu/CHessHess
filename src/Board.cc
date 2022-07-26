@@ -248,11 +248,9 @@ void Board::applyMove(Move& m, bool updateDisplay) {
     }
 }                   
 
-
-
-void Board::undoLastMove(){
-
-    if (playedMoveList.empty()) return;
+// returns whether a move was successfully undone
+bool Board::undoLastMove(bool updateDisplay){
+    if (playedMoveList.empty()) return false;
     Move m = playedMoveList.back();
     playedMoveList.pop_back();
 
@@ -310,6 +308,13 @@ void Board::undoLastMove(){
         }
         grid.at(m.end.first).at(m.end.second).piece = move(p);
     }
+
+    if (updateDisplay) {
+        td.restore(m);
+        gd.restore(m);
+    }
+
+    return true;
 }
 
 void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {

@@ -37,7 +37,7 @@ class Board {
         void setSquare(int,int,PieceType,bool);
 
         void applyMove(Move&,bool updateDisplay=false);
-        void undoLastMove();  // do nothing if no moves have been played
+        bool undoLastMove(bool updateDisplay=false);  // do nothing if no moves have been played
         void printLegalMoves();
         void display(State);
 };

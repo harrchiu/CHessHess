@@ -22,6 +22,13 @@ int main() {
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
         Game g(&b);  
+
+        // TODO: have some output to say
+        // cout << "Welcome to chess!" << endl;
+        // cout << "White: " << score
+        // cout << "Black: " << score
+        // cout << endl
+        // cout << "Enter "setup" to set up a custom board, or "game" to start a game"
         
         while (s != "game") {
             if (s == "setup") {
@@ -115,6 +122,7 @@ int main() {
                 break;
         }
     }
+
     cout << "Final Score:" << endl;
     cout << "White: " << ((whiteWins == (int)(whiteWins)) ? (int) whiteWins : whiteWins) << endl;
     cout << "Black: " << ((blackWins == (int)(blackWins)) ? (int) blackWins : blackWins) << endl;
