@@ -144,11 +144,11 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
 
                             if (destType == PieceType::EMPTY)
                                 isValid = pm.canDestBeEmpty;
-                            else if (destPiece->getIsWhite()){
+                            } else if (destPiece->getIsWhite()) {
                                 isValid = pm.canDestBeWhite; 
                                 breakAfter = true;
                             }
-                            else{
+                            else {
                                 isValid = pm.canDestBeBlack;
                                 breakAfter = true;
                             }
@@ -271,11 +271,9 @@ void Board::applyMove(Move& m, bool updateDisplay) {
     }
 }                   
 
-
-
-void Board::undoLastMove(){
-
-    if (playedMoveList.empty()) return;
+// returns whether a move was successfully undone
+bool Board::undoLastMove(bool updateDisplay){
+    if (playedMoveList.empty()) return false;
     Move m = playedMoveList.back();
     playedMoveList.pop_back();
 
@@ -332,9 +330,15 @@ void Board::undoLastMove(){
             default:
                 break;
         }
-        // bruh didnt actually set the pointer to the new piece
         grid.at(m.end.first).at(m.end.second).piece = move(p);
     }
+
+    if (updateDisplay) {
+        td.restore(m);
+        gd.restore(m);
+    }
+
+    return true;
 }
 
 void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {
@@ -359,6 +363,7 @@ void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {
             myPiece = make_unique<King>(isWhite);
             break;
         default:
+            myPiece = nullptr;
             break;
     }
     grid.at(r).at(c).piece = move(myPiece);
