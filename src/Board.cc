@@ -190,15 +190,15 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
 
 // precondition: move is valid
 void Board::applyMove(Move& m) {
-    //If CASTLE_Q, move grid[startX][0](rook) -> grid[x][3] 
+    //If CASTLE_Q, move grid[startX][0](rook) -> grid[c][3] 
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
         grid.at(m.start.first).at(3).piece = 
             move(grid.at(m.start.first).at(0).piece);
-    //If CASTLE_K, move grid[startX][7](rook) -> grid[x][5] 
+    //If CASTLE_K, move grid[startX][7](rook) -> grid[c][5] 
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
         grid.at(m.start.first).at(5).piece = 
             move(grid.at(m.start.first).at(7).piece);
-    //If EN_PASSENT, remove grid[startX][endY]
+    //If EN_PASSANT, remove grid[startX][endY]
     } else if (m.moveType == MoveType::EN_PASSANT) {
         grid.at(m.start.first).at(m.end.second).piece.release();
     //If PROMOTE, change grid[startX][startY](the pawn before moving) 
@@ -236,6 +236,9 @@ void Board::applyMove(Move& m) {
     grid.at(m.end.first).at(m.end.second).piece = 
         move(grid.at(m.start.first).at(m.start.second).piece);
     playedMoveList.push_back(m);
+
+    td.update(m);
+    gd.update(m);
 }                   
 
 void Board::undoLastMove(){
@@ -293,7 +296,7 @@ void Board::undoLastMove(){
     }
 }
 
-void Board::setSquare(int y, int x, PieceType pType, bool isWhite) {
+void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {
     unique_ptr<Piece> myPiece;
     switch (pType) {
         case PieceType::PAWN:
@@ -317,9 +320,9 @@ void Board::setSquare(int y, int x, PieceType pType, bool isWhite) {
         default:
             break;
     }
-    grid.at(y).at(x).piece = move(myPiece);
-    td.setSquare(y, x, pType, isWhite);
-    gd.setSquare(y, x, pType, isWhite);
+    grid.at(r).at(c).piece = move(myPiece);
+    td.setSquare(r, c, pType, isWhite);
+    gd.setSquare(r, c, pType, isWhite);
 }
 
 vector<vector<Square>>& Board::getBoard() {
