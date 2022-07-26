@@ -21,10 +21,10 @@ vector<vector<PotentialMove>> Queen::getMoveDirections() {
         pMoves[3].push_back(PotentialMove(-i,-i,dEmpty,dWhite,dBlack,mt));
 
         // rook
-        pMoves[4].push_back(PotentialMove(0,-i, dEmpty,dWhite,dBlack,mt));
+        pMoves[4].push_back(PotentialMove(0,i,  dEmpty,dWhite,dBlack,mt));
         pMoves[5].push_back(PotentialMove(0,-i, dEmpty,dWhite,dBlack,mt));
-        pMoves[6].push_back(PotentialMove(0,-i, dEmpty,dWhite,dBlack,mt));
-        pMoves[7].push_back(PotentialMove(0,-i, dEmpty,dWhite,dBlack,mt));
+        pMoves[6].push_back(PotentialMove(i,0,  dEmpty,dWhite,dBlack,mt));
+        pMoves[7].push_back(PotentialMove(-i,0, dEmpty,dWhite,dBlack,mt));
     }
 
     return pMoves;

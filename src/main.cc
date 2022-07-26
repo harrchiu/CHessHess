@@ -29,17 +29,7 @@ int main() {
                 g.setup();
                 didSetup = true;
 
-                // print all legal moves
-                cout << "legal moves for white: ";
-                for (Move m: b.getLegalMoves(true)) {
-                    cout << m << ", ";
-                }
-
-                cout << "\nlegal moves for black: ";
-                 for (Move m: b.getLegalMoves(false)) {
-                    cout << m << ", ";
-                }
-                cout << endl;
+               b.printLegalMoves();
             }
             td.display();
             cin >> s;

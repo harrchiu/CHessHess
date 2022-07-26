@@ -269,19 +269,20 @@ void Board::undoLastMove(){
     //end square
     if (m.capturedPiece != PieceType::EMPTY && m.moveType != MoveType::EN_PASSANT) {
         unique_ptr<Piece> p;
+        bool isWhite = !grid.at(m.start.first).at(m.start.second).piece->getIsWhite();
         switch (m.capturedPiece) {
             case PieceType::PAWN:
-                p = make_unique<Pawn>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+                p = make_unique<Pawn>(isWhite);
             case PieceType::ROOK:
-                p = make_unique<Rook>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+                p = make_unique<Rook>(isWhite);
             case PieceType::KNIGHT:
-                p = make_unique<Knight>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+                p = make_unique<Knight>(isWhite);
             case PieceType::BISHOP:
-                p = make_unique<Bishop>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+                p = make_unique<Bishop>(isWhite);
             case PieceType::QUEEN:
-                p = make_unique<Queen>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+                p = make_unique<Queen>(isWhite);
             case PieceType::KING:
-                p = make_unique<King>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+                p = make_unique<King>(isWhite);
             default:
                 break;
         }
@@ -307,3 +308,16 @@ bool Board::isCheck(bool isSideWhite) {
     return false;
 }
 
+void Board::printLegalMoves() {
+     // print all legal moves
+    cout << "legal moves for white: ";
+    for (Move m: getLegalMoves(true)) {
+        cout << m << ", ";
+    }
+
+    cout << "\nlegal moves for black: ";
+        for (Move m: getLegalMoves(false)) {
+        cout << m << ", ";
+    }
+    cout << endl;
+}

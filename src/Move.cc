@@ -17,13 +17,15 @@ Move::Move(int sr, int sc,int er, int ec, PieceType piece,
 
 std::ostream &operator<<(std::ostream &, const Move &m) {
     int gridSize = 8;
-    string cols = "ABCDEFGH";
-    cout << cols[m.start.second] << gridSize - m.start.first
-        << cols[m.end.second] << gridSize - m.end.first;
+    string cols = "abcdefgh";
+    string pieces = "PRNBQK";
+
+    char printPiece = pieces[m.piece];
+    if (printPiece == 'P') printPiece = '\0';
+    cout << printPiece << cols[m.end.second] << gridSize - m.end.first;
     // cout << m.start.second << m.start.first << m.end.second << m.end.first;
 
 
-    string pieces = "PRNBQK";
     if (m.moveType == MoveType::PROMOTION){
         char promotedToPiece = pieces[m.promotedTo];
         cout << promotedToPiece;
