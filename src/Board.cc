@@ -68,20 +68,20 @@ void Board::setupInitialPosition() {
 
     // pawns
     for (int c=0;c<8;++c){
-        grid[1][c].piece = make_unique<Pawn>(false);
-        grid[6][c].piece = make_unique<Pawn>(true);
+        setSquare(1, c, PieceType::PAWN, false);
+        setSquare(6, c, PieceType::PAWN, true);
     }
 
     // rest
     for (int r: {0,7}){
-        grid[r][0].piece = make_unique<Rook>(r == 7);
-        grid[r][1].piece = make_unique<Knight>(r == 7);
-        grid[r][2].piece = make_unique<Bishop>(r == 7);
-        grid[r][3].piece = make_unique<Queen>(r == 7);
-        grid[r][4].piece = make_unique<King>(r == 7);
-        grid[r][5].piece = make_unique<Bishop>(r == 7);
-        grid[r][6].piece = make_unique<Knight>(r == 7);
-        grid[r][7].piece = make_unique<Rook>(r == 7);
+        setSquare(r, 0, PieceType::ROOK, r == 7);
+        setSquare(r, 1, PieceType::KNIGHT, r == 7);
+        setSquare(r, 2, PieceType::BISHOP, r == 7);
+        setSquare(r, 3, PieceType::QUEEN, r == 7);
+        setSquare(r, 4, PieceType::KING, r == 7);
+        setSquare(r, 5, PieceType::BISHOP, r == 7);
+        setSquare(r, 6, PieceType::KNIGHT, r == 7);
+        setSquare(r, 7, PieceType::ROOK, r == 7);
     }
 }
 
@@ -251,7 +251,7 @@ void Board::undoLastMove(){
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
         grid.at(m.start.first).at(7).piece = 
             move(grid.at(m.start.first).at(5).piece);
-    //If EN_PASSENT, add the taken pawn back
+    //If EN_PASSANT, add the taken pawn back
     } else if (m.moveType == MoveType::EN_PASSANT) {
         grid.at(m.start.first).at(m.end.second).piece = 
             make_unique<Pawn>(!grid
@@ -292,7 +292,7 @@ void Board::undoLastMove(){
     }
 }
 
-void Board::setSquare(int y,int x, PieceType pType,bool isWhite) {
+void Board::setSquare(int y, int x, PieceType pType, bool isWhite) {
     unique_ptr<Piece> myPiece;
     switch (pType) {
         case PieceType::PAWN:
@@ -317,6 +317,8 @@ void Board::setSquare(int y,int x, PieceType pType,bool isWhite) {
             break;
     }
     grid.at(y).at(x).piece = move(myPiece);
+    td.setSquare(y, x, pType, isWhite);
+    gd.setSquare(y, x, pType, isWhite);
 }
 
 vector<vector<Square>>& Board::getBoard() {

@@ -15,12 +15,12 @@ TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols}, displa
     }
 }
 
-void TextualDisplay::setSquare(int row, int col, PieceType p, bool isWhite) {
+void TextualDisplay::setSquare(int y, int x, PieceType p, bool isWhite) {
     if (p == PieceType::EMPTY) {
-        displayGrid[row][col] = (row + col) % 2 == 0 ? ' ' : '_';
+        displayGrid[y][x] = (y + x) % 2 == 0 ? ' ' : '_';
     } else {
         char piece = Piece::letters[p];
-        displayGrid[row][col] = isWhite ? static_cast<char>(toupper(piece)) : piece;
+        displayGrid[y][x] = isWhite ? static_cast<char>(toupper(piece)) : piece;
     }
 }
 
