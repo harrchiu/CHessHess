@@ -145,7 +145,7 @@ void Game::setPlayer(PieceColour c, Player* p) {
 };
 
 Outcome Game::playGame() {
-    cout << "Lets Play!" << endl;
+    cout << "Let's Play!" << endl;
     string cmd;
     while (true) {
         if (board->getLegalMoves(isWhiteToMove).size() == 0) {
@@ -162,7 +162,7 @@ Outcome Game::playGame() {
         
         cin >> cmd;
         if (cmd.compare("move") == 0) {
-            cout << "Make your move" << endl;
+
             Player* curPlayer;
             if (isWhiteToMove) {
                 curPlayer = players[0];
@@ -220,6 +220,7 @@ void Game::display(State s) { //can send resign state
                     state = State::BLACK_WIN;
                 } else {
                     state = State::WHITE_WIN;
+                    cout << "hello you win";
                 }
             } else {
                 if (isWhiteToMove) {
@@ -235,5 +236,4 @@ void Game::display(State s) { //can send resign state
         }
     }
     board->display(state);
-    cout << "REPLACE THIS WITH WINNING MESSAGE" << endl;
 }

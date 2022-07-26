@@ -133,15 +133,18 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     PieceType promotedTo = PieceType::EMPTY;
 
                     bool isValid = false;
+                    bool breakAfter = false;    // stop looking as soon as we captured a piece
                     switch (pm.mt){
                         case MoveType::NORMAL: {
                             if (destType == PieceType::EMPTY)
                                 isValid = pm.canDestBeEmpty;
                             else if (destPiece->getIsWhite()){
                                 isValid = pm.canDestBeWhite; 
+                                breakAfter = true;
                             }
                             else{
                                 isValid = pm.canDestBeBlack;
+                                breakAfter = true;
                             }
                             break;
                         }
@@ -166,6 +169,8 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
 
                     moves.push_back(Move(r,c,newR,newC,isWhiteToMove,pm.mt,
                         curPiece->type(), destType, promotedTo));
+
+                    if (breakAfter) break;
                 }
             }
 
@@ -238,7 +243,6 @@ void Board::applyMove(Move& m, bool updateDisplay) {
     playedMoveList.push_back(m);
 
     if (updateDisplay){
-        cout << "\nupdating actual display with " << m << endl;
         td.update(m);
         gd.update(m);
     }
@@ -285,19 +289,27 @@ void Board::undoLastMove(){
         switch (m.capturedPiece) {
             case PieceType::PAWN:
                 p = make_unique<Pawn>(isWhite);
+                break;
             case PieceType::ROOK:
                 p = make_unique<Rook>(isWhite);
+                break;
             case PieceType::KNIGHT:
                 p = make_unique<Knight>(isWhite);
+                break;
             case PieceType::BISHOP:
                 p = make_unique<Bishop>(isWhite);
+                break;
             case PieceType::QUEEN:
                 p = make_unique<Queen>(isWhite);
+                break;
             case PieceType::KING:
                 p = make_unique<King>(isWhite);
+                break;
             default:
                 break;
         }
+        // bruh didnt actually set the pointer to the new piece
+        grid.at(m.end.first).at(m.end.second).piece = move(p);
     }
 }
 
