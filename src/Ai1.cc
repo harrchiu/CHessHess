@@ -2,6 +2,6 @@
 #include "Move.h"
 
 Move Ai1::getMove(Board*){
-    Move m(0,0,0,0);
+    Move m(0,0,0,0, false);
     return m;
 }

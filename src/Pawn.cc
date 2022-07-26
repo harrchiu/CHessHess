@@ -7,15 +7,21 @@ using namespace std;
 
 vector<vector<PotentialMove>> Pawn::getMoveDirections() {
     // "white moves up the board" = smaller row
-    int verticalDir = getIsWhite() ? -1 : 1;
+    int vertDir = getIsWhite() ? -1 : 1;
     bool dWhite = !getIsWhite();
     bool dBlack = getIsWhite();
     MoveType mt = MoveType::NORMAL;
 
     vector<vector<PotentialMove>> pMoves = {
-        {PotentialMove(verticalDir, 0,  true,false,false,mt)},
-        {PotentialMove(verticalDir, -1, false,dWhite,dBlack,mt)},
-        {PotentialMove(verticalDir, 1,  false,dWhite,dBlack,mt)}
+        {PotentialMove(vertDir, 0,  true,false,false,mt)},
+        {PotentialMove(vertDir, -1, false,dWhite,dBlack,mt)},
+        {PotentialMove(vertDir, 1,  false,dWhite,dBlack,mt)},
+
+        // en passant
+        // {PotentialMove(vertDir, -1, true,false,false,MoveType::EN_PASSANT)},
+        // {PotentialMove(vertDir, 1,  true,false,false,MoveType::EN_PASSANT)},
+        // double pawn move
+        {PotentialMove(vertDir*2, 0, true,false,false,MoveType::DOUBLE_PAWN)}
     };
 
     return pMoves;

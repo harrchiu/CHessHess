@@ -14,10 +14,10 @@
 using namespace std;
 
 int main() {
-    int home=0, away=0;
+    float whiteWins=0, blackWins=0;
     bool didSetup = false;
     string s;
-    string result;
+    Outcome outcome;
 
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
@@ -99,16 +99,33 @@ int main() {
         }
         
         g.display();
-        result = g.playGame();
+        outcome = g.playGame();
 
-        if (result == "somfalsdkfalksdjf"){
-            ++home;
-        }
-        else{
-            ++away;
-        }
 
         // handle result here
+        switch (outcome) {
+            case Outcome::BLACK_RESIGN:
+                cout << "White wins!" << endl;
+                ++whiteWins;
+            case Outcome::WHITE_RESIGN:
+                cout << "Black wins!" << endl;
+                ++blackWins;
+            case Outcome::BLACK_WIN:
+                cout << "Checkmate! Black wins!" << endl;
+                ++blackWins;
+            case Outcome::WHITE_WIN:
+                cout << "Checkmate! White wins!" << endl;
+                ++whiteWins;
+            case Outcome::STALEMATE:
+                cout << "Stalemate!" << endl;
+                whiteWins += 0.5;
+                blackWins += 0.5;
+            default:
+                break;
+        }
     }
+    cout << "Final Score:" << endl;
+    cout << "White: " << ((whiteWins == (int)(whiteWins)) ? (int) whiteWins : whiteWins) << endl;
+    cout << "Black: " << ((blackWins == (int)(blackWins)) ? (int) blackWins : blackWins) << endl;
     return 0;
 }
