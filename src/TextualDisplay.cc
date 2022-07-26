@@ -15,17 +15,30 @@ TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols}, displa
     }
 }
 
-void TextualDisplay::setSquare(int y, int x, PieceType p, bool isWhite) {
+void TextualDisplay::setSquare(int r, int c, PieceType p, bool isWhite) {
     if (p == PieceType::EMPTY) {
-        displayGrid[y][x] = (y + x) % 2 == 0 ? ' ' : '_';
+        displayGrid[r][c] = (r + c) % 2 == 0 ? ' ' : '_';
     } else {
         char piece = Piece::letters[p];
-        displayGrid[y][x] = isWhite ? static_cast<char>(toupper(piece)) : piece;
+        displayGrid[r][c] = isWhite ? static_cast<char>(toupper(piece)) : piece;
     }
 }
 
-void TextualDisplay::update(const Move &m) {
-    // TODO: ryan: implement update
+void TextualDisplay::update(const Move &m) {    
+    // special cases
+    if (m.moveType == MoveType::CASTLE_Q_SIDE) {
+        setSquare(m.start.first, 3, PieceType::ROOK, m.isSideWhite);
+        setSquare(m.start.first, 0, PieceType::EMPTY, m.isSideWhite);
+    } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
+        setSquare(m.start.first, 5, PieceType::ROOK, m.isSideWhite);
+        setSquare(m.start.first, 7, PieceType::EMPTY, m.isSideWhite);
+    } else if (m.moveType == MoveType::EN_PASSANT) {
+        setSquare(m.start.first, m.end.second, PieceType::EMPTY, m.isSideWhite);
+    }
+
+    // update begin and end square
+    setSquare(m.end.first, m.end.second, m.piece, m.isSideWhite);
+    setSquare(m.start.first, m.start.second, PieceType::EMPTY, m.isSideWhite);
 }
     
 void TextualDisplay::display() {
