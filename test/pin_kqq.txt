@@ -1,0 +1,10 @@
+setup 
++ K b6
++ k h6
++ B d4
++ R d6
++ q f6
++ q e3
+done
+
+game h h

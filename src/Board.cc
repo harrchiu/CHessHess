@@ -133,15 +133,18 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     PieceType promotedTo = PieceType::EMPTY;
 
                     bool isValid = false;
+                    bool breakAfter = false;    // stop looking as soon as we captured a piece
                     switch (pm.mt){
                         case MoveType::NORMAL: {
                             if (destType == PieceType::EMPTY) {
                                 isValid = pm.canDestBeEmpty;
                             } else if (destPiece->getIsWhite()) {
                                 isValid = pm.canDestBeWhite; 
+                                breakAfter = true;
                             }
                             else {
                                 isValid = pm.canDestBeBlack;
+                                breakAfter = true;
                             }
                             break;
                         }
@@ -166,6 +169,8 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
 
                     moves.push_back(Move(r,c,newR,newC,isWhiteToMove,pm.mt,
                         curPiece->type(), destType, promotedTo));
+
+                    if (breakAfter) break;
                 }
             }
 
@@ -238,7 +243,6 @@ void Board::applyMove(Move& m, bool updateDisplay) {
     playedMoveList.push_back(m);
 
     if (updateDisplay){
-        cout << "\nupdating actual display with " << m << endl;
         td.update(m);
         gd.update(m);
     }
