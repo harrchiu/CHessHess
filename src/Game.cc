@@ -143,7 +143,7 @@ void Game::setPlayer(PieceColour c, Player* p) {
     players[c] = p;
 };
 
-string Game::playGame() {
+Outcome Game::playGame() {
     cout << "Lets Play!" << endl;
     string cmd;
     while (true) {
@@ -160,15 +160,31 @@ string Game::playGame() {
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
                 cout << "Move was made!" << endl;
+                display();
             } else {
                 cout << "Move was not valid!" << endl;
             }
         } else if (cmd.compare("resign")) {
-            
+            if (isWhiteToMove) {
+                return Outcome::WHITE_RESIGN;
+            } else {
+                return Outcome::BLACK_RESIGN;
+            }
         } else {
             cout << "Invalid Game Command" << endl;
         }
-
+        
+        if (board->getLegalMoves(isWhiteToMove).size() == 0) {
+            if (board->isCheck(isWhiteToMove)) {
+                if (isWhiteToMove) {
+                    return Outcome::BLACK_WIN;
+                } else {
+                    return Outcome::WHITE_WIN;
+                }
+            } else {
+                return Outcome::STALEMATE;
+            }
+        }
     }
 }
 

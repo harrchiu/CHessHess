@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Move.h"
 
+enum Outcome { WHITE_RESIGN=0, BLACK_RESIGN=1, WHITE_WIN=2, BLACK_WIN=3, STALEMATE=4 };
+
 class Game {
         //white is 0,black is 1
         // PieceColour curTurn;
@@ -20,7 +22,7 @@ class Game {
         void setPlayer(PieceColour c,Player* p);
         void init();
         void setup();
-        std::string playGame();
+        Outcome playGame();
         bool attemptMove(Move m);
         void display();
 };
