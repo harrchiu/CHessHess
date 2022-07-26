@@ -20,6 +20,11 @@ vector<vector<PotentialMove>> King::getMoveDirections() {
             dEmpty,dWhite,dBlack,mt)});
     }
 
+    pMoves.push_back({PotentialMove(0,2,true,false,false,
+        MoveType::CASTLE_K_SIDE)});
+    pMoves.push_back({PotentialMove(0,-2,true,false,false,
+        MoveType::CASTLE_Q_SIDE)});
+
     return pMoves;  
 };
 

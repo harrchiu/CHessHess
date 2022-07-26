@@ -17,27 +17,32 @@ class Board {
     
     public:
         Board(int, int);
-        Board(const Board&);    // l-value copy (deep copy)
+        // Board(const Board&);    // l-value copy (deep copy)
         ~Board();
         
         void setup();
         std::vector<std::vector<Square>> grid;
         std::vector<Move> playedMoveList;
-        std::vector<Move> getMoves(bool isWhiteToMove);// helper for getLegalMoves
         std::vector<Move> getLegalMoves(bool isWhiteToMove);
-        bool isCheck(bool isSideWhite);
+        bool isCheck(bool isSideWhite, bool disableCastle=false);
         bool isMate(bool isSideWhite);  
         std::vector<std::vector<Square>>& getBoard(); 
         void setupInitialPosition(); 
 
-        int getRows();  // getters/helper fn
+        // getters/helper fns
+        int getRows();  
         int getCols();
         bool isOnBoard(const int, const int);
+        std::vector<Move> getMoves(bool isWhiteToMove,bool disableCastle=false);
+        std::pair<int,int> getKingCoords(bool);
+        bool canReach(bool, int, int, bool disableCastle=false);
+        bool hasSquareBeenTouched(int, int);
 
+        // move info/application
         void setSquare(int,int,PieceType,bool);
 
         void applyMove(Move&,bool updateDisplay=false);
-        bool undoLastMove(bool updateDisplay=false);  // do nothing if no moves have been played
+        bool undoLastMove(bool updateDisplay=false); // do nothing if no moves
         void printLegalMoves();
         void display(State);
 };

@@ -47,25 +47,6 @@ Board::Board(int rows, int cols) : rows{rows}, cols{cols}, td{TextualDisplay{row
 
 // assume board is empty (not deleting pieces)
 void Board::setupInitialPosition() {
-    // vector<vector<Piece*>> piecePtrs = {
-    //     {new Rook(false),new Knight(false),new Bishop(false),new Queen(false),
-    //     new King(false),new Bishop(false),new Knight(false),new Rook(false)},
-    //     {new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false),
-    //     new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false)},
-
-    //     {new Rook(true),new Knight(true),new Bishop(true),new Queen(true),
-    //     new King(true),new Bishop(true),new Knight(true),new Rook(true)},
-    //     {new Pawn(true), new Pawn(true), new Pawn(true), new Pawn(true),
-    //     new Pawn(true), new Pawn(true), new Pawn(true), new Pawn(true)}
-    // };
-    // vector<int> startingRows = {0,1,6,7};
-
-    // for (int r: startingRows){
-    //     for (int c=0;c<8;++c){
-    //         grid[r][c].piece = make_unique(piecePtrs[r][c];
-    //     }
-    // }
-
     // pawns
     for (int c=0;c<8;++c){
         setSquare(1, c, PieceType::PAWN, false);
@@ -97,6 +78,20 @@ Board::~Board() {
     // }
 }
 
+// helper methods
+std::pair<int,int> Board::getKingCoords(bool isKingWhite) {
+    for (int r=0;r<rows;++r){
+        for (int c=0;c<cols;++c){
+            Piece* p = grid[r][c].piece.get();
+            if (p && p->type() == PieceType::KING && 
+                p->getIsWhite() == isKingWhite){
+                return {r,c};
+            }
+        }
+    }
+    return {-1,-1};
+}
+
 int Board::getRows() { return rows; };
 int Board::getCols() { return cols; };
 bool Board::isOnBoard(const int r, const int c){
@@ -109,8 +104,11 @@ bool Board::isMate(bool isSideWhite) {
 };
 
 
-vector<Move> Board::getMoves(bool isWhiteToMove) {
+vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
     vector<Move> moves;
+
+    bool hasKingMoved = hasSquareBeenTouched(isWhiteToMove ? 7 : 0, 4);
+    if (hasKingMoved){}
 
     for (int r=0;r<rows;++r){
         for (int c=0;c<cols;++c){
@@ -154,11 +152,38 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                             }
                             break;
                         }
-                        case MoveType::CASTLE_K_SIDE:
+                        case MoveType::CASTLE_K_SIDE: {
+                            if (disableCastle) break;
+
+                            int backR = isWhiteToMove ? 7 : 0;
+                            ++backR;
+                            --backR;
+                            if (hasKingMoved || hasSquareBeenTouched(backR, 7))
+                                break;
+                            if (isCheck(isWhiteToMove, true)) break;
+                            if (canReach(!isWhiteToMove,backR,5,true)) break;
+                            if (grid[backR][5].piece || grid[backR][6].piece)
+                                break;
+
+                            isValid = true;
                             break;
-                        case MoveType::CASTLE_Q_SIDE:
+                        }
+                        case MoveType::CASTLE_Q_SIDE: {
+                            if (disableCastle) break;
+                            int backR = isWhiteToMove ? 7 : 0;
+                            if (hasKingMoved || hasSquareBeenTouched(backR, 0))
+                                break;
+                            if (isCheck(isWhiteToMove, true)) break;
+                            if (canReach(!isWhiteToMove,backR,4, true)) break;
+                            if (grid[backR][1].piece || grid[backR][2].piece ||
+                                grid[backR][3].piece)
+                                break;
+
+                            isValid = true;
                             break;
+                        }
                         case MoveType::EN_PASSANT:
+                            
                             break;
                         case MoveType::DOUBLE_PAWN: {
                             if (r != 1 && r != 6) break;
@@ -222,9 +247,11 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
 // precondition: move is valid
 void Board::applyMove(Move& m, bool updateDisplay) {
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
+        grid.at(m.start.first).at(3).piece = 
             move(grid.at(m.start.first).at(0).piece);
     //If CASTLE_K, move grid[startX][7](rook) -> grid[c][5] 
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
+        grid.at(m.start.first).at(5).piece = 
             move(grid.at(m.start.first).at(7).piece);
     //If EN_PASSANT, remove grid[startX][endY]
     } else if (m.moveType == MoveType::EN_PASSANT) {
@@ -377,12 +404,37 @@ vector<vector<Square>>& Board::getBoard() {
 
 // go through all opponent (including illegal) moves and check if they
 // capture the king
-bool Board::isCheck(bool isSideWhite) {
-    vector<Move> opponentMoves = getMoves(!isSideWhite);
+bool Board::isCheck(bool isSideWhite, bool disableCastle) {
+    vector<Move> opponentMoves = getMoves(!isSideWhite, disableCastle);
 
     for (Move m : opponentMoves){
         // must be the opposing, since this is a "doable" move
         if (m.capturedPiece == PieceType::KING){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// can SIDE reach the square (r,c)
+bool Board::canReach(bool isSideWhite, int r, int c, bool disableCastle){
+    vector<Move> moves = getMoves(isSideWhite, disableCastle);
+
+    for (Move m : moves){
+        if (m.end.first == r && m.end.second == c){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// was there a prev. move starting or ending at (r,c)
+bool Board::hasSquareBeenTouched(int r, int c){
+    for (Move m : playedMoveList){
+        if ((m.start.first == r && m.start.second == c) ||
+            (m.end.first == r && m.end.second == c)){
             return true;
         }
     }
