@@ -21,11 +21,10 @@ class Game {
         Game(Board* b);
         ~Game();
         
-        void setPlayer(PieceColour c,std::unique_ptr<Player> p);
         void init();
         void setup();
         Outcome playGame();
-        void setPlayer(PieceColour c,Player* p);
+        void setPlayer(PieceColour c,std::unique_ptr<Player> p);
         void display(State = State::REGULAR);
 };
 

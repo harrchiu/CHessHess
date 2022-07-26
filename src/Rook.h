@@ -8,10 +8,11 @@
 
 class Rook : public Piece {
     public:
-        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
-        PieceType type() override;
         Rook(bool);
         ~Rook() override;
+        
+        std::vector<std::vector<PotentialMove>> getMoveDirections() override;
+        PieceType type() override;
 };
 
 #endif
