@@ -12,7 +12,8 @@ struct Move {
         PieceType capturedPiece;
 
         PieceType promotedTo;   // for pawn-promotion moves
-
+        MoveType moveType;
+        
         Move(int,int,int,int,PieceType=PieceType::EMPTY,
             PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY);
 };

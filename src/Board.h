@@ -18,8 +18,8 @@ class Board {
         void setup();
         std::vector<std::vector<Square>> grid;
         std::vector<Move> playedMoveList;
-        std::vector<Move> getMoves(bool isSideWhite);// helper for getLegalMoves
-        std::vector<Move> getLegalMoves(bool isSideWhite);
+        std::vector<Move> getMoves(bool isWhiteToMove);// helper for getLegalMoves
+        std::vector<Move> getLegalMoves(bool isWhiteToMove);
         std::pair<bool,bool> isCheck();  // <white, black>
         std::pair<bool,bool> isMate();  
         std::vector<std::vector<Square>>& getBoard(); 
@@ -28,8 +28,9 @@ class Board {
         int getRows();  // getters/helper fn
         int getCols();
         bool isOnBoard(const int, const int);
-        void makeMove(Move m, bool isWhiteToMove);
-        void applyMove(Move m);
+
+        void applyMove(Move&);
+        void undoLastMove(Move&);  // do nothing if no moves have been played
 };
 
 #endif

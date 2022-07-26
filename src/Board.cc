@@ -107,7 +107,7 @@ pair<bool, bool> Board::isMate() {
 };
 
 
-vector<Move> Board::getMoves(bool isSideWhite) {
+vector<Move> Board::getMoves(bool isWhiteToMove) {
     vector<Move> moves;
 
     for (int r=0;r<rows;++r){
@@ -116,7 +116,7 @@ vector<Move> Board::getMoves(bool isSideWhite) {
             // must be a non-empty piece of the same color
             Piece* curPiece = grid[r][c].piece.get();
             if (nullptr == curPiece) continue;
-            if (curPiece->getIsWhite() != isSideWhite) continue;
+            if (curPiece->getIsWhite() != isWhiteToMove) continue;
 
             // e.g. dirs is all the moves going right
             for (vector<PotentialMove> dirs : curPiece->getMoveDirections()){
@@ -125,17 +125,30 @@ vector<Move> Board::getMoves(bool isSideWhite) {
                     int newC = c + pm.colMov;
                     if (!isOnBoard(newR, newC)) break;
                     
+                    bool isValid = true;
+                    Piece* destPiece = grid[newR][newC].piece.get();
+                    PieceType destType = destPiece ? destPiece->type() 
+                        : PieceType::EMPTY;
 
-                    // pawn is fucked
-                    // if (curPiece->type == Pawn){
+
+                        
+
+                    // p
+
+                    switch (pm.type){
+
+                        case MoveType::DEST_EMPTY:
+
+                            break;
+                    }
+                    if (!isValid) break;
+
+                    moves.push_back(Move(r,c,newR,newC,curPiece->type(), 
+                        destType));
                     //     // capture?
                     //     // enpassant?
                     //     // first move?
-                    // }
-                    // else if (curPiece->type == King){
                     //     // castling
-                    // }
-
                     // if (grid)
                     
                 }
@@ -143,38 +156,53 @@ vector<Move> Board::getMoves(bool isSideWhite) {
 
         }
     }
-
-    // now, go through all moves and see if king is in check for any of them
-
     return moves;
 }
 
 // here we go
-vector<Move> Board::getLegalMoves(bool isSideWhite) {
-    vector<Move> moves = getMoves(isSideWhite);
+vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
+    vector<Move> moves = getMoves(isWhiteToMove);
     vector<Move> legalMoves = {};
-    // for (Move m : moves) {
-    //     Board boardCopy = Board(*this); 
-    //     vector<Move> counterMoves = getMoves(isSideWhite);
-    // }
+    for (Move m : moves) {
+        applyMove(m);
+        vector<Move> counterMoves = getMoves(isWhiteToMove);
+        bool canCMCaptureKing = false;
+        for (Move cm: counterMoves){
 
-
+            // only possible when it's capturing opposing king
+            if (cm.capturedPiece == PieceType::KING){
+                canCMCaptureKing = true;
+            }
+        }
+        undoLastMove(m);
+        if (!canCMCaptureKing){
+            legalMoves.push_back(m);
+        }
+    }
     return legalMoves;
 }
 
-void Board::makeMove(Move m, bool isWhiteToMove) {
-    vector<Move> validMoves = getLegalMoves(isWhiteToMove);
-    for(int i=0;i<(int) validMoves.size();i++) {
-        if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
-            applyMove(validMoves[i]);
-        }
-    }
+// precondition: move is valid
+void Board::applyMove(Move& m) {
+    if (m.moveType == MoveType::CASTLE_Q_SIDE) {
+
+    } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
+        
+    } else if (m.moveType == MoveType::EN_PASSANT) {
+        
+    } else if (m.moveType == MoveType::PROMOTION) {
+        
+    } 
+
+        CASTLE_Q_SIDE,
+    CASTLE_K_SIDE,
+    EN_PASSANT,
+    PROMOTION,
+}                   
+
+void Board::undoLastMove(Move& m){
+
 }
-
-void Board::applyMove(Move m) {
-
-}
-
 
 vector<vector<Square>>& Board::getBoard() {
     return grid;

@@ -8,13 +8,13 @@ using namespace std;
 
 vector<vector<PotentialMove>> Rook::getMoveDirections() {
     vector<vector<PotentialMove>> pMoves(4);
-    PotentialMoveType pmt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
+    MoveType mt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
 
     for (int i=1;i<=7;++i){
-        pMoves[0].push_back(PotentialMove(i,0,pmt));
-        pMoves[1].push_back(PotentialMove(-i,0,pmt));
-        pMoves[2].push_back(PotentialMove(0,i,pmt));
-        pMoves[3].push_back(PotentialMove(0,-i,pmt));
+        pMoves[0].push_back(PotentialMove(i,0,mt));
+        pMoves[1].push_back(PotentialMove(-i,0,mt));
+        pMoves[2].push_back(PotentialMove(0,i,mt));
+        pMoves[3].push_back(PotentialMove(0,-i,mt));
     }
 
     return pMoves;

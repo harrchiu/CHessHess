@@ -17,8 +17,8 @@ Move Human::getMove(Board *b) {
     while (!validSquare) {
         cin >> startSquare;
         if (startSquare.length() == 2) {
-            x = cols.find(toupper(startSquare[0]));
-            y = rows.find(startSquare[1]);
+            y = cols.find(toupper(startSquare[0]));
+            x = rows.find(startSquare[1]);
             if (x == string::npos || y == string::npos) {
                 cout << "Invalid Start Square" << endl;   
             } else {
@@ -30,8 +30,8 @@ Move Human::getMove(Board *b) {
     while (!validSquare) {
         cin >> endSquare;
         if (endSquare.length() == 2) {
-            x2 = cols.find(toupper(endSquare[0]));
-            y2 = rows.find(endSquare[1]);
+            y2 = cols.find(toupper(endSquare[0]));
+            x2 = rows.find(endSquare[1]);
             if (x2 == string::npos || y2 == string::npos) {
                 cout << "Invalid End Square" << endl;   
             } else {

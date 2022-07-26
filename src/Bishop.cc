@@ -7,13 +7,13 @@ using namespace std;
 
 vector<vector<PotentialMove>> Bishop::getMoveDirections(){
     vector<vector<PotentialMove>> pMoves(4);
-    PotentialMoveType pmt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
+    MoveType mt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
 
     for (int i=1;i<=7;++i){
-        pMoves[0].push_back(PotentialMove(i,i,pmt));
-        pMoves[1].push_back(PotentialMove(-i,i,pmt));
-        pMoves[2].push_back(PotentialMove(i,-i,pmt));
-        pMoves[3].push_back(PotentialMove(-i,-i,pmt));
+        pMoves[0].push_back(PotentialMove(i,i,mt));
+        pMoves[1].push_back(PotentialMove(-i,i,mt));
+        pMoves[2].push_back(PotentialMove(i,-i,mt));
+        pMoves[3].push_back(PotentialMove(-i,-i,mt));
     }
 
     return pMoves;

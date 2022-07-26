@@ -8,12 +8,12 @@ using namespace std;
 vector<vector<PotentialMove>> Pawn::getMoveDirections() {
     // "white moves up the board" = smaller row
     int verticalDir = getIsWhite() ? -1 : 1;
-    PotentialMoveType pmt_opposite = getIsWhite() ? DEST_BLACK : DEST_WHITE;
+    MoveType mt_opposite = getIsWhite() ? DEST_BLACK : DEST_WHITE;
 
     vector<vector<PotentialMove>> pMoves = {
         {PotentialMove(verticalDir, 0, DEST_EMPTY)},
-        {PotentialMove(verticalDir, -1, pmt_opposite)},
-        {PotentialMove(verticalDir, 1, pmt_opposite)}
+        {PotentialMove(verticalDir, -1, mt_opposite)},
+        {PotentialMove(verticalDir, 1, mt_opposite)}
     };
 
     return pMoves;

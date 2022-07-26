@@ -178,7 +178,9 @@ string Game::playGame() {
                 curPlayer = players[1];
             }
             Move playerMove = curPlayer->getMove(board);
-            makeMove(playerMove);
+            if (attemptMove(playerMove)) {
+                isWhiteToMove = !isWhiteToMove;
+            }
         } else if (cmd.compare("resign")) {
             
         } else {
@@ -188,7 +190,11 @@ string Game::playGame() {
     }
 }
 
-void Game::makeMove(Move m) {
-    board->makeMove(m,isWhiteToMove);
-    isWhiteToMove = !isWhiteToMove;
+bool Game::attemptMove(Move m) {
+    vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
+    for(int i=0;i<validMoves.size();i++) {
+        if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
+            board->applyMove(validMoves[i]);
+        }
+    }
 }

@@ -18,7 +18,7 @@ class Game {
         void init();
         void setup();
         std::string playGame();
-        void makeMove(Move m);
+        bool attemptMove(Move m);
         Game(Board* b);
         ~Game();
 };

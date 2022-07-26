@@ -10,10 +10,10 @@ vector<vector<PotentialMove>> King::getMoveDirections() {
         {1,1},{-1,1},{1,-1},{-1,-1}};
 
     vector<vector<PotentialMove>> pMoves;
-    PotentialMoveType pmt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
+    MoveType mt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
 
     for (auto disp : king_disp){
-        pMoves.push_back({PotentialMove(disp.first,disp.second,pmt)});
+        pMoves.push_back({PotentialMove(disp.first,disp.second,mt)});
     }
 
     return pMoves;  
