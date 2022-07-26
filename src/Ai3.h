@@ -8,6 +8,8 @@ class Ai3 : public Player {
         Ai3(PieceColour p);
         
         Move getMove(Board*) override;
+        signed int checkBoardScore(Board*);
+        signed int checkMostDetrimentalResponseScore(Board*);
 };
 
 #endif

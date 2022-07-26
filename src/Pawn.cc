@@ -23,8 +23,9 @@ vector<vector<PotentialMove>> Pawn::getMoveDirections() {
         {PotentialMove(vertDir, 1,  false,dWhite,dBlack,MoveType::PROMOTION)},
 
         // en passant
-        // {PotentialMove(vertDir, -1, true,false,false,MoveType::EN_PASSANT)},
-        // {PotentialMove(vertDir, 1,  true,false,false,MoveType::EN_PASSANT)},
+        {PotentialMove(vertDir, -1, true,false,false,MoveType::EN_PASSANT)},
+        {PotentialMove(vertDir, 1,  true,false,false,MoveType::EN_PASSANT)},
+        
         // double pawn move
         {PotentialMove(vertDir*2, 0, true,false,false,MoveType::DOUBLE_PAWN)}
     };

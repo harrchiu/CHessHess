@@ -20,10 +20,17 @@ std::ostream &operator<<(std::ostream &, const Move &m) {
     string cols = "abcdefgh";
     string pieces = "PRNBQK";
 
+    if (m.moveType == MoveType::CASTLE_K_SIDE){
+        return cout << "O-O";
+    }
+    else if (m.moveType == MoveType::CASTLE_Q_SIDE){
+        return cout << "O-O-O";
+    }
+
     char printPiece = pieces[m.piece];
     if (printPiece == 'P') printPiece = '\0';
     cout << printPiece;
-    if (m.capturedPiece != PieceType::EMPTY){
+    if (m.capturedPiece != PieceType::EMPTY || m.moveType == EN_PASSANT){
         if (printPiece == '\0') cout << cols[m.start.second];
         cout << 'x';
     }

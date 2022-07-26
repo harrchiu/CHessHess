@@ -1,0 +1,15 @@
+setup
++ k e8
++ K e1
++ p a4
++ P b2
++ p h4
++ P g2
+
++ P a5
++ p b7
++ P h5
++ p g7
+done
+
+game h h

@@ -1,0 +1,10 @@
+setup
++ K a1
++ k a8
++ q c2
+
+done
+game ai3 ai3
+
+move
+
