@@ -154,10 +154,10 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                         }
                         case MoveType::CASTLE_K_SIDE: {
                             if (disableCastle) break;
-
                             int backR = isWhiteToMove ? 7 : 0;
-                            ++backR;
-                            --backR;
+                            Piece* p = grid[backR][0].piece.get();
+                            if (!p || p->type() != PieceType::ROOK) break;
+                            
                             if (hasKingMoved || hasSquareBeenTouched(backR, 7))
                                 break;
                             if (isCheck(isWhiteToMove, true)) break;
@@ -171,6 +171,9 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                         case MoveType::CASTLE_Q_SIDE: {
                             if (disableCastle) break;
                             int backR = isWhiteToMove ? 7 : 0;
+                            Piece* p = grid[backR][0].piece.get();
+                            if (!p || p->type() != PieceType::ROOK) break;
+
                             if (hasKingMoved || hasSquareBeenTouched(backR, 0))
                                 break;
                             if (isCheck(isWhiteToMove, true)) break;
@@ -182,9 +185,16 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                             isValid = true;
                             break;
                         }
-                        case MoveType::EN_PASSANT:
-                            
+                        case MoveType::EN_PASSANT: {
+                            if (playedMoveList.empty()) break;
+                            Move m = playedMoveList.back();
+                            if (m.moveType != MoveType::DOUBLE_PAWN) break;
+
+                            if (r == m.end.first && newC == m.end.second){
+                                isValid = true;
+                            }
                             break;
+                        }
                         case MoveType::DOUBLE_PAWN: {
                             if (r != 1 && r != 6) break;
                             int vertDir = pm.rowMov/2;  // moved by 2

@@ -22,7 +22,7 @@ class Board {
         
         void setup();
         std::vector<std::vector<Square>> grid;
-        std::vector<Move> playedMoveList;
+        std::vector<Move> playedMoveList = {};
         std::vector<Move> getLegalMoves(bool isWhiteToMove);
         bool isCheck(bool isSideWhite, bool disableCastle=false);
         bool isMate(bool isSideWhite);  

@@ -36,7 +36,7 @@ int main() {
                 g.setup();
                 didSetup = true;
 
-               b.printLegalMoves();
+            //    b.printLegalMoves();
             }
             g.display();
             cin >> s;

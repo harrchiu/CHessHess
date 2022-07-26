@@ -166,6 +166,9 @@ Outcome Game::playGame() {
         // - undo
         // - resign
         
+        cout << "scooby dooby doo --- \n";
+        board->printLegalMoves();   // TODO: harrison remove this
+
         cin >> cmd;
         if (cmd == "move") {
             Player* curPlayer;

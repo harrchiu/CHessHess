@@ -30,7 +30,7 @@ std::ostream &operator<<(std::ostream &, const Move &m) {
     char printPiece = pieces[m.piece];
     if (printPiece == 'P') printPiece = '\0';
     cout << printPiece;
-    if (m.capturedPiece != PieceType::EMPTY){
+    if (m.capturedPiece != PieceType::EMPTY || m.moveType == EN_PASSANT){
         if (printPiece == '\0') cout << cols[m.start.second];
         cout << 'x';
     }
