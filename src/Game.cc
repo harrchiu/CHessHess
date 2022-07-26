@@ -201,3 +201,9 @@ bool Game::attemptMove(Move m) {
 
     return false;       // TODO: ALBERT  FIX THIS
 }
+
+void Game::display() {
+    board->display();
+
+    cout << "REPLACE THIS WITH WINNING MESSAGE" << endl;
+}

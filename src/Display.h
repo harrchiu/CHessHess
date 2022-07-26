@@ -1,15 +1,16 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "Board.h"
+#include "Move.h"
 
 class Display {
     protected:
-        Board* board;        
+        const int rows, cols;      
     public:
-        Display(Board*);
+        Display(int, int);
         virtual ~Display();
-        virtual void update() = 0;
+        virtual void setSquare(int, int, PieceType, bool) = 0;
+        virtual void update(const Move &) = 0;
         virtual void display() = 0;
 };
 

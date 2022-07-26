@@ -6,29 +6,35 @@
 
 using namespace std;
 
-TextualDisplay::TextualDisplay(Board *b) : Display{b} {}
-void TextualDisplay::update() {}
+TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols}, displayGrid{vector<vector<char>>()} {
+    for (auto i = 0; i < rows; ++i) {
+        displayGrid.emplace_back();
+        for (auto j = 0; j < cols; ++j) {
+            displayGrid[i].push_back((i + j) % 2 == 0 ? ' ' : '_');
+        }
+    }
+}
+
+void TextualDisplay::setSquare(int row, int col, PieceType p, bool isWhite) {
+    if (p == PieceType::EMPTY) {
+        displayGrid[row][col] = (row + col) % 2 == 0 ? ' ' : '_';
+    } else {
+        char piece = Piece::letters[p];
+        displayGrid[row][col] = isWhite ? static_cast<char>(toupper(piece)) : piece;
+    }
+}
+
+void TextualDisplay::update(const Move &m) {
+    // TODO: ryan: implement update
+}
     
 void TextualDisplay::display() {
-    char letters[6] = {'p','r','n','b','q','k'};
-
-
-    vector<vector<Square>> &myBoard = board->getBoard(); 
-    
-    for (int i=0;i<(int)myBoard.size();++i) {
-        cout << myBoard.size() - i << ' ';
-        for (int j=0;j<(int)myBoard[i].size();++j) {
-            Square square = myBoard[i][j];
-            if (!square.piece) {
-                cout << ((i+j)%2 == 0 ? ' ' : '_');
-            } else {
-                cout << (char) (square.piece->getIsWhite()
-                            ? toupper(letters[square.piece->type()]) 
-                            : letters[square.piece->type()]);
-            }
-        }
+    for (int i = 0; i < rows; ++i) {
+        cout << rows - i << ' ';
+        for (int j = 0; j < cols; ++j) {
+            cout << displayGrid[i][j];
+        }   
         cout << endl;
     }
-    cout << endl;
-    cout << "  abcdefgh" << endl;
+    cout << endl << "  abcdefgh" << endl;
 }

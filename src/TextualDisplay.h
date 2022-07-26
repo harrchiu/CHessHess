@@ -1,13 +1,17 @@
 #ifndef TEXTUAL_DISPLAY_H
 #define TEXTUAL_DISPLAY_H
 
+#include <vector>
 #include "Display.h"
 
 class TextualDisplay : public Display {
+    std::vector<std::vector<char>> displayGrid;
+
     public:
-        void update() override;
+        TextualDisplay(int, int);
+        void setSquare(int, int, PieceType, bool) override;
+        void update(const Move &) override;
         void display() override;
-        TextualDisplay(Board *b);
 };
 
 #endif

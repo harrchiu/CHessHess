@@ -14,13 +14,15 @@ class Game {
         Board *board;
         Player* players[2];
     public:
+        Game(Board* b);
+        ~Game();
+        
         void setPlayer(PieceColour c,Player* p);
         void init();
         void setup();
         std::string playGame();
         bool attemptMove(Move m);
-        Game(Board* b);
-        ~Game();
+        void display();
 };
 
 #endif

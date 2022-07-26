@@ -6,9 +6,13 @@
 
 #include "Move.h"
 #include "Square.h"
+#include "TextualDisplay.h"
+#include "GraphicalDisplay.h"
 
 class Board {
     int rows, cols;
+    TextualDisplay td;
+    GraphicalDisplay gd;
     
     public:
         Board(int, int);
@@ -31,6 +35,7 @@ class Board {
 
         void applyMove(Move&);
         void undoLastMove(Move&);  // do nothing if no moves have been played
+        void display();
 };
 
 #endif

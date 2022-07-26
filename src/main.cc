@@ -22,14 +22,13 @@ int main() {
     while (cin >> s) {		// match
         Board b(8,8);		// initialize a default board
         Game g(&b);  
-        TextualDisplay td(&b);
         
-        while (s != "game"){
-            if (s == "setup"){
+        while (s != "game") {
+            if (s == "setup") {
                 g.setup();
                 didSetup = true;
             }
-            td.display();
+            g.display();
             cin >> s;
         }
 
@@ -37,7 +36,7 @@ int main() {
         string blackPlayer;
         bool keepGoing = true;
         if (!didSetup) {
-            b.setupInitialPosition();
+            b.setupInitialPosition();   // TODO: replace with g.setupInitialGameState() or sth
         }
 
         //set white player
@@ -97,7 +96,7 @@ int main() {
             }
         }
         
-        td.display();
+        g.display();
         result = g.playGame();
 
         if (result == "somfalsdkfalksdjf"){

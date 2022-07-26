@@ -13,11 +13,14 @@
 #include "Bishop.h"
 #include "Rook.h"
 #include "Knight.h"
+#include "Display.h"
+#include "TextualDisplay.h"
+#include "GraphicalDisplay.h"
 
 using namespace std;
 
 // initialize board to empty position
-Board::Board(int rows, int cols) : rows{rows}, cols{cols} {
+Board::Board(int rows, int cols) : rows{rows}, cols{cols}, td{TextualDisplay{rows, cols}}, gd{GraphicalDisplay{rows, cols}} {
     for (int i=0;i<rows;++i){
         vector<Square> cRow;
         for (int j=0;j<cols;++j){
@@ -236,3 +239,7 @@ bool Board::isCheck(bool isSideWhite) {
     return false;
 }
 
+void Board::display() {
+    td.display();
+    gd.display();
+}
