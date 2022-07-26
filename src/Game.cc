@@ -147,6 +147,8 @@ string Game::playGame() {
     cout << "Lets Play!" << endl;
     string cmd;
     while (true) {
+        board->printLegalMoves();
+        
         cin >> cmd;
         if (cmd.compare("move") == 0) {
             cout << "Make your move" << endl;

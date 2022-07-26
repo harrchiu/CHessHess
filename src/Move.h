@@ -16,7 +16,7 @@ struct Move {
         PieceType promotedTo;   // for pawn-promotion moves
         MoveType moveType;
         
-        Move(int,int,int,int,PieceType=PieceType::EMPTY,
+        Move(int,int,int,int,bool,PieceType=PieceType::EMPTY,
             PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY);
     
     friend std::ostream &operator<<(std::ostream &, const Move &);
