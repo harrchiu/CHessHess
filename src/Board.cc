@@ -142,7 +142,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                                 }
                             }
 
-                            if (destType == PieceType::EMPTY)
+                            if (destType == PieceType::EMPTY) {
                                 isValid = pm.canDestBeEmpty;
                             } else if (destPiece->getIsWhite()) {
                                 isValid = pm.canDestBeWhite; 
