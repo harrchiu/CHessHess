@@ -198,4 +198,6 @@ bool Game::attemptMove(Move m) {
             board->applyMove(validMoves[i]);
         }
     }
+
+    return false;       // TODO: ALBERT  FIX THIS
 }

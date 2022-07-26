@@ -139,6 +139,16 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                                     == pm.canDestBeWhite; 
                             }
                             break;
+                        case MoveType::CASTLE_K_SIDE:
+                            break;
+                        case MoveType::CASTLE_Q_SIDE:
+                            break;
+                        case MoveType::EN_PASSANT:
+                            break;
+                        case MoveType::DOUBLE_PAWN:
+                            break;
+                        case MoveType::PROMOTION:
+                            break;
                     }
                     if (!isValid) break;
 
@@ -164,19 +174,12 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
     vector<Move> legalMoves = {};
     for (Move m : moves) {
         applyMove(m);
-        vector<Move> counterMoves = getMoves(isWhiteToMove);
-        bool canCMCaptureKing = false;
-        for (Move cm: counterMoves){
 
-            // only possible when it's capturing opposing king
-            if (cm.capturedPiece == PieceType::KING){
-                canCMCaptureKing = true;
-            }
-        }
-        undoLastMove(m);
-        if (!canCMCaptureKing){
+        if (!isCheck(isWhiteToMove)){
             legalMoves.push_back(m);
         }
+
+        undoLastMove(m);
     }
     return legalMoves;
 }
@@ -284,6 +287,18 @@ vector<vector<Square>>& Board::getBoard() {
     return grid;
 }
 
-pair<bool,bool> Board::isCheck() {
-    return {false,false};
+// go through all opponent (including illegal) moves and check if they
+// capture the king
+bool Board::isCheck(bool isSideWhite) {
+    vector<Move> opponentMoves = getMoves(!isSideWhite);
+
+    for (Move m : opponentMoves){
+        // must be the opposing, since this is a "doable" move
+        if (m.capturedPiece == PieceType::KING){
+            return true;
+        }
+    }
+
+    return false;
 }
+
