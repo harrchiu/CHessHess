@@ -17,6 +17,11 @@ vector<vector<PotentialMove>> Pawn::getMoveDirections() {
         {PotentialMove(vertDir, -1, false,dWhite,dBlack,mt)},
         {PotentialMove(vertDir, 1,  false,dWhite,dBlack,mt)},
 
+        // promotion
+        {PotentialMove(vertDir, 0,  true,false,false,   MoveType::PROMOTION)},
+        {PotentialMove(vertDir, -1, false,dWhite,dBlack,MoveType::PROMOTION)},
+        {PotentialMove(vertDir, 1,  false,dWhite,dBlack,MoveType::PROMOTION)},
+
         // en passant
         // {PotentialMove(vertDir, -1, true,false,false,MoveType::EN_PASSANT)},
         // {PotentialMove(vertDir, 1,  true,false,false,MoveType::EN_PASSANT)},

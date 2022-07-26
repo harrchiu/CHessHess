@@ -22,13 +22,18 @@ std::ostream &operator<<(std::ostream &, const Move &m) {
 
     char printPiece = pieces[m.piece];
     if (printPiece == 'P') printPiece = '\0';
-    cout << printPiece << cols[m.end.second] << gridSize - m.end.first;
+    cout << printPiece;
+    if (m.capturedPiece != PieceType::EMPTY){
+        if (printPiece == '\0') cout << cols[m.start.second];
+        cout << 'x';
+    }
+    cout << cols[m.end.second] << gridSize - m.end.first;
     // cout << m.start.second << m.start.first << m.end.second << m.end.first;
 
 
     if (m.moveType == MoveType::PROMOTION){
         char promotedToPiece = pieces[m.promotedTo];
-        cout << promotedToPiece;
+        cout << '=' << promotedToPiece;
     }
     return cout;
 };
