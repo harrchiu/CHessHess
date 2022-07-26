@@ -148,7 +148,17 @@ Outcome Game::playGame() {
     cout << "Lets Play!" << endl;
     string cmd;
     while (true) {
-        board->printLegalMoves();
+        if (board->getLegalMoves(isWhiteToMove).size() == 0) {
+            if (board->isCheck(isWhiteToMove)) {
+                if (isWhiteToMove) {
+                    return Outcome::BLACK_VICTORY;
+                } else {
+                    return Outcome::WHITE_VICTORY;
+                }
+            } else {
+                return Outcome::TIE;
+            }
+        }
         
         cin >> cmd;
         if (cmd.compare("move") == 0) {
@@ -177,18 +187,6 @@ Outcome Game::playGame() {
             }
         } else {
             cout << "Invalid Game Command" << endl;
-        }
-
-        if (board->getLegalMoves(isWhiteToMove).size() == 0) {
-            if (board->isCheck(isWhiteToMove)) {
-                if (isWhiteToMove) {
-                    return Outcome::BLACK_VICTORY;
-                } else {
-                    return Outcome::WHITE_VICTORY;
-                }
-            } else {
-                return Outcome::TIE;
-            }
         }
     }
 }

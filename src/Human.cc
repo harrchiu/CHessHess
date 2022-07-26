@@ -6,6 +6,8 @@
 
 using namespace std;
 
+Human::Human(PieceColour p) : Player{p} {}
+
 Move Human::getMove(Board *b) {
     string cols = "ABCDEFGH";
     string rows = "87654321";

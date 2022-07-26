@@ -6,6 +6,7 @@
 class Human : public Player {
     public:
         Move getMove(Board*) override;
+        Human(PieceColour);
 };
 
 #endif
