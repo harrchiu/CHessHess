@@ -41,7 +41,7 @@ void TextualDisplay::update(const Move &m) {
     setSquare(m.start.first, m.start.second, PieceType::EMPTY, m.isSideWhite);
 }
     
-void TextualDisplay::display() {
+void TextualDisplay::display(State s) {
     for (int i = 0; i < rows; ++i) {
         cout << rows - i << ' ';
         for (int j = 0; j < cols; ++j) {

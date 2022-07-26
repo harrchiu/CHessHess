@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Display.h"
+#include "State.h"
 
 class TextualDisplay : public Display {
     std::vector<std::vector<char>> displayGrid;
@@ -11,7 +12,7 @@ class TextualDisplay : public Display {
         TextualDisplay(int, int);
         void setSquare(int, int, PieceType, bool) override;
         void update(const Move &) override;
-        void display() override;
+        void display(State) override;
 };
 
 #endif

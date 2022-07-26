@@ -349,9 +349,9 @@ bool Board::isCheck(bool isSideWhite) {
     return false;
 }
 
-void Board::display() {
-    td.display();
-    gd.display();
+void Board::display(State s) {
+    td.display(s);
+    gd.display(s);
 }
 
 void Board::printLegalMoves() {

@@ -2,6 +2,7 @@
 #define DISPLAY_H
 
 #include "Move.h"
+#include "State.h"
 
 class Display {
     protected:
@@ -11,7 +12,7 @@ class Display {
         virtual ~Display();
         virtual void setSquare(int, int, PieceType, bool) = 0;
         virtual void update(const Move &) = 0;
-        virtual void display() = 0;
+        virtual void display(State s) = 0;
 };
 
 #endif
