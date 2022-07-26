@@ -15,7 +15,7 @@
 
 using namespace std;
 
-Game::Game(Board *b) : board{b} {
+Game::Game(Board *b) : isWhiteToMove{true}, board{b} {
     
 }
 
