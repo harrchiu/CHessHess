@@ -2,7 +2,7 @@
 #define GRAPHICAL_DISPLAY_H
 
 #include "Display.h"
-#include "Game.h"
+#include "State.h"
 
 class GraphicalDisplay : public Display {
     public:

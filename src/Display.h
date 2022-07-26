@@ -2,6 +2,7 @@
 #define DISPLAY_H
 
 #include "Move.h"
+#include "State.h"
 
 class Display {
     protected:

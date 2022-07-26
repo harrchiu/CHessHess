@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Display.h"
-#include "Game.h"
+#include "State.h"
 
 class TextualDisplay : public Display {
     std::vector<std::vector<char>> displayGrid;

@@ -12,6 +12,7 @@
 #include "Queen.h"
 #include "King.h"
 #include "Square.h"
+#include "State.h"
 
 using namespace std;
 
@@ -146,9 +147,7 @@ void Game::setPlayer(PieceColour c, Player* p) {
 Outcome Game::playGame() {
     cout << "Lets Play!" << endl;
     string cmd;
-    bool validMove;
     while (true) {
-        validMove = true;
         board->printLegalMoves();
         
         cin >> cmd;
@@ -164,58 +163,31 @@ Outcome Game::playGame() {
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
                 cout << "Move was made!" << endl;
+                display();
             } else {
                 cout << "Move was not valid!" << endl;
-                validMove = false;
             }
         } else if (cmd.compare("resign")) {
             if (isWhiteToMove) {
                 display(State::WHITE_RESIGN);   
-                return Outcome::BLACK_WIN;
+                return Outcome::BLACK_VICTORY;
             } else {
                 display(State::BLACK_RESIGN);  
-                return Outcome::WHITE_WIN;
+                return Outcome::WHITE_VICTORY;
             }
         } else {
             cout << "Invalid Game Command" << endl;
         }
 
-        bool inCheck = board->isCheck(isWhiteToMove);
-        bool noValidMoves = board->getLegalMoves(isWhiteToMove).size() == 0;
-
-        if (validMove) {
-            State state = State::REGULAR;
-            if (inCheck) {
-                if (noValidMoves) {
-                    if (isWhiteToMove) {
-                        state = State::BLACK_WIN;
-                    } else {
-                        state = State::WHITE_WIN;
-                    }
-                } else {
-                    if (isWhiteToMove) {
-                        state = State::WHITE_CHECK;
-                    } else {
-                        state = State::BLACK_CHECK;
-                    }
-                }
-            } else {
-                if (noValidMoves) {
-                    state = State::STALEMATE;
-                }
-            }
-            display(state);
-        }
-
         if (board->getLegalMoves(isWhiteToMove).size() == 0) {
             if (board->isCheck(isWhiteToMove)) {
                 if (isWhiteToMove) {
-                    return Outcome::BLACK_WIN;
+                    return Outcome::BLACK_VICTORY;
                 } else {
-                    return Outcome::WHITE_WIN;
+                    return Outcome::WHITE_VICTORY;
                 }
             } else {
-                return Outcome::STALEMATE;
+                return Outcome::TIE;
             }
         }
     }
@@ -231,10 +203,39 @@ bool Game::attemptMove(Move m) {
         }
     }
 
-    return false;       // TODO: ALBERT  FIX THIS
+    return false;
 }
 
-void Game::display(State s) {
-    board->display(s);
+void Game::display(State s) { //can send resign state
+    bool inCheck = board->isCheck(isWhiteToMove);
+    bool noValidMoves = board->getLegalMoves(isWhiteToMove).size() == 0;
+    
+    State state;
+    if (s != State::REGULAR) {
+        state = s;
+    }
+    else {
+        state = State::REGULAR;
+        if (inCheck) {
+            if (noValidMoves) {
+                if (isWhiteToMove) {
+                    state = State::BLACK_WIN;
+                } else {
+                    state = State::WHITE_WIN;
+                }
+            } else {
+                if (isWhiteToMove) {
+                    state = State::WHITE_CHECK;
+                } else {
+                    state = State::BLACK_CHECK;
+                }
+            }
+        } else {
+            if (noValidMoves) {
+                state = State::STALEMATE;
+            }
+        }
+    }
+    board->display(state);
     cout << "REPLACE THIS WITH WINNING MESSAGE" << endl;
 }
