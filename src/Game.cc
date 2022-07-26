@@ -18,10 +18,7 @@ using namespace std;
 
 Game::Game(Board *b) : isWhiteToMove{true}, board{b} {}
 
-Game::~Game(){
-    delete players[0];
-    delete players[1];
-}
+Game::~Game(){}
 
 void Game::setup() {
     string cmd;
@@ -140,8 +137,8 @@ void Game::setup() {
     }    
 }
 
-void Game::setPlayer(PieceColour c, Player* p) {
-    players[c] = p;
+void Game::setPlayer(PieceColour c, unique_ptr<Player> p) {
+    players[c] = move(p);
 };
 
 Outcome Game::playGame() {
@@ -173,9 +170,9 @@ Outcome Game::playGame() {
         if (cmd == "move") {
             Player* curPlayer;
             if (isWhiteToMove) {
-                curPlayer = players[0];
+                curPlayer = players[0].get();
             } else {
-                curPlayer = players[1];
+                curPlayer = players[1].get();
             }
 
             Move playerMove = curPlayer->getMove(board);

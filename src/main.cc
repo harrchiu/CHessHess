@@ -55,16 +55,16 @@ int main() {
             cin >> whitePlayer;
             keepGoing = false;
             if (whitePlayer[0] == 'h' || whitePlayer[0] == 'h') {
-                g.setPlayer(PieceColour::WHITE, new Human(PieceColour::WHITE));
+                g.setPlayer(PieceColour::WHITE, make_unique<Human>(PieceColour::WHITE));
             } else if (whitePlayer[0] == 'a' || whitePlayer[0] == 'A') {
                 if (whitePlayer.find('1') != string::npos) {
-                    g.setPlayer(PieceColour::WHITE, new Ai1(PieceColour::WHITE));
+                    g.setPlayer(PieceColour::WHITE, make_unique<Ai1>(PieceColour::WHITE));
                 } else if (whitePlayer.find('2') != string::npos) {
-                    g.setPlayer(PieceColour::WHITE, new Ai2(PieceColour::WHITE));
+                    g.setPlayer(PieceColour::WHITE, make_unique<Ai2>(PieceColour::WHITE));
                 } else if (whitePlayer.find('3') != string::npos) {
-                    g.setPlayer(PieceColour::WHITE, new Ai3(PieceColour::WHITE));
+                    g.setPlayer(PieceColour::WHITE, make_unique<Ai3>(PieceColour::WHITE));
                 } else if (whitePlayer.find('4') != string::npos) {
-                    g.setPlayer(PieceColour::WHITE, new Ai4(PieceColour::WHITE));
+                    g.setPlayer(PieceColour::WHITE, make_unique<Ai4>(PieceColour::WHITE));
                 }
                 else {
                     keepGoing = true;
@@ -84,16 +84,16 @@ int main() {
             cin >> blackPlayer;
             keepGoing = false;
             if (blackPlayer[0] == 'h' || blackPlayer[0] == 'h') {
-                g.setPlayer(PieceColour::BLACK, new Human(PieceColour::BLACK));
+                g.setPlayer(PieceColour::BLACK, make_unique<Human>(PieceColour::BLACK));
             } else if (blackPlayer[0] == 'a' || blackPlayer[0] == 'A') {
                 if (blackPlayer.find('1') != string::npos) {
-                    g.setPlayer(PieceColour::BLACK, new Ai1(PieceColour::BLACK));
+                    g.setPlayer(PieceColour::BLACK, make_unique<Ai1>(PieceColour::BLACK));
                 } else if (blackPlayer.find('2') != string::npos) {
-                    g.setPlayer(PieceColour::BLACK, new Ai2(PieceColour::BLACK));
+                    g.setPlayer(PieceColour::BLACK, make_unique<Ai2>(PieceColour::BLACK));
                 } else if (blackPlayer.find('3') != string::npos) {
-                    g.setPlayer(PieceColour::BLACK, new Ai3(PieceColour::BLACK));
+                    g.setPlayer(PieceColour::BLACK, make_unique<Ai3>(PieceColour::BLACK));
                 } else if (blackPlayer.find('4') != string::npos) {
-                    g.setPlayer(PieceColour::BLACK, new Ai4(PieceColour::BLACK));
+                    g.setPlayer(PieceColour::BLACK, make_unique<Ai4>(PieceColour::BLACK));
                 }
                 else {
                     keepGoing = true;
