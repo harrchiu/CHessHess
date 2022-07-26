@@ -1,5 +1,6 @@
 # ignore VS Code-created folder
-.vscode
+.vscode/**/*
+!.vscode/settings.json
 
 #ignore output files
 *.o

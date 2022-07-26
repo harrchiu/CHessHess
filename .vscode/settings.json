@@ -63,6 +63,7 @@
     "typeinfo": "cpp",
     "unordered_map": "cpp",
     "*.tcc": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "__availability": "cpp"
   }
 }
