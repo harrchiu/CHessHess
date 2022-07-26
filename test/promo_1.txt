@@ -1,0 +1,8 @@
+setup 
++ K a1
++ k a8
++ P e7
++ r f8
+done
+
+game h h

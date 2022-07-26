@@ -88,7 +88,6 @@ int main() {
                     g.setPlayer(PieceColour::BLACK, new Ai4(PieceColour::BLACK));
                 }
                 else {
-                    cout << "here";
                     keepGoing = true;
                     cout << "Invalid Black Player" << endl;
                 }

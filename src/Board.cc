@@ -130,12 +130,18 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     Piece* destPiece = grid[newR][newC].piece.get();
                     PieceType destType = destPiece ? destPiece->type() 
                         : PieceType::EMPTY;
-                    PieceType promotedTo = PieceType::EMPTY;
+                    vector<PieceType> promotedTos = {EMPTY};
 
                     bool isValid = false;
                     bool breakAfter = false;    // stop looking as soon as we captured a piece
                     switch (pm.mt){
                         case MoveType::NORMAL: {
+                            if (curPiece->type() == PieceType::PAWN){   // save for promo
+                                if (newR == 0 || newR == 7){
+                                    break;
+                                }
+                            }
+
                             if (destType == PieceType::EMPTY)
                                 isValid = pm.canDestBeEmpty;
                             else if (destPiece->getIsWhite()){
@@ -162,13 +168,30 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                             break;
                         }
                         case MoveType::PROMOTION: {
+                            if (newR != 0 && newR != 7) break;
+                            if (destType == PieceType::EMPTY){
+                                if (!pm.canDestBeEmpty)
+                                    break;
+                            }
+                            else if (destPiece->getIsWhite()){
+                                if (!pm.canDestBeWhite)
+                                    break; 
+                            }
+                            else {
+                                if (!pm.canDestBeBlack) break;
+                            }
+
+                            promotedTos = {QUEEN, ROOK, BISHOP, KNIGHT};
+                            isValid = true;
                             break;
                         }
                     }
                     if (!isValid) break;
 
-                    moves.push_back(Move(r,c,newR,newC,isWhiteToMove,pm.mt,
-                        curPiece->type(), destType, promotedTo));
+                    for (PieceType pt:promotedTos){
+                        moves.push_back(Move(r,c,newR,newC,isWhiteToMove,pm.mt,
+                            curPiece->type(), destType, pt));
+                    }
 
                     if (breakAfter) break;
                 }
@@ -272,7 +295,7 @@ void Board::undoLastMove(){
                                 .at(m.end.second).piece->getIsWhite()); 
                                     // not the colour of the attacking piece
     //If PROMOTE, change the piece back to a pawn
-    } else if (m.moveType == MoveType::PROMOTION) {
+    } else if (m.moveType == MoveType::PROMOTION) {     // smart!
         grid.at(m.end.first).at(m.end.second).piece = 
             make_unique<Pawn>(grid
                             .at(m.end.first)
@@ -284,6 +307,7 @@ void Board::undoLastMove(){
     //If a piece was captured not through en_passent, add it back to the 
     //end square
     if (m.capturedPiece != PieceType::EMPTY && m.moveType != MoveType::EN_PASSANT) {
+        // m.moveType == MoveType::PROMOTION
         unique_ptr<Piece> p;
         bool isWhite = !grid.at(m.start.first).at(m.start.second).piece->getIsWhite();
         switch (m.capturedPiece) {
