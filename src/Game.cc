@@ -194,9 +194,9 @@ Outcome Game::playGame() {
 bool Game::attemptMove(Move m) {
     vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
 
-    for(int i=0;i<(int)validMoves.size();i++) {
+    for(int i=0;i<(int)validMoves.size();++i) {
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
-            board->applyMove(validMoves[i]);
+            board->applyMove(validMoves[i], true);
             return true;
         }
     }

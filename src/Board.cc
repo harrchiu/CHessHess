@@ -132,14 +132,16 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                         : PieceType::EMPTY;
                     PieceType promotedTo = PieceType::EMPTY;
 
-                    bool isValid = true;
+                    bool isValid = false;
                     switch (pm.mt){
                         case MoveType::NORMAL: {
                             if (destType == PieceType::EMPTY)
                                 isValid = pm.canDestBeEmpty;
-                            else {
-                                isValid = destPiece->getIsWhite()
-                                    == pm.canDestBeWhite; 
+                            else if (destPiece->getIsWhite()){
+                                isValid = pm.canDestBeWhite; 
+                            }
+                            else{
+                                isValid = pm.canDestBeBlack;
                             }
                             break;
                         }
@@ -150,8 +152,8 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                         case MoveType::EN_PASSANT:
                             break;
                         case MoveType::DOUBLE_PAWN: {
+                            if (r != 1 && r != 6) break;
                             int vertDir = pm.rowMov/2;  // moved by 2
-                            // cout << "direction: " << r << ":" << vertDir << "=" << r + vertDir << endl;
                             isValid = grid[newR][newC].piece == nullptr &&
                                 grid[r + vertDir][newC].piece == nullptr;
                             break;
@@ -162,7 +164,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     }
                     if (!isValid) break;
 
-                    moves.push_back(Move(r,c,newR,newC,isWhiteToMove,
+                    moves.push_back(Move(r,c,newR,newC,isWhiteToMove,pm.mt,
                         curPiece->type(), destType, promotedTo));
                 }
             }
@@ -177,6 +179,7 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
     vector<Move> moves = getMoves(isWhiteToMove);
     vector<Move> legalMoves = {};
     for (Move m : moves) {
+
         applyMove(m);
 
         if (!isCheck(isWhiteToMove)){
@@ -189,14 +192,11 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
 }
 
 // precondition: move is valid
-void Board::applyMove(Move& m) {
-    //If CASTLE_Q, move grid[startX][0](rook) -> grid[c][3] 
+void Board::applyMove(Move& m, bool updateDisplay) {
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
-        grid.at(m.start.first).at(3).piece = 
             move(grid.at(m.start.first).at(0).piece);
     //If CASTLE_K, move grid[startX][7](rook) -> grid[c][5] 
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
-        grid.at(m.start.first).at(5).piece = 
             move(grid.at(m.start.first).at(7).piece);
     //If EN_PASSANT, remove grid[startX][endY]
     } else if (m.moveType == MoveType::EN_PASSANT) {
@@ -237,9 +237,14 @@ void Board::applyMove(Move& m) {
         move(grid.at(m.start.first).at(m.start.second).piece);
     playedMoveList.push_back(m);
 
-    td.update(m);
-    gd.update(m);
+    if (updateDisplay){
+        cout << "\nupdating actual display with " << m << endl;
+        td.update(m);
+        gd.update(m);
+    }
 }                   
+
+
 
 void Board::undoLastMove(){
 
@@ -360,7 +365,7 @@ void Board::printLegalMoves() {
     }
 
     cout << endl << blackMoves.size() << " legal moves for black: ";
-        for (Move m: blackMoves) {
+    for (Move m: blackMoves) {
         cout << m << ", ";
     }
     cout << endl;

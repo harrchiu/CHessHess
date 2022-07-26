@@ -1,3 +1,6 @@
-game h h move e2 e3
+setup
++ k a8
++ K a1
+done
 
-
+game
