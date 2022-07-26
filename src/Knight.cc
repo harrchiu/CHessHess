@@ -6,14 +6,18 @@
 using namespace std;
 
 vector<vector<PotentialMove>> Knight::getMoveDirections() {
-    vector<pair<int,int>> knight_disp = {{1,2},{-1,2},{1,-2},{-1,-2},
-        {2,1},{-2,1},{2,-1},{-2,-1}};
+    vector<pair<int,int>> knight_disp = { {1,2},{-1,2},{1,-2},{-1,-2},
+        {2,1},{-2,1},{2,-1},{-2,-1} };
 
     vector<vector<PotentialMove>> pMoves;
-    MoveType mt = getIsWhite() ? DEST_EMPTY_BLACK : DEST_EMPTY_WHITE;
+    bool dEmpty = true;
+    bool dWhite = !getIsWhite();
+    bool dBlack = getIsWhite();
+    MoveType mt = MoveType::NORMAL;
 
     for (auto disp : knight_disp){
-        pMoves.push_back({PotentialMove(disp.first,disp.second,mt)});
+        pMoves.push_back({PotentialMove(disp.first,disp.second,
+            dEmpty,dWhite,dBlack,mt)});
     }
 
     return pMoves;  

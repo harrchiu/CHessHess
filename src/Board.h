@@ -20,8 +20,8 @@ class Board {
         std::vector<Move> playedMoveList;
         std::vector<Move> getMoves(bool isWhiteToMove);// helper for getLegalMoves
         std::vector<Move> getLegalMoves(bool isWhiteToMove);
-        std::pair<bool,bool> isCheck();  // <white, black>
-        std::pair<bool,bool> isMate();  
+        bool isCheck(bool isWhiteToMove);
+        bool isMate(bool isSideWhite);  
         std::vector<std::vector<Square>>& getBoard(); 
         void setupInitialPosition(); 
 

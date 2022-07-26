@@ -100,11 +100,9 @@ bool Board::isOnBoard(const int r, const int c){
     return r >= 0 && c >= 0 && r < rows && c < cols;
 }
 
-pair<bool, bool> Board::isMate() {
-    pair<bool, bool> checkStatus = isCheck();
-    return {getLegalMoves(true).size() == 0 && checkStatus.first,
-        getLegalMoves(false).size() == 0 && checkStatus.second
-    };
+bool Board::isMate(bool isSideWhite) {
+    bool checkStatus = isCheck(isSideWhite);
+    return getLegalMoves(isSideWhite).size() == 0 && checkStatus;
 };
 
 
@@ -126,26 +124,26 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     int newC = c + pm.colMov;
                     if (!isOnBoard(newR, newC)) break;
                     
-                    bool isValid = true;
                     Piece* destPiece = grid[newR][newC].piece.get();
                     PieceType destType = destPiece ? destPiece->type() 
                         : PieceType::EMPTY;
+                    PieceType promotedTo = PieceType::EMPTY;
 
-
-                        
-
-                    // p
-
-                    switch (pm.type){
-
-                        case MoveType::DEST_EMPTY:
-
+                    bool isValid = true;
+                    switch (pm.mt){
+                        case MoveType::NORMAL:
+                            if (destType == PieceType::EMPTY)
+                                isValid = pm.canDestBeEmpty;
+                            else {
+                                isValid = destPiece->getIsWhite()
+                                    == pm.canDestBeWhite; 
+                            }
                             break;
                     }
                     if (!isValid) break;
 
                     moves.push_back(Move(r,c,newR,newC,curPiece->type(), 
-                        destType));
+                        destType, promotedTo));
                     //     // capture?
                     //     // enpassant?
                     //     // first move?
@@ -194,18 +192,18 @@ void Board::applyMove(Move& m) {
     } else if (m.moveType == MoveType::PROMOTION) {
         switch (m.promotedTo) {
             case PieceType::ROOK:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Rook>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Rook>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
                 break;
             case PieceType::KNIGHT:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Knight>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Knight>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
                 break;
             case PieceType::BISHOP:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Bishop>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Bishop>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
                 break;
             case PieceType::QUEEN:
-                grid.at(m.start.first).at(m.end.first).piece = make_unique<Queen>(grid.at(m.start.first).at(m.end.first).piece.getIsWhite());
+                grid.at(m.start.first).at(m.end.first).piece = make_unique<Queen>(grid.at(m.start.first).at(m.end.first).piece->getIsWhite());
                 break;
-            case default:
+            default:
                 break;
         }
     } 

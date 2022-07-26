@@ -150,11 +150,12 @@ void Game::setup() {
                 }
             }
             //Check that no king is in check
-            pair<bool,bool> checkPair = board->isCheck();
-            if (checkPair.first) {
+            bool isWhiteInCheck = board->isCheck(true);
+            bool isBlackInCheck = board->isCheck(false);
+            if (isWhiteInCheck) {
                 cout << "White king is in check" << endl;
                 keepGoing = true;
-            } if (checkPair.second) {
+            } if (isBlackInCheck) {
                 cout << "Black king is in check" << endl;
                 keepGoing = true;
             }

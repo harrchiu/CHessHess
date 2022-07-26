@@ -22,5 +22,9 @@ class PotentialMove {
         bool canDestBeBlack = false;
         MoveType mt;
         
-    ntialMove(int,int,Pool,bool,bool,MoveTypetenti;
-oveoIbif
+                    // empty, white, black
+                    //     v    v     v
+    PotentialMove(int,int,bool,bool,bool,MoveType);
+};
+
+#endif
