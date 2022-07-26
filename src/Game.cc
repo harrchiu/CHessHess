@@ -181,7 +181,7 @@ Outcome Game::playGame() {
             Move playerMove = curPlayer->getMove(board);
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
-                cout << "Move was made!" << endl;
+                cout << playerMove << " was made!" << endl;
                 display();
             } else {
                 cout << "Move was not valid!" << endl;
@@ -210,14 +210,52 @@ Outcome Game::playGame() {
 
 bool Game::attemptMove(Move m) {
     vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
+    vector<Move> matchingMoves;
 
-    for(int i=0;i<(int)validMoves.size();++i) {
+    for(int i=0;i<(int)validMoves.size();++i) { //check how many match
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
-            board->applyMove(validMoves[i], true);
-            return true;
+            matchingMoves.push_back(validMoves[i]);
         }
     }
-
+    if (matchingMoves.size() == (int)1) {   // only 1 matching apply it
+        board->applyMove(matchingMoves.at(0),true);
+        return true;
+    }
+    if (matchingMoves.size() > (int)1) {    // if there is more than 1 matching
+        string promoteTo;                   // it is a promotion
+        bool keepGoing = true;
+        PieceType pType = PieceType::EMPTY;
+        while(keepGoing) {
+            cout << "Enter a valid promotion piece!" << endl;
+            cin >> promoteTo;
+            if (promoteTo.empty()) {
+                continue;
+            }
+            keepGoing = false;
+            switch (toupper(promoteTo[0])) {
+                case 'R':
+                    pType = PieceType::ROOK;
+                    break;
+                case 'N':
+                    pType = PieceType::KNIGHT;
+                    break;
+                case 'B':
+                    pType = PieceType::BISHOP;
+                    break;
+                case 'Q':
+                    pType = PieceType::QUEEN;
+                    break;
+                default:
+                    keepGoing = true;
+            }
+        }
+        for(int i=0;i<(int)matchingMoves.size();++i) {
+            if (matchingMoves.at(i).promotedTo == pType) {
+                board->applyMove(matchingMoves.at(i),true);
+                return true;
+            }
+        }
+    }
     return false;
 }
 

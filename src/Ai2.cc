@@ -1,5 +1,6 @@
 #include <vector>
 #include <stdlib.h>
+#include <time.h>
 #include "Ai2.h"
 #include "Move.h"
 
@@ -8,7 +9,7 @@ using namespace std;
 Ai2::Ai2(PieceColour p) : Player{p} {}
 
 Move Ai2::getMove(Board* b){
-    vector<Move> validMoves = b->getLegalMoves(color);
+    vector<Move> validMoves = b->getLegalMoves(!color);
     vector<Move> captures;
     vector<Move> checks;
     for(int i=0;i<(int)validMoves.size();i++) {
@@ -39,6 +40,7 @@ Move Ai2::getMove(Board* b){
         return checks.at(randomNum);
     }
 
-    int randomNum = rand() % (int) validMoves.size();
+    srand ( time(NULL) );
+    int randomNum = rand() % ((int) validMoves.size());
     return validMoves.at(randomNum);
 }

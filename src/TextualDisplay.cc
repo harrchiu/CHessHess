@@ -38,6 +38,9 @@ void TextualDisplay::update(const Move &m) {
 
     // update begin and end square
     setSquare(m.end.first, m.end.second, m.piece, m.isSideWhite);
+    if (m.moveType == MoveType::PROMOTION) {
+        setSquare(m.end.first, m.end.second, m.promotedTo, m.isSideWhite);
+    }
     setSquare(m.start.first, m.start.second, PieceType::EMPTY, m.isSideWhite);
 }
 
