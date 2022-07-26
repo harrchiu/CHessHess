@@ -135,12 +135,12 @@ vector<Move> Board::getMoves(bool isWhiteToMove) {
                     bool isValid = false;
                     switch (pm.mt){
                         case MoveType::NORMAL: {
-                            if (destType == PieceType::EMPTY)
+                            if (destType == PieceType::EMPTY) {
                                 isValid = pm.canDestBeEmpty;
-                            else if (destPiece->getIsWhite()){
+                            } else if (destPiece->getIsWhite()) {
                                 isValid = pm.canDestBeWhite; 
                             }
-                            else{
+                            else {
                                 isValid = pm.canDestBeBlack;
                             }
                             break;
@@ -285,19 +285,26 @@ void Board::undoLastMove(){
         switch (m.capturedPiece) {
             case PieceType::PAWN:
                 p = make_unique<Pawn>(isWhite);
+                break;
             case PieceType::ROOK:
                 p = make_unique<Rook>(isWhite);
+                break;
             case PieceType::KNIGHT:
                 p = make_unique<Knight>(isWhite);
+                break;
             case PieceType::BISHOP:
                 p = make_unique<Bishop>(isWhite);
+                break;
             case PieceType::QUEEN:
                 p = make_unique<Queen>(isWhite);
+                break;
             case PieceType::KING:
                 p = make_unique<King>(isWhite);
+                break;
             default:
                 break;
         }
+        grid.at(m.end.first).at(m.end.second).piece = move(p);
     }
 }
 
@@ -323,6 +330,7 @@ void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {
             myPiece = make_unique<King>(isWhite);
             break;
         default:
+            myPiece = nullptr;
             break;
     }
     grid.at(r).at(c).piece = move(myPiece);
@@ -350,6 +358,14 @@ bool Board::isCheck(bool isSideWhite) {
 }
 
 void Board::display(State s) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (grid[i][j].piece) cout << Piece::letters[grid[i][j].piece->type()];
+            else cout << " ";
+        }
+        cout << endl;
+    }
+
     td.display(s);
     gd.display(s);
 }

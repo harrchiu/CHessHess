@@ -16,9 +16,7 @@
 
 using namespace std;
 
-Game::Game(Board *b) : isWhiteToMove{true}, board{b} {
-    
-}
+Game::Game(Board *b) : isWhiteToMove{true}, board{b} {}
 
 Game::~Game(){
     delete players[0];
@@ -69,7 +67,7 @@ void Game::setup() {
                 size_t c = cols.find(toupper(inSquare[0]));
                 size_t r = rows.find(inSquare[1]);
                 if (c != string::npos && r != string::npos) {
-                    board->grid.at(r).at(c).piece = nullptr;
+                    board->setSquare(r,c,PieceType::EMPTY, true);
                     cout << "Piece at " << inSquare << " removed" << endl;
                 } else {
                     cout << "Invalid Square" << endl;
@@ -89,6 +87,8 @@ void Game::setup() {
             } else {
                 cout << "Invalid Colour" << endl;
             }
+        } else if (cmd == "print") {
+            display();
         } else if (cmd == "done") {
             //Check for exactly one white king and one black king
             keepGoing = false;
@@ -235,5 +235,4 @@ void Game::display(State s) { //can send resign state
         }
     }
     board->display(state);
-    cout << "REPLACE THIS WITH WINNING MESSAGE" << endl;
 }
