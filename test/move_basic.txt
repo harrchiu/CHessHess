@@ -1,3 +1,5 @@
 setup
 + K e1
 + k e8
++ p e3
+done
