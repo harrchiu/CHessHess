@@ -14,6 +14,9 @@ class Board {
     int rows, cols;
     TextualDisplay td;
     GraphicalDisplay gd;
+    std::vector<std::vector<Square>> grid;
+    std::vector<Move> getMoves(bool isWhiteToMove);// helper for getLegalMoves
+    bool isOnBoard(const int, const int);
     
     public:
         Board(int, int);
@@ -21,21 +24,12 @@ class Board {
         ~Board();
         
         void setup();
-        std::vector<std::vector<Square>> grid;
         std::vector<Move> playedMoveList;
-        std::vector<Move> getMoves(bool isWhiteToMove);// helper for getLegalMoves
         std::vector<Move> getLegalMoves(bool isWhiteToMove);
         bool isCheck(bool isSideWhite);
-        bool isMate(bool isSideWhite);  
         std::vector<std::vector<Square>>& getBoard(); 
         void setupInitialPosition(); 
-
-        int getRows();  // getters/helper fn
-        int getCols();
-        bool isOnBoard(const int, const int);
-
         void setSquare(int,int,PieceType,bool);
-
         void applyMove(Move&,bool updateDisplay=false);
         bool undoLastMove(bool updateDisplay=false);  // do nothing if no moves have been played
         void printLegalMoves();

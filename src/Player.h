@@ -8,9 +8,10 @@ class Player {
     protected:
         PieceColour color;
     public:
-        virtual Move getMove(Board*) = 0;
         Player(PieceColour);
         virtual ~Player();
+        
+        virtual Move getMove(Board*) = 0;
 };
 
 #endif

@@ -97,17 +97,9 @@ Board::~Board() {
     // }
 }
 
-int Board::getRows() { return rows; };
-int Board::getCols() { return cols; };
 bool Board::isOnBoard(const int r, const int c){
     return r >= 0 && c >= 0 && r < rows && c < cols;
 }
-
-bool Board::isMate(bool isSideWhite) {
-    bool checkStatus = isCheck(isSideWhite);
-    return getLegalMoves(isSideWhite).size() == 0 && checkStatus;
-};
-
 
 vector<Move> Board::getMoves(bool isWhiteToMove) {
     vector<Move> moves;

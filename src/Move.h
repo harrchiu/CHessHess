@@ -7,17 +7,17 @@
 
 struct Move {
     public:
+        Move(int,int,int,int, bool isWhiteToMove=true, MoveType moveType=MoveType::NORMAL,
+            PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY);
+        
         std::pair<int,int> start;
         std::pair<int,int> end;
-        bool isSideWhite;
         PieceType piece;
         PieceType capturedPiece;
-
+        bool isSideWhite;
         PieceType promotedTo;   // for pawn-promotion moves
         MoveType moveType;
         
-        Move(int,int,int,int, bool isWhiteToMove=true, MoveType moveType=MoveType::NORMAL,
-            PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY, PieceType=PieceType::EMPTY);
     
     friend std::ostream &operator<<(std::ostream &, const Move &);
 };

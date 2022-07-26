@@ -5,13 +5,14 @@
 #include <memory>
 
 class Square {
-    public:
         int row, col;
-        std::unique_ptr<Piece> piece;
+    public:
         // Square(int, int, std::unique_ptr<Piece>);
         Square(int&, int&, Piece*);    // before
         Square(const Square&);         //
         ~Square();
+
+        std::unique_ptr<Piece> piece;
 };
 
 #endif

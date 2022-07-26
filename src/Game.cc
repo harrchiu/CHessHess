@@ -94,7 +94,7 @@ void Game::setup() {
             keepGoing = false;
             int whiteKingCount = 0;
             int blackKingCount = 0;
-            for (vector<Square>& vec : board->grid) {
+            for (vector<Square>& vec : board->getBoard()) {
                 for (Square &square : vec) {
                     if (square.piece && square.piece->type() == PieceType::KING){ 
                         if (square.piece->getIsWhite()) {
@@ -114,13 +114,13 @@ void Game::setup() {
                 keepGoing = true;
             }
             //Check for pawns in first and last row
-            for (Square &square : board->grid.at(0)) {
+            for (Square &square : board->getBoard().at(0)) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in first row" << endl;
                     keepGoing = true;
                 }
             }
-            for (Square &square : board->grid.back()) {
+            for (Square &square : board->getBoard().back()) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in last row" << endl;
                     keepGoing = true;

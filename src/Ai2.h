@@ -6,6 +6,7 @@
 class Ai2 : public Player {
     public:
         Ai2(PieceColour p);
+        
         Move getMove(Board*) override;
 };
 

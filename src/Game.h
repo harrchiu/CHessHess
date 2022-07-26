@@ -15,15 +15,15 @@ class Game {
         bool isWhiteToMove;
         Board* board;
         Player* players[2];
+        bool attemptMove(Move m);
     public:
         Game(Board* b);
         ~Game();
         
-        void setPlayer(PieceColour c,Player* p);
         void init();
         void setup();
         Outcome playGame();
-        bool attemptMove(Move m);
+        void setPlayer(PieceColour c,Player* p);
         void display(State = State::REGULAR);
 };
 
