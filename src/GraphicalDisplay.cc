@@ -16,6 +16,10 @@ void GraphicalDisplay::setSquare(int row, int col, PieceType p, bool isWhite) {
 void GraphicalDisplay::update(const Move &m) {
     // TODO: ryan: implement update
 }
+
+void GraphicalDisplay::restore(const Move &m) {
+    // TODO: ryan: implement restore
+}
     
 void GraphicalDisplay::display(State s) {
     // TODO: ryan: implement display
