@@ -11,8 +11,8 @@ class Display {
         Display(int, int);
         virtual ~Display();
         virtual void setSquare(int, int, PieceType, bool) = 0;
-        virtual void update(const Move &) = 0;
-        virtual void restore(const Move &) = 0;
+        void update(const Move &);
+        void restore(const Move &);
         virtual void display(State s) = 0;
 };
 

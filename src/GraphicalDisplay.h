@@ -3,15 +3,17 @@
 
 #include "Display.h"
 #include "State.h"
+#include "sdl_wrap.h"
 
 class GraphicalDisplay : public Display {
+    int w, h, mh;
+    int dw, dh;
+    Screen screen;
+
     public:
         GraphicalDisplay(int, int);
-        
-        void update(const Move &) override;
-        void display(State) override;
         void setSquare(int, int, PieceType, bool) override;
-        void restore(const Move &) override;
+        void display(State) override;
 };
 
 #endif
