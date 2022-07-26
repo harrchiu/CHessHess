@@ -362,14 +362,6 @@ bool Board::isCheck(bool isSideWhite) {
 }
 
 void Board::display(State s) {
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            if (grid[i][j].piece) cout << Piece::letters[grid[i][j].piece->type()];
-            else cout << " ";
-        }
-        cout << endl;
-    }
-
     td.display(s);
     gd.display(s);
 }
