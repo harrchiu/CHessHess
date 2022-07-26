@@ -187,13 +187,13 @@ Outcome Game::playGame() {
             Move playerMove = curPlayer->getMove(board);
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
-                cout << playerMove << " was made!" << endl;
+                cout << playerMove << " was played!" << endl;
                 display();
             } else {
                 cout << "Move was not valid!" << endl;
             }
         } 
-        // algebraic notation ("Na5")
+        // process algebraic notation ("Na5")
         else if (cmd == "an"){
             string move_AN;
             cin >> move_AN;
@@ -204,6 +204,7 @@ Outcome Game::playGame() {
                 legalMovesAN.push_back(m.getAlgNotation(legalMoves));
             }  
 
+            // try to find input in vector of moves converted to AN
             Move playerMove(-1,-1,-1,-1,isWhiteToMove);
             for (int mi=0;mi<(int)legalMoves.size();++mi){
                 if (strcmpNoCase(move_AN, legalMovesAN[mi])){
@@ -212,9 +213,10 @@ Outcome Game::playGame() {
                 }
             }
 
+            // if found, then play; otherwise input is invalid AN
             if (playerMove.start.first != -1 && attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
-                cout << playerMove << " was made!" << endl;
+                cout << playerMove << " was played!" << endl;
                 display();
             } else {
                 cout << "Move was not valid!" << endl;
