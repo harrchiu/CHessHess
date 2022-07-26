@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <math.h>
 
 #include "Game.h"
 #include "Board.h"
@@ -141,6 +142,15 @@ void Game::setup() {
     }    
 }
 
+// strcmpNoCase - compares two strings without considering case
+bool strcmpNoCase(string& a, string &b){
+    for (int i=0;i<min(a.length(),b.length());++i){
+        if (toupper(a[i]) != toupper(b[i]))
+            return false;
+    }
+    return a.length() == b.length();
+}
+
 // setPlayer - attachs a player to the game
 void Game::setPlayer(PieceColour c, unique_ptr<Player> p) {
     players[c] = move(p);
@@ -188,15 +198,45 @@ Outcome Game::playGame() {
             // attempt the move and apply if its valid
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
-                cout << playerMove << " was made!" << endl;
+                cout << playerMove << " was played!" << endl;
                 display();
             // retry if not valid
             } else {
                 cout << "Move was not valid!" << endl;
             }
+        } 
+        // process algebraic notation ("Na5")
+        else if (cmd == "an"){
+            string move_AN;
+            cin >> move_AN;
+            vector<Move> legalMoves = board->getLegalMoves(isWhiteToMove);
+            vector<string> legalMovesAN;
+
+            for (Move &m:legalMoves){
+                legalMovesAN.push_back(m.getAlgNotation(legalMoves));
+            }  
+
+            // try to find input in vector of moves converted to AN
+            Move playerMove(-1,-1,-1,-1,isWhiteToMove);
+            for (int mi=0;mi<(int)legalMoves.size();++mi){
+                if (strcmpNoCase(move_AN, legalMovesAN[mi])){
+                    playerMove = legalMoves[mi];
+                    break;
+                }
+            }
+
+            // if found, then play; otherwise input is invalid AN
+            if (playerMove.start.first != -1 && attemptMove(playerMove)) {
+                isWhiteToMove = !isWhiteToMove;
+                cout << playerMove << " was played!" << endl;
+                display();
+            } else {
+                cout << "Move was not valid!" << endl;
+            }
+        }
         // Command case : resign
         // end the game and return the correct outcome
-        } else if (cmd == "resign") {
+        else if (cmd == "resign") {
             if (isWhiteToMove) {
                 display(State::WHITE_RESIGN);   
                 return Outcome::BLACK_VICTORY;
@@ -214,8 +254,13 @@ Outcome Game::playGame() {
             } else {
                 cout << "No move to undo!" << endl;
             }
-        // Command case : INVALID COMMAND
-        } else {
+        // Comand case : legal
+        // prints legal moves
+        } else if (cmd == "legal"){
+            board->printLegalMoves();
+        }
+        // Command case : INVALID
+        else {
             cout << "Invalid Game Command" << endl;
         }
     }
@@ -315,3 +360,4 @@ void Game::display(State s) {
     //display the board with that state
     board->display(state);
 }
+

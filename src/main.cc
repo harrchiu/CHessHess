@@ -10,8 +10,11 @@
 #include "Ai4.h"
 #include "Piece.h"
 #include "TextualDisplay.h"
+#include "sdl_wrap.h"
 
 using namespace std;
+
+SDL_Runner r;
 
 int main() {
     float whiteWins=0, blackWins=0;

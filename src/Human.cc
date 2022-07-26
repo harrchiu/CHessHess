@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -21,6 +22,7 @@ Move Human::getMove(Board *b) {
     // get a valid start square
     while (!validSquare) {
         cin >> startSquare;
+        // descriptive notation ("e2 ...")
         if (startSquare.length() == 2) {
             r = cols.find(toupper(startSquare[0]));
             c = rows.find(startSquare[1]);

@@ -11,10 +11,7 @@ class TextualDisplay : public Display {
 
     public:
         TextualDisplay(int, int);
-        
         void setSquare(int, int, PieceType, bool) override;
-        void update(const Move &) override;
-        void restore(const Move &) override;
         void display(State) override;
 };
 
