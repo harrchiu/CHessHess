@@ -170,9 +170,9 @@ Outcome Game::playGame() {
         if (cmd == "move") {
             Player* curPlayer;
             if (isWhiteToMove) {
-                curPlayer = players[0];
+                curPlayer = players[0].get();
             } else {
-                curPlayer = players[1];
+                curPlayer = players[1].get();
             }
 
             Move playerMove = curPlayer->getMove(board);
