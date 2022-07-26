@@ -6,6 +6,7 @@
 
 #include "Move.h"
 #include "Square.h"
+#include "Piece.h"
 
 class Board {
     int rows, cols;
@@ -28,6 +29,8 @@ class Board {
         int getRows();  // getters/helper fn
         int getCols();
         bool isOnBoard(const int, const int);
+
+        void setSquare(int,int,PieceType,bool);
 
         void applyMove(Move&);
         void undoLastMove();  // do nothing if no moves have been played

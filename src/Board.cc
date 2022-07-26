@@ -179,7 +179,7 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
             legalMoves.push_back(m);
         }
 
-        undoLastMove(m);
+        undoLastMove();
     }
     return legalMoves;
 }
@@ -279,8 +279,37 @@ void Board::undoLastMove(){
                 p = make_unique<Queen>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
             case PieceType::KING:
                 p = make_unique<King>(!grid.at(m.start.first).at(m.start.second).piece->getIsWhite());
+            case PieceType::EMPTY:
+                break;
         }
     }
+}
+
+void Board::setSquare(int y,int x, PieceType pType,bool isWhite) {
+    unique_ptr<Piece> myPiece;
+    switch (pType) {
+        case PieceType::PAWN:
+            myPiece = make_unique<Pawn>(isWhite);
+            break;
+        case PieceType::ROOK:
+            myPiece = make_unique<Rook>(isWhite);
+            break;
+        case PieceType::KNIGHT:
+            myPiece = make_unique<Knight>(isWhite);
+            break;
+        case PieceType::BISHOP:
+            myPiece = make_unique<Bishop>(isWhite);
+            break;
+        case PieceType::QUEEN:
+            myPiece = make_unique<Queen>(isWhite);
+            break;
+        case PieceType::KING:
+            myPiece = make_unique<King>(isWhite);
+            break;
+        default:
+            break;
+    }
+    grid.at(y).at(x).piece = move(myPiece);
 }
 
 vector<vector<Square>>& Board::getBoard() {

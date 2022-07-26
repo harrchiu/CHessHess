@@ -27,6 +27,7 @@ int main() {
         while (s != "game"){
             if (s == "setup"){
                 g.setup();
+                td.display();
                 didSetup = true;
 
                 // print all legal moves
