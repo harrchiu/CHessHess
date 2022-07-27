@@ -22,21 +22,14 @@ double evalBoard(Board* b){
             if (pp == nullptr) continue;
             
             // give coordinates so piece can polymorphically determine
-            // its value on the board position
+            // its value using its board position
             score += pp->getPoints(r, c);
         }
     }
-
-    // more moves are better!
-    // int  wMoves = (int)b->getLegalMoves(true).size();
-    // int  bMoves = (int)b->getLegalMoves(false).size();
-
-    // score += 0.05 * (wMoves - bMoves);
-
     return score;
 }
 
-// min-max algorithm
+// min-max algorithm depending on side to move
 double getMoveScore(Board*b, bool isWhiteToMove, int depth){
     if (depth <= 1)
         return evalBoard(b);
@@ -60,25 +53,24 @@ double getMoveScore(Board*b, bool isWhiteToMove, int depth){
 // play every move and use min-max algorithm to determine which is best
 Move Ai4::getMove(Board* b, bool isWhiteToMove){
     vector<Move> legalMoves = b->getLegalMoves(isWhiteToMove);
-
     vector<double> scores;
     double bestScore = isWhiteToMove ? -900000 : 900000;
 
+    // iterate through all our legal moves and look forward by constant depth
+    // store the score to its corresponding move in array
     for (Move m:legalMoves){
-        // cout << m << ' ';
         b->applyMove(m);
         scores.push_back(getMoveScore(b,!isWhiteToMove,init_depth-1));
         b->undoLastMove();
-        // cout << " ==> " << scores.back() << endl;
-
         if (isWhiteToMove)
             bestScore = max(bestScore, scores.back());
         else
             bestScore = min(bestScore, scores.back());
     }
 
+    // find the move that has the best score
     for (int i=0;i<(int)scores.size();++i){
-        if (abs(scores[i] - bestScore) < 0.01){
+        if (abs(scores[i] - bestScore) < 0.01){ // address float error
             cout << legalMoves[i];
             return legalMoves[i];
         }

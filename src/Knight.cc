@@ -37,6 +37,7 @@ double Knight::getPoints(int r,int c) {
     double score = 3;
     int backRow = getIsWhite() ? 7 : 0;
 
+    // want knights to be in the center
     int colApart = 3.5 - abs(3.5 - c);
     int rowApart = abs(backRow-r);
 

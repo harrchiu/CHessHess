@@ -39,6 +39,6 @@ Bishop::Bishop(bool isWhite) : Piece(isWhite) {};
 Bishop::~Bishop(){};
 
 double Bishop::getPoints(int r,int c) { 
-    double score = 3.3;
+    double score = 3.3; // worth more than a night!
     return score * (getIsWhite() ? 1 : -1);
 };

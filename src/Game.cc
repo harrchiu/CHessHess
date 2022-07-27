@@ -206,7 +206,8 @@ Outcome Game::playGame() {
                 cout << "Move was not valid!" << endl;
             }
         } 
-        // process algebraic notation ("Na5")
+        // Command case: an
+        // process/play algebraic notation for sideToMove ("Na5") (if valid)
         else if (cmd == "an"){
             string move_AN;
             cin >> move_AN;
@@ -285,6 +286,7 @@ Outcome Game::playGame() {
             }
             cout << endl;
         }
+        // Command case: display
         // re-display the board
         else if (cmd == "display"){
             display();

@@ -34,7 +34,9 @@ class Piece {
         virtual PieceType type() = 0;
         bool getIsWhite();
         
-        virtual double getPoints(int,int); // for material imbalance
+        // each inheriting piece will override this value function
+        // we can pass in the params for complex heuristics (e.g. space control)
+        virtual double getPoints(int,int); 
 };
 
 #endif

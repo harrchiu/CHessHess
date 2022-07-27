@@ -17,6 +17,7 @@ string Move::getAlgNotation(const vector<Move>& otherMoves) const {
     int gridSize = 8;
     string cols = "abcdefgh";
 
+    // special quirky notation for castling ugh
     if (moveType == MoveType::CASTLE_K_SIDE){
         return "O-O";
     }
@@ -24,6 +25,7 @@ string Move::getAlgNotation(const vector<Move>& otherMoves) const {
         return "O-O-O";
     }
 
+    // get the piece (we don't print P for pawn)
     char printPiece = toupper(Piece::letters[piece]);
     if (printPiece != 'P') 
         ret += printPiece;
@@ -32,13 +34,12 @@ string Move::getAlgNotation(const vector<Move>& otherMoves) const {
     // --> another move has the same piecetype + dest, and same r or c
     bool needRow = false, needCol = false;
     if (!otherMoves.empty()){
-        // cout << "--evaluating--";
         for (const Move &om:otherMoves){
-            // cout << om;
             // cannot be the same piece
             if (om.piece == piece && om.start.first == start.first
                  && om.start.second == start.second) continue;
 
+            // ensure end coordinates actually match
             if (om.piece != piece || om.end.first != end.first
                 || om.end.second != end.second) continue;
 
@@ -52,13 +53,18 @@ string Move::getAlgNotation(const vector<Move>& otherMoves) const {
         if (needCol) ret += '0' + (gridSize-start.first);
     }
 
+    // if it was a capture or enpassant, include the x
+    // also need to reinstate the pawn column 
     if (capturedPiece != PieceType::EMPTY || moveType == EN_PASSANT){
         if (printPiece == 'P' && !needRow) ret += cols[start.second];
         ret += 'x';
     }
+
+    // the actual destination square
     ret += cols[end.second];
     ret += '0' + (gridSize - end.first);
 
+    // add the promotedTo piecetype for promotion 
     if (moveType == MoveType::PROMOTION){
         char promotedToPiece = toupper(Piece::letters[promotedTo]);
         ret += '=';

@@ -51,10 +51,13 @@ double Pawn::getPoints(int r,int c) {
     double score = 1;
     int backRow = getIsWhite() ? 7 : 0;
 
+    // values for how far pawn is from edge
     int colApart = 3.5 - abs(3.5 - c);
     int rowApart = abs(backRow-r);
 
-    score += pow(1.05, colApart + rowApart);
+    // reward center pawns for being pushed first
+    // will prioritize moves like e4/e5 instead of pushing wing pawns
+    score += pow(1.05, colApart + rowApart);    
 
     return score * (getIsWhite() ? 1 : -1);
 };

@@ -38,9 +38,11 @@ double Rook::getPoints(int r,int c) {
     double score = 5;
     int backRow = getIsWhite() ? 7 : 0;
 
+    // how far is rook from edge of board
     int colApart = 3.5 - abs(3.5 - c);
     int rowApart = abs(backRow-r);
 
+    // prioritize central rooks
     score += pow(1.03, colApart + rowApart);
     return score * (getIsWhite() ? 1 : -1);
 };

@@ -41,7 +41,7 @@ void Board::setupInitialPosition() {
         setSquare(6, c, PieceType::PAWN, true);
     }
 
-    // rest
+    // other pieces
     for (int r: {0,7}){
         setSquare(r, 0, PieceType::ROOK,   r == 7);
         setSquare(r, 1, PieceType::KNIGHT, r == 7);
@@ -80,11 +80,13 @@ bool Board::isOnBoard(const int r, const int c){
 
 // getMoves - gets all the moves that can be performed on the board
 // (not necessarily valid)
+// disableCastle is necessary since castling would check getMoves()
+// for the opposite side, inducing an infinite loop
+// --> do not check for caslting after first depth
 vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
     vector<Move> moves;
 
     bool hasKingMoved = hasSquareBeenTouched(isWhiteToMove ? 7 : 0, 4);
-    if (hasKingMoved){}
 
     for (int r=0;r<rows;++r){
         for (int c=0;c<cols;++c){
@@ -94,20 +96,24 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
             if (nullptr == curPiece) continue;
             if (curPiece->getIsWhite() != isWhiteToMove) continue;
 
-            // e.g. dirs is all the moves going right
+            // e.g. dirs = (list of moves going in left-direction)
+            //      so break as soon as we cannot go left anymore
             for (vector<PotentialMove> dirs : curPiece->getMoveDirections()){
                 for (PotentialMove pm : dirs){
                     int newR = r + pm.rowMov;
                     int newC = c + pm.colMov;
-                    if (!isOnBoard(newR, newC)) break;
+                    if (!isOnBoard(newR, newC)) break;  // make sure in range
                     
                     Piece* destPiece = grid[newR][newC].piece.get();
                     PieceType destType = destPiece ? destPiece->type() 
                         : PieceType::EMPTY;
                     vector<PieceType> promotedTos = {EMPTY};
 
+                    
+                    // go through each type, and apply appropriate move logic
                     bool isValid = false;
-                    bool breakAfter = false;    // stop looking as soon as we captured a piece
+                    // break immediately after we capture a piece
+                    bool breakAfter = false;    
                     switch (pm.mt){
                         case MoveType::NORMAL: {
                             if (curPiece->type() == PieceType::PAWN){   // save for promo
@@ -116,6 +122,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                                 }
                             }
 
+                            // make sure we are allowed to land on the destType
                             if (destType == PieceType::EMPTY) {
                                 isValid = pm.canDestBeEmpty;
                             } else if (destPiece->getIsWhite()) {
@@ -128,22 +135,32 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                             }
                             break;
                         }
+                        // for castling:
+                        // king/rook cannot have moved
+                        // rook must be present
+                        // walk squares are empty and not in check
                         case MoveType::CASTLE_K_SIDE: {
                             if (disableCastle) break;
                             int backR = isWhiteToMove ? 7 : 0;
                             Piece* p = grid[backR][0].piece.get();
+                            // rook must be present
                             if (!p || p->type() != PieceType::ROOK) break;
                             
+                            // neither piece moved
                             if (hasKingMoved || hasSquareBeenTouched(backR, 7))
                                 break;
+                            // king cannot castle out of check
                             if (isCheck(isWhiteToMove, true)) break;
+                            // intermediary square is not attacked
                             if (canReach(!isWhiteToMove,backR,5,true)) break;
+                            // intermediary squares are empty
                             if (grid[backR][5].piece || grid[backR][6].piece)
                                 break;
 
                             isValid = true;
                             break;
                         }
+                        // same logic as K_SIDE
                         case MoveType::CASTLE_Q_SIDE: {
                             if (disableCastle) break;
                             int backR = isWhiteToMove ? 7 : 0;
@@ -161,16 +178,20 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                             isValid = true;
                             break;
                         }
+                        // check that square is empty and prev. move
+                        // is correct
                         case MoveType::EN_PASSANT: {
                             if (playedMoveList.empty()) break;
                             Move m = playedMoveList.back();
                             if (m.moveType != MoveType::DOUBLE_PAWN) break;
 
+                            // check that pawns line up on same rank
                             if (r == m.end.first && newC == m.end.second){
                                 isValid = true;
                             }
                             break;
                         }
+                        // check pawn is unmoved 
                         case MoveType::DOUBLE_PAWN: {
                             if (r != 1 && r != 6) break;
                             int vertDir = pm.rowMov/2;  // moved by 2
@@ -178,13 +199,17 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                                 grid[r + vertDir][newC].piece == nullptr;
                             break;
                         }
+                        // add four moves, one per promotion piece type
                         case MoveType::PROMOTION: {
+                            // must be on back rank
                             if (newR != 0 && newR != 7) break;
+
+                            // make sure we can land on our destType
                             if (destType == PieceType::EMPTY){
                                 if (!pm.canDestBeEmpty)
                                     break;
                             }
-                            else if (destPiece->getIsWhite()){
+                            else if (destPiece->getIsWhite()){  // capture
                                 if (!pm.canDestBeWhite)
                                     break; 
                             }
@@ -199,6 +224,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
                     }
                     if (!isValid) break;
 
+                    // add a move for each promoted piece type
                     for (PieceType pt:promotedTos){
                         moves.push_back(Move(r,c,newR,newC,isWhiteToMove,pm.mt,
                             curPiece->type(), destType, pt));
@@ -219,12 +245,15 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
     vector<Move> legalMoves = {};
     for (Move m : moves) {
 
+        // do the move temporarily
         applyMove(m);
 
+        // check if opponent can capture our king (then our move is illegal)
         if (!isCheck(isWhiteToMove)){
             legalMoves.push_back(m);
         }
 
+        // undo the move
         undoLastMove();
     }
     return legalMoves;
@@ -467,6 +496,9 @@ string Board::getFEN() {
     int prevEmpty = 0;
     string s;
 
+    // iterate through board
+    // keep a tally of empty squares
+    // and append that tally when we reach a non-empty square
     for (int r=0;r<rows;++r){
         if (r != 0) s += '/';
         for (int c=0;c<cols;++c){
@@ -495,6 +527,7 @@ string Board::getFEN() {
 }
 
 // check if the current position has been reached for the 3rd time or more
+// linear scan!! can be extended to see if any previous position is 3fold
 bool Board::isThreeFold() {
     if (previousFENs.empty()) return false;
     string currentFEN = previousFENs.back();
