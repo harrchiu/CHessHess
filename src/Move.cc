@@ -73,6 +73,7 @@ string Move::getAlgNotation(const vector<Move>& otherMoves) const {
     return ret;
 };
 
+// output overload for moves
 std::ostream &operator<<(std::ostream &, const Move &m) {
     return cout << m.getAlgNotation();
 }
