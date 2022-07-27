@@ -1,4 +1,5 @@
 #include <vector>
+#include <math.h>
 #include "Piece.h"
 #include "Rook.h"
 #include "PotentialMove.h"
@@ -35,3 +36,14 @@ PieceType Rook::type() {
 
 Rook::Rook(bool isWhite) : Piece(isWhite) {};
 Rook::~Rook(){};
+
+double Rook::getPoints(int r,int c) { 
+    double score = 5;
+    int backRow = getIsWhite() ? 7 : 0;
+
+    int colApart = 3.5 - abs(3.5 - c);
+    int rowApart = abs(backRow-r);
+
+    score += pow(1.03, colApart + rowApart);
+    return score * (getIsWhite() ? 1 : -1);
+};

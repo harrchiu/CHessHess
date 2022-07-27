@@ -9,7 +9,7 @@ using namespace std;
 
 Human::Human(PieceColour p) : Player{p} {}
 
-Move Human::getMove(Board *b) {
+Move Human::getMove(Board* b, bool isWhiteToMove){
     string cols = "ABCDEFGH";
     string rows = "87654321";
     string startSquare;

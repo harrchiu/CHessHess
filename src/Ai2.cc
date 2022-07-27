@@ -8,7 +8,7 @@ using namespace std;
 
 Ai2::Ai2(PieceColour p) : Player{p} {}
 
-Move Ai2::getMove(Board* b){
+Move Ai2::getMove(Board* b, bool isWhiteToMove){
     vector<Move> validMoves = b->getLegalMoves(!color);
     vector<Move> captures;
     vector<Move> checks;

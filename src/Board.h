@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <utility>
+#include <string>
 
 #include "Move.h"
 #include "Square.h"
@@ -21,6 +22,7 @@ class Board {
     bool canReach(bool, int, int, bool disableCastle=false);
     bool hasSquareBeenTouched(int, int);
     
+    std::vector<std::string> previousFENs;
     public:
         Board(int, int);
         // Board(const Board&);    // l-value copy (deep copy)
@@ -38,7 +40,10 @@ class Board {
         void applyMove(Move&,bool updateDisplay=false);
         void display(State);
         void printLegalMoves();
-        
+
+        std::string getFEN();
+        bool isThreeFold();
+        void handleFENStart();
 };
 
 #endif

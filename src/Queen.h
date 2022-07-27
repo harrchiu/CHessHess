@@ -12,6 +12,7 @@ class Queen : public Piece {
         
         std::vector<std::vector<PotentialMove>> getMoveDirections() override;
         PieceType type() override;
+        double getPoints(int,int) override;
 };
 
 #endif

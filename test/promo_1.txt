@@ -5,4 +5,4 @@ setup
 + r f8
 done
 
-game h h
+game ai4 h move

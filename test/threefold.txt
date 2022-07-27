@@ -1,0 +1,10 @@
+game h h
+an nc3
+an nc6
+an nb1
+an nb8
+
+an nc3
+an nc6
+an nb1
+an nb8

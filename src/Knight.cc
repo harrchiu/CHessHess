@@ -1,4 +1,5 @@
 #include <vector>
+#include "math.h"
 #include "Piece.h"
 #include "Knight.h"
 #include "PotentialMove.h"
@@ -29,3 +30,14 @@ PieceType Knight::type() {
 
 Knight::Knight(bool isWhite) : Piece(isWhite) {};
 Knight::~Knight(){};
+
+double Knight::getPoints(int r,int c) { 
+    double score = 3;
+    int backRow = getIsWhite() ? 7 : 0;
+
+    int colApart = 3.5 - abs(3.5 - c);
+    int rowApart = abs(backRow-r);
+
+    score += pow(1.03, colApart + rowApart);
+    return score * (getIsWhite() ? 1 : -1);
+};

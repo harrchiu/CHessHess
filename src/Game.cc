@@ -151,6 +151,8 @@ void Game::setPlayer(PieceColour c, unique_ptr<Player> p) {
 };
 
 Outcome Game::playGame() {
+    board->handleFENStart();     // setup initial FEN history
+
     cout << "Let's Play!" << endl;
     string cmd;
     while (true) {
@@ -172,8 +174,8 @@ Outcome Game::playGame() {
         // - undo
         // - resign
         
-        cout << "scooby dooby doo --- \n";
-        board->printLegalMoves();   // TODO: harrison remove this
+        // cout << "scooby dooby doo --- \n";
+        // board->printLegalMoves();   // TODO: harrison remove this
 
         cin >> cmd;
         if (cmd == "move") {
@@ -184,7 +186,7 @@ Outcome Game::playGame() {
                 curPlayer = players[1].get();
             }
 
-            Move playerMove = curPlayer->getMove(board);
+            Move playerMove = curPlayer->getMove(board, isWhiteToMove);
             if (attemptMove(playerMove)) {
                 isWhiteToMove = !isWhiteToMove;
                 cout << playerMove << " was played!" << endl;
@@ -238,8 +240,36 @@ Outcome Game::playGame() {
             } else {
                 cout << "No move to undo!" << endl;
             }
-        } else if (cmd == "legal"){
+        } 
+        // print legal moves for both sides
+        else if (cmd == "legal"){
             board->printLegalMoves();
+        }
+        // print shortened-FEN for current board state
+        else if (cmd == "fen"){
+            cout << board->getFEN() << endl;
+        }
+        // print all played moves in algebraic notation
+        else if (cmd == "history"){
+            int n = (int) board->playedMoveList.size();
+            if (!n) {
+                cout << "No moves have been played." << endl;
+                continue;
+            }
+
+            cout << n << " previous move" << (n != 1 ? "s" : "") << ": ";
+            for (int i=0;i<n;++i){
+                Move &m = board->playedMoveList[i];
+                if (i != 0)
+                    cout << ", ";
+                cout << (char)(m.start.second + 'A') << (8 - m.start.first);
+                cout << (char)(m.end.second + 'A') <<  (8 - m.end.first);
+            }
+            cout << endl;
+        }
+        // re-display the board
+        else if (cmd == "display"){
+            display();
         }
         else {
             cout << "Invalid Game Command" << endl;
@@ -262,8 +292,11 @@ bool Game::attemptMove(Move m) {
     }
     if (matchingMoves.size() > (int)1) {    // if there is more than 1 matching
         string promoteTo;                   // it is a promotion
-        bool keepGoing = true;
-        PieceType pType = PieceType::EMPTY;
+        
+        // move from algebraic notation would have promotion piece already
+        PieceType pType = m.promotedTo;//PieceType::EMPTY;
+        bool keepGoing = pType == PieceType::EMPTY;
+
         while(keepGoing) {
             cout << "Enter a valid promotion piece!" << endl;
             cin >> promoteTo;

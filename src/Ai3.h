@@ -7,9 +7,8 @@ class Ai3 : public Player {
     signed int checkBoardScore(Board*);
     signed int checkMostDetrimentalResponseScore(Board*);
     public:
-        Ai3(PieceColour p);
-        
-        Move getMove(Board*) override;
+        Ai3(PieceColour p);        
+        Move getMove(Board*, bool isWhiteToMove=true) override;
 };
 
 #endif

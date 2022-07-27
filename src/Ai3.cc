@@ -14,27 +14,7 @@ signed int Ai3::checkBoardScore(Board* b) {
         for(int j=0;j<(int)b->getBoard().at(i).size();j++) {
             Piece* pp = b->getBoard().at(i).at(j).piece.get();
             if (pp != nullptr) {
-                signed int pieceScore;
-                switch (pp->type()) {
-                    case PieceType::PAWN:
-                        pieceScore = 2;
-                        break;
-                    case PieceType::ROOK:
-                        pieceScore = 10;
-                        break;
-                    case PieceType::KNIGHT:
-                        pieceScore = 6;
-                        break;
-                    case PieceType::BISHOP:
-                        pieceScore = 6;
-                        break;
-                    case PieceType::QUEEN:
-                        pieceScore = 20;
-                        break;
-                    default:
-                        pieceScore = 0;
-                        break;
-                }
+                signed int pieceScore = abs(pp->getPoints(3,3));
                 if (pp->getIsWhite() == !color) { //true = 1 = Black its reversed
                     score = score + pieceScore;
                 } else {
@@ -81,7 +61,7 @@ signed int Ai3::checkMostDetrimentalResponseScore(Board* b) {
     return worstScore;
 }
 
-Move Ai3::getMove(Board* b) {
+Move Ai3::getMove(Board* b, bool isWhiteToMove){
     vector<Move> validMoves = b->getLegalMoves(!color);
     vector<Move> bestMoves;
     vector<signed int> points;

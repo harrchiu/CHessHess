@@ -34,3 +34,11 @@ PieceType King::type() {
 
 King::King(bool isWhite) : Piece(isWhite) {};
 King::~King(){};
+
+double King::getPoints(int r,int c) { 
+    double score = 9000;
+    score += abs(r - 3.5);    // away from centre
+    score += abs(c - 3.5);
+
+    return score * (getIsWhite() ? 1 : -1);
+};
