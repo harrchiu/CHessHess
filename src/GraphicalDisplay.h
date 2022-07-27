@@ -13,7 +13,6 @@ class GraphicalDisplay : public Display {
 
     public:
         GraphicalDisplay(int, int);
-        void setSquare(int, int, PieceType, bool) override;
         void display(State) override;
 };
 

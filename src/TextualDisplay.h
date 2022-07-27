@@ -9,7 +9,6 @@
 class TextualDisplay : public Display {
     public:
         TextualDisplay(int, int);
-        void setSquare(int, int, PieceType, bool) override;
         void display(State) override;
 };
 
