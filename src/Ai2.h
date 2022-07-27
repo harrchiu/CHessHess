@@ -6,9 +6,9 @@
 // Class to represent Ai - level 2
 class Ai2 : public Player {
     public:
-        Ai2(PieceColour p);
+        Ai2(PieceColour pair);
         
-        Move getMove(Board*) override;
+        Move getMove(Board*, bool isWhiteToMove=true) override;
 };
 
 #endif

@@ -8,7 +8,7 @@ class Ai4 : public Player {
     public:
         Ai4(PieceColour p);
         
-        Move getMove(Board*) override;
+        Move getMove(Board*, bool isWhiteToMove) override;
 };
 
 #endif

@@ -1,4 +1,6 @@
 #include <vector>
+#include <iostream>
+#include <math.h>
 #include "Piece.h"
 #include "Pawn.h"
 #include "PotentialMove.h"
@@ -45,3 +47,14 @@ Pawn::Pawn(bool isWhite) : Piece(isWhite) {};
 //DTOR
 Pawn::~Pawn(){};
 
+double Pawn::getPoints(int r,int c) { 
+    double score = 1;
+    int backRow = getIsWhite() ? 7 : 0;
+
+    int colApart = 3.5 - abs(3.5 - c);
+    int rowApart = abs(backRow-r);
+
+    score += pow(1.05, colApart + rowApart);
+
+    return score * (getIsWhite() ? 1 : -1);
+};

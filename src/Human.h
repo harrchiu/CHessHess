@@ -8,7 +8,7 @@ class Human : public Player {
     public:
         Human(PieceColour);
         
-        Move getMove(Board*) override;
+        Move getMove(Board*, bool isWhiteToMove=true) override;
 };
 
 #endif

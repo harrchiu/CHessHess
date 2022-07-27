@@ -1,0 +1,6 @@
+setup
++ K c3
++ Q e3
++ k a1
+done
+game ai4 h move

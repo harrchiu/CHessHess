@@ -33,7 +33,8 @@ class Piece {
             getMoveDirections() = 0;
         virtual PieceType type() = 0;
         bool getIsWhite();
-            
+        
+        virtual double getPoints(int,int); // for material imbalance
 };
 
 #endif

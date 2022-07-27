@@ -1,5 +1,6 @@
 #include <vector>
 #include "Piece.h"
+#include "math.h"
 #include "Queen.h"
 #include "PotentialMove.h"
 
@@ -40,3 +41,14 @@ PieceType Queen::type() {
 Queen::Queen(bool isWhite) : Piece(isWhite) {};
 // DTOR
 Queen::~Queen(){};
+
+double Queen::getPoints(int r,int c) { 
+    double score = 9.3;
+    int backRow = getIsWhite() ? 7 : 0;
+
+    int colApart = 3.5 - abs(3.5 - c);
+    int rowApart = abs(backRow-r);
+
+    score += pow(1.03, colApart + rowApart);
+    return score * (getIsWhite() ? 1 : -1);
+};

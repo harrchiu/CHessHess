@@ -1,0 +1,29 @@
+game
+h
+h
+an e4
+an e5
+an Nf3
+an Nc6
+an Nc3
+an Nf6
+an Bc4
+an Be7
+an O-O
+an d5
+an exd5
+an Nd4
+an d3
+an e4
+an Bh6
+an e3
+an Qd2
+an exd2
+an Rfe1
+an dxe1=N
+an Bb5
+an c6
+an Bxc6
+an bxc6
+an a3
+an Ndxc2

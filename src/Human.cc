@@ -10,8 +10,7 @@ using namespace std;
 // CTOR
 Human::Human(PieceColour p) : Player{p} {}
 
-// getMove - gets a move from cin
-Move Human::getMove(Board *b) {
+Move Human::getMove(Board* b, bool isWhiteToMove){
     string cols = "ABCDEFGH";
     string rows = "87654321";
     string startSquare;

@@ -10,7 +10,7 @@ using namespace std;
 Ai2::Ai2(PieceColour p) : Player{p} {}
 
 // getMove - gets a move from the AI to be performed
-Move Ai2::getMove(Board* b){
+Move Ai2::getMove(Board* b, bool isWhiteToMove){
     // gets a vector of valid moves from the board
     vector<Move> validMoves = b->getLegalMoves(!color);
     

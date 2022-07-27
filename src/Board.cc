@@ -278,10 +278,15 @@ void Board::applyMove(Move& m, bool updateDisplay) {
     grid.at(m.end.first).at(m.end.second).piece = 
         move(grid.at(m.start.first).at(m.start.second).piece);
     playedMoveList.push_back(m);
+    previousFENs.push_back(getFEN());
 
     if (updateDisplay){
         td.update(m);
         gd.update(m);
+        if (isThreeFold()){
+            cout << "*************************************" << endl;
+            cout << "Position has been reached three times." << endl;
+        }
     }
 }                   
 
@@ -291,6 +296,7 @@ bool Board::undoLastMove(bool updateDisplay){
     if (playedMoveList.empty()) return false;
     Move m = playedMoveList.back();
     playedMoveList.pop_back();
+    previousFENs.pop_back();
 
     // If CASTLE_Q, reverse the rook move 
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
@@ -454,4 +460,57 @@ void Board::printLegalMoves() {
         if (i != (int)blackMoves.size()-1) cout  << ", ";
     }
     cout << endl;
+}
+
+// get a shortened version of FEN string-representation of current board state
+string Board::getFEN() {
+    int prevEmpty = 0;
+    string s;
+
+    for (int r=0;r<rows;++r){
+        if (r != 0) s += '/';
+        for (int c=0;c<cols;++c){
+            if (grid[r][c].piece == nullptr){
+                ++prevEmpty;
+            }
+            else{
+                if (prevEmpty){
+                    s += '0' + prevEmpty;
+                    prevEmpty = 0;
+                }
+                char pc = Piece::letters[grid[r][c].piece->type()];
+                if (grid[r][c].piece->getIsWhite())
+                    s += toupper(pc);
+                else
+                    s += pc;
+            }
+        }
+        if (prevEmpty) {
+            s += '0' + prevEmpty;
+            prevEmpty = 0;
+        }
+    }
+
+    return s;
+}
+
+// check if the current position has been reached for the 3rd time or more
+bool Board::isThreeFold() {
+    if (previousFENs.empty()) return false;
+    string currentFEN = previousFENs.back();
+
+    int count = 1;
+    for (int i=previousFENs.size()-2;i>=0;--i){
+        if (previousFENs[i] == currentFEN){
+            if (++count == 3){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// put the initial position in previous FENs
+void Board::handleFENStart() {
+    previousFENs = {getFEN()};
 }

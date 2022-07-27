@@ -12,7 +12,7 @@ class Player {
         Player(PieceColour);
         virtual ~Player();
         
-        virtual Move getMove(Board*) = 0;
+        virtual Move getMove(Board*, bool isWhiteToMove = true) = 0;
 };
 
 #endif
