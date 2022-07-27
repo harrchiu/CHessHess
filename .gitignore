@@ -2,6 +2,9 @@
 .vscode/**/*
 !.vscode/settings.json
 
+# ignore mac stuff
+.DS_Store
+
 #ignore output files
 *.o
 *.d

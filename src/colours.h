@@ -3,12 +3,12 @@
 
 #include "sdl_wrap.h"
 
-extern const Colour BLACK{'\x0', '\x0', '\x0'};
-extern const Colour BLUE{'\x0', '\x0', '\xff'};
-extern const Colour GRAY{'\x0', '\x80', '\x80'};
-extern const Colour GREEN{'\x0', '\x80', '\x0'};
-extern const Colour PURPLE{'\x80', '\x0', '\x80'};
-extern const Colour RED{'\xff', '\x0', '\x0'};
-extern const Colour WHITE{'\xff','\xff','\xff'};
+extern const Colour Black{static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x0')};
+extern const Colour Blue{static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\xff')};
+extern const Colour Gray{static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x80'), static_cast<unsigned char>('\x80')};
+extern const Colour Green{static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x80'), static_cast<unsigned char>('\x0')};
+extern const Colour Purple{static_cast<unsigned char>('\x80'), static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x80')};
+extern const Colour Red{static_cast<unsigned char>('\xff'), static_cast<unsigned char>('\x0'), static_cast<unsigned char>('\x0')};
+extern const Colour White{static_cast<unsigned char>('\xff'),static_cast<unsigned char>('\xff'),static_cast<unsigned char>('\xff')};
 
 #endif

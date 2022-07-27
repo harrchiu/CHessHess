@@ -12,7 +12,7 @@ GraphicalDisplay::GraphicalDisplay(int rows, int cols)
         : Display{rows, cols}, w{400}, h{400}, mh{100}, dw{w/cols}, dh{h/rows}, screen{Screen{w,h+mh}} {
     for (auto y = 0; y < rows; ++y) {
         for (auto x = 0; x < cols; ++x) {
-            screen.draw_rect(x * dw, y * dh, dw, dh, (x+y) % 2 == 0 ? WHITE : BLACK);
+            screen.draw_rect(x * dw, y * dh, dw, dh, (x+y) % 2 == 0 ? White : Black);
         }
     }
 
@@ -32,7 +32,7 @@ GraphicalDisplay::GraphicalDisplay(int rows, int cols)
 
 void GraphicalDisplay::setSquare(int r, int c, PieceType p, bool isWhite) {
     if (p == PieceType::EMPTY) {
-        screen.draw_rect(c * dw, r * dh, dw, dh, (r+c) % 2 == 0 ? WHITE : BLACK);
+        screen.draw_rect(c * dw, r * dh, dw, dh, (r+c) % 2 == 0 ? White : Black);
     } else {
         char piece = Piece::letters[p];
         if (isWhite) piece = static_cast<char>(toupper(piece));
