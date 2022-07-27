@@ -64,6 +64,9 @@
     "unordered_map": "cpp",
     "*.tcc": "cpp",
     "random": "cpp",
-    "__availability": "cpp"
+    "__availability": "cpp",
+    "compare": "cpp",
+    "concepts": "cpp",
+    "variant": "cpp"
   }
 }

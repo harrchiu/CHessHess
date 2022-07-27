@@ -1,10 +1,28 @@
 #include "Display.h"
 
+using namespace std;
+
 // CTOR
-Display::Display(int rows, int cols) : rows{rows}, cols{cols} {}
+Display::Display(int rows, int cols) : rows{rows}, cols{cols}, displayGrid{vector<vector<char>>()} {
+    for (auto i = 0; i < rows; ++i) {
+        displayGrid.emplace_back();
+        for (auto j = 0; j < cols; ++j) {
+            displayGrid[i].push_back((i + j) % 2 == 0 ? ' ' : '_');
+        }
+    }
+}
 
 // DTOR
 Display::~Display() {}
+
+void Display::setSquare(int r, int c, PieceType p, bool isWhite) {
+    if (p == PieceType::EMPTY) {
+        displayGrid[r][c] = (r + c) % 2 == 0 ? ' ' : '_';
+    } else {
+        char piece = Piece::letters[p];
+        displayGrid[r][c] = isWhite ? static_cast<char>(toupper(piece)) : piece;
+    }
+}
 
 void Display::update(const Move &m) {
     // special cases

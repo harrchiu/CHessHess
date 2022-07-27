@@ -7,8 +7,6 @@
 
 // class to represent a textual display
 class TextualDisplay : public Display {
-    std::vector<std::vector<char>> displayGrid;
-
     public:
         TextualDisplay(int, int);
         void setSquare(int, int, PieceType, bool) override;

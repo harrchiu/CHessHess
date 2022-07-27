@@ -9,13 +9,7 @@
 using namespace std;
 
 GraphicalDisplay::GraphicalDisplay(int rows, int cols) 
-        : Display{rows, cols}, w{400}, h{400}, mh{100}, dw{w/cols}, dh{h/rows}, screen{Screen{w,h+mh}} {
-    for (auto y = 0; y < rows; ++y) {
-        for (auto x = 0; x < cols; ++x) {
-            screen.draw_rect(x * dw, y * dh, dw, dh, (x+y) % 2 == 0 ? White : Black);
-        }
-    }
-
+        : Display{rows, cols}, w{480}, h{480}, mh{60}, dw{w/cols}, dh{h/rows}, screen{Screen{w,h+mh}} {
     screen.add_img("P", "imgs/Chess_plt60.png");
     screen.add_img("p", "imgs/Chess_pdt60.png");
     screen.add_img("B", "imgs/Chess_blt60.png");
@@ -29,17 +23,25 @@ GraphicalDisplay::GraphicalDisplay(int rows, int cols)
     screen.add_img("K", "imgs/Chess_klt60.png");
     screen.add_img("k", "imgs/Chess_kdt60.png");
 }
-
-void GraphicalDisplay::setSquare(int r, int c, PieceType p, bool isWhite) {
-    if (p == PieceType::EMPTY) {
-        screen.draw_rect(c * dw, r * dh, dw, dh, (r+c) % 2 == 0 ? White : Black);
-    } else {
-        char piece = Piece::letters[p];
-        if (isWhite) piece = static_cast<char>(toupper(piece));
-        screen.draw_img(string{piece}, c * dw, r * dh);
-    }
-}
     
 void GraphicalDisplay::display(State s) {
+    // draw board
+    for (auto y = 0; y < rows; ++y) {
+        for (auto x = 0; x < cols; ++x) {
+            char square = displayGrid[y][x];
+            if (square == ' ') {
+                screen.draw_rect(x * dw, y * dh, dw, dh, White);    
+            } else if (square == '_') {
+                screen.draw_rect(x * dw, y * dh, dw, dh, Black);
+            } else {
+                screen.draw_rect(x * dw, y * dh, dw, dh, (x + y) % 2 == 0 ? White : Black);
+                screen.draw_img(string{square}, x * dw, y * dh);
+            }
+        }
+    }
+    // draw message
+    screen.draw_rect(0, h, w, mh, White);
+    screen.draw_string("Hi!", 0, h + mh/2, Black);
+
     screen.update();
 }

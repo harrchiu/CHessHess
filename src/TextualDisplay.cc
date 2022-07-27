@@ -7,24 +7,7 @@
 using namespace std;
 
 // CTOR
-TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols}, displayGrid{vector<vector<char>>()} {
-    for (auto i = 0; i < rows; ++i) {
-        displayGrid.emplace_back();
-        for (auto j = 0; j < cols; ++j) {
-            displayGrid[i].push_back((i + j) % 2 == 0 ? ' ' : '_');
-        }
-    }
-}
-
-// setSquare - sets the square at (r,c) to own a piece
-void TextualDisplay::setSquare(int r, int c, PieceType p, bool isWhite) {
-    if (p == PieceType::EMPTY) {
-        displayGrid[r][c] = (r + c) % 2 == 0 ? ' ' : '_';
-    } else {
-        char piece = Piece::letters[p];
-        displayGrid[r][c] = isWhite ? static_cast<char>(toupper(piece)) : piece;
-    }
-}
+TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols} {}
     
 // display - displays the grid and state
 void TextualDisplay::display(State s) {
