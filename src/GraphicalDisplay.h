@@ -5,6 +5,7 @@
 #include "State.h"
 #include "sdl_wrap.h"
 
+//class to represent a graphical display
 class GraphicalDisplay : public Display {
     int w, h, mh;
     int dw, dh;

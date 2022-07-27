@@ -5,7 +5,7 @@
 #include "Piece.h"
 #include "PotentialMove.h"
 
-
+// class to represent a Rook Piece
 class Rook : public Piece {
     public:
         Rook(bool);

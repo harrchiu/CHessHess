@@ -5,14 +5,18 @@
 
 using namespace std;
 
+// getMoveDirections - returns all potential moves a bishop piece can perform
 vector<vector<PotentialMove>> Bishop::getMoveDirections(){
     vector<vector<PotentialMove>> pMoves(4);
     
+    // If the piece is one colour, the destination square can be a piece
+    // from the other colour but not the pieces colour.
     bool dEmpty = true;
     bool dWhite = !getIsWhite();
     bool dBlack = getIsWhite();
     MoveType mt = MoveType::NORMAL;
 
+    // add a potential move for every square in every diagonal direction
     for (int i=1;i<=7;++i){
          // bishop
         pMoves[0].push_back(PotentialMove(i,i,  dEmpty,dWhite,dBlack,mt));
@@ -22,17 +26,14 @@ vector<vector<PotentialMove>> Bishop::getMoveDirections(){
     }
 
     return pMoves;
-    // return {
-    //     {{1,1},{2,2},{3,3},{4,4},{5,5},{6,6},{7,7}},
-    //     {{-1,1},{-2,2},{-3,3},{-4,4},{-5,5},{-6,6},{-7,7}},
-    //     {{1,-1},{2,-2},{3,-3},{4,-4},{5,-5},{6,-6},{7,-7}},
-    //     {{-1,-1},{-2,-2},{-3,-3},{-4,-4},{-5,-5},{-6,-6},{-7,-7}},
-    // };
 };
 
+// type - returns the BISHOP type
 PieceType Bishop::type() {
     return PieceType::BISHOP;
 };
 
+//CTOR
 Bishop::Bishop(bool isWhite) : Piece(isWhite) {};
+//DTOR
 Bishop::~Bishop(){};

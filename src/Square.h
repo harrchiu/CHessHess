@@ -4,6 +4,7 @@
 #include "Piece.h"
 #include <memory>
 
+// class to represent a square on a chess board
 class Square {
         int row, col;
     public:

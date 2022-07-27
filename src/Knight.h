@@ -5,6 +5,7 @@
 #include "Piece.h"
 #include "PotentialMove.h"
 
+// class to represent a Knight Piece
 class Knight : public Piece {
     public:
         Knight(bool);

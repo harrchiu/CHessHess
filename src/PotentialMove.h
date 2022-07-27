@@ -3,8 +3,8 @@
 
 #include <utility>
 
-// describe the move's requirement
-// normally only depends on destination square
+
+//enum for the types of moves
 enum MoveType {
     NORMAL,
     CASTLE_Q_SIDE,
@@ -14,6 +14,9 @@ enum MoveType {
     PROMOTION,
 };
 
+// class to represent the potential things a chess piece can do.
+// describe the move's requirement ( if destination must be an empty square,
+// black piece or white piece etc.) and its type
 class PotentialMove {
     public:
         int rowMov, colMov;

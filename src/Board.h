@@ -10,6 +10,7 @@
 #include "GraphicalDisplay.h"
 #include "Piece.h"
 
+//Class to represent the chess board
 class Board {
     int rows, cols;
     TextualDisplay td;
@@ -23,7 +24,6 @@ class Board {
     
     public:
         Board(int, int);
-        // Board(const Board&);    // l-value copy (deep copy)
         ~Board();
         
         std::vector<Move> playedMoveList = {};

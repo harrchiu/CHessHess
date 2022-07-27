@@ -10,13 +10,14 @@
 
 using namespace std;
 
-// Square::Square(int row, int col, Piece p) : row{row}, col{col}, 
-//     piece{unique_ptr<int> new Piece(p)} {};
+// CTOR
 Square::Square(int& row, int& col, Piece* p) 
     : row{row}, col{col}, piece{move(p)} {}
 
+// DTOR
 Square::~Square() {}
 
+// CCTOR
 Square::Square(const Square& o) : row{o.row}, col{o.col} {
     Piece* o_piece = o.piece.get();
     if (o_piece == nullptr){

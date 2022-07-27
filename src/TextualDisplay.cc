@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// CTOR
 TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols}, displayGrid{vector<vector<char>>()} {
     for (auto i = 0; i < rows; ++i) {
         displayGrid.emplace_back();
@@ -15,6 +16,7 @@ TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols}, displa
     }
 }
 
+// setSquare - sets the square at (r,c) to own a piece
 void TextualDisplay::setSquare(int r, int c, PieceType p, bool isWhite) {
     if (p == PieceType::EMPTY) {
         displayGrid[r][c] = (r + c) % 2 == 0 ? ' ' : '_';
@@ -24,6 +26,7 @@ void TextualDisplay::setSquare(int r, int c, PieceType p, bool isWhite) {
     }
 }
     
+// display - displays the grid and state
 void TextualDisplay::display(State s) {
     for (int i = 0; i < rows; ++i) {
         cout << rows - i << ' ';

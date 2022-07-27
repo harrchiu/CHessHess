@@ -5,9 +5,12 @@
 #include <vector>
 #include "PotentialMove.h" 
 
+// enum for piece colours
 enum PieceColour { WHITE=0, BLACK=1 };
+// enum for piece types
 enum PieceType { PAWN=0, ROOK=1, KNIGHT=2, BISHOP=3, QUEEN=4, KING=5, EMPTY=6 };
  
+// class to represent a chess piece
 class Piece {
     bool isWhite = false;
     public:
@@ -25,6 +28,7 @@ class Piece {
 
             • wonky pieces use one inner vector per move (king, knight, pawn)
         */
+       
         virtual std::vector<std::vector<PotentialMove>> 
             getMoveDirections() = 0;
         virtual PieceType type() = 0;
