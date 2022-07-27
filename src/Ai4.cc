@@ -71,7 +71,6 @@ Move Ai4::getMove(Board* b, bool isWhiteToMove){
     // find the move that has the best score
     for (int i=0;i<(int)scores.size();++i){
         if (abs(scores[i] - bestScore) < 0.01){ // address float error
-            cout << legalMoves[i];
             return legalMoves[i];
         }
     }
