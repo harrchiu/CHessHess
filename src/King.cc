@@ -1,4 +1,5 @@
 #include <vector>
+#include <math.h>
 #include "Piece.h"
 #include "King.h"
 #include "PotentialMove.h"
