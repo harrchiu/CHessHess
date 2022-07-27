@@ -12,10 +12,10 @@ Ai1::Ai1(PieceColour p) : Player{p} {}
 // getMove - gets a move from the AI to be performed
 Move Ai1::getMove(Board* b, bool isWhiteToMove){
     // Gets a vector of valid moves from the board based on player colour
-    bool isWhiteToMove = false;
-    if (color == PieceColour::WHITE) {
-        isWhiteToMove = true;
-    }
+    // bool isWhiteToMove = false;
+    // if (color == PieceColour::WHITE) {
+    //     isWhiteToMove = true;
+    // }
     vector<Move> validMoves = b->getLegalMoves(isWhiteToMove);
 
     // Returns a random move from the vector
