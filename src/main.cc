@@ -22,34 +22,30 @@ int main() {
     string s;
     Outcome outcome;
 
-    // TODO: how to end a game
-    while (cin >> s) {		// match
+    while (true) {		// match
         Board b(8,8);		// initialize a default board
         Game g(&b);  
+        cout << "Play a game of chess!" << endl;
 
-        // TODO: have some output to say
-        // cout << "Welcome to chess!" << endl;
-        // cout << "White: " << score
-        // cout << "Black: " << score
-        // cout << endl
-        // cout << "Enter "setup" to set up a custom board, or "game" to start a game"
-        
         while (s != "game") {
+            cout << "Input options:" << endl
+                    << "- setup (to set up a custom board)" << endl
+                    << "- game (to start a game)" << endl;
+
+            cin >> s;
             if (s == "setup") {
                 g.setup();
                 didSetup = true;
-
-            //    b.printLegalMoves();
+                g.display();
             }
-            g.display();
-            cin >> s;
         }
 
         string whitePlayer;
         string blackPlayer;
         bool keepGoing = true;
         if (!didSetup) {
-            b.setupInitialPosition();   // TODO: replace with g.setupInitialGameState() or sth
+            b.setupInitialPosition();
+            g.display();
         }
 
         //set white player
@@ -127,6 +123,9 @@ int main() {
             default:
                 break;
         }
+
+        cout << endl << "Play again?" << endl << "Enter q to quit or any other key to continue: ";
+        if (!(cin >> s) || s == "q") break;
     }
 
     cout << "Final Score:" << endl;

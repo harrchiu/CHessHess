@@ -8,8 +8,10 @@
 
 using namespace std;
 
+// CTOR
 GraphicalDisplay::GraphicalDisplay(int rows, int cols) 
         : Display{rows, cols}, w{480}, h{480}, rankw{20}, fileh{20}, messageh{60}, dw{w/cols}, dh{h/rows}, screen{Screen{w+rankw,h+fileh+messageh}} {
+    // add images of pieces that could be drawn
     screen.add_img("P", "graphics/Chess_plt60.png");
     screen.add_img("p", "graphics/Chess_pdt60.png");
     screen.add_img("B", "graphics/Chess_blt60.png");
@@ -23,7 +25,8 @@ GraphicalDisplay::GraphicalDisplay(int rows, int cols)
     screen.add_img("K", "graphics/Chess_klt60.png");
     screen.add_img("k", "graphics/Chess_kdt60.png");
 }
-    
+
+// display - draws board to SDL screen
 void GraphicalDisplay::display(State s) {
     // draw board
     screen.draw_rect(0, 0, w + rankw, h + fileh + messageh, White);

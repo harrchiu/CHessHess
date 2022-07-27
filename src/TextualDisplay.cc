@@ -11,6 +11,7 @@ TextualDisplay::TextualDisplay(int rows, int cols) : Display{rows, cols} {}
     
 // display - displays the grid and state
 void TextualDisplay::display(State s) {
+    // basic character output of board
     for (int i = 0; i < rows; ++i) {
         cout << rows - i << ' ';
         for (int j = 0; j < cols; ++j) {
@@ -20,6 +21,7 @@ void TextualDisplay::display(State s) {
     }
     cout << endl << "  abcdefgh" << endl;
     
+    // special messages
     if (s == State::WHITE_CHECK) cout << endl << "White is in check." << endl;
     else if (s == State::BLACK_CHECK) cout << endl << "Black is in check." << endl;
     else if (s == State::WHITE_WIN) cout << endl << "Checkmate! White wins!" << endl;
