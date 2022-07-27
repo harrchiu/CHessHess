@@ -144,7 +144,7 @@ void Game::setup() {
 
 // strcmpNoCase - compares two strings without considering case
 bool strcmpNoCase(string& a, string &b){
-    for (int i=0;i<min(a.length(),b.length());++i){
+    for (int i=0;i< static_cast<int>(min(a.length(),b.length()));++i){
         if (toupper(a[i]) != toupper(b[i]))
             return false;
     }

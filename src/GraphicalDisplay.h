@@ -7,7 +7,8 @@
 
 //class to represent a graphical display
 class GraphicalDisplay : public Display {
-    int w, h, mh;
+    int w, h;
+    int rankw, fileh, messageh;
     int dw, dh;
     Screen screen;
 

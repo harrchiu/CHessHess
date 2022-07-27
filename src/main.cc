@@ -116,11 +116,14 @@ int main() {
         switch (outcome) {
             case Outcome::BLACK_VICTORY:
                 ++blackWins;
+                break;
             case Outcome::WHITE_VICTORY:
                 ++whiteWins;
+                break;
             case Outcome::TIE:
                 whiteWins += 0.5;
                 blackWins += 0.5;
+                break;
             default:
                 break;
         }
