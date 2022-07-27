@@ -5,6 +5,7 @@
 #include "Piece.h"
 #include "PotentialMove.h"
 
+// class to represent a Pawn Piece
 class Pawn : public Piece {
     public: 
         Pawn(bool);

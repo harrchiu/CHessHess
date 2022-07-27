@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// CTOR
 Human::Human(PieceColour p) : Player{p} {}
 
 Move Human::getMove(Board* b, bool isWhiteToMove){
@@ -17,6 +18,7 @@ Move Human::getMove(Board* b, bool isWhiteToMove){
     size_t c,r,x2,y2;
     bool validSquare = false;
     
+    // get a valid start square
     while (!validSquare) {
         cin >> startSquare;
         // descriptive notation ("e2 ...")
@@ -30,6 +32,7 @@ Move Human::getMove(Board* b, bool isWhiteToMove){
             }
         }
     }
+    // get a valid end square
     validSquare = false;
     while (!validSquare) {
         cin >> endSquare;

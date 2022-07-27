@@ -1,5 +1,6 @@
 #include "PotentialMove.h"
 
+// CTOR
 PotentialMove::PotentialMove(int r, int c, bool canBeEmpty, bool canBeWhite,
     bool canBeBlack, MoveType mt) : 
     rowMov{r}, colMov{c}, canDestBeEmpty{canBeEmpty}, 

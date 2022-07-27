@@ -3,6 +3,7 @@
 
 #include "Player.h" 
 
+// Class to represent Ai - level 2
 class Ai2 : public Player {
     public:
         Ai2(PieceColour pair);

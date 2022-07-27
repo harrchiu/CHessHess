@@ -8,6 +8,7 @@ using namespace std;
 
 const int init_depth = 4;
 
+//CTOR
 Ai4::Ai4(PieceColour p) : Player{p} {}
 
 // evaluate the board with a numeric value

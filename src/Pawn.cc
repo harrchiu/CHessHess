@@ -7,7 +7,9 @@
 
 using namespace std;
 
+// getMoveDirections - returns all potential moves a pawn can perform
 vector<vector<PotentialMove>> Pawn::getMoveDirections() {
+
     // "white moves up the board" = smaller row
     int vertDir = getIsWhite() ? -1 : 1;
     bool dWhite = !getIsWhite();
@@ -35,11 +37,14 @@ vector<vector<PotentialMove>> Pawn::getMoveDirections() {
     return pMoves;
 };
 
+// type - returns PAWN type
 PieceType Pawn::type() {
     return PieceType::PAWN;
 };
 
+//CTOR
 Pawn::Pawn(bool isWhite) : Piece(isWhite) {};
+//DTOR
 Pawn::~Pawn(){};
 
 double Pawn::getPoints(int r,int c) { 

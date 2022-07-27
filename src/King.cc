@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// getMoveDirections - gets all potential moves a king can perform
 vector<vector<PotentialMove>> King::getMoveDirections() {
     vector<pair<int,int>> king_disp = { {1,0},{-1,0},{0,1},{0,-1},
         {1,1},{-1,1},{1,-1},{-1,-1} };
@@ -28,6 +29,7 @@ vector<vector<PotentialMove>> King::getMoveDirections() {
     return pMoves;  
 };
 
+// type - returns KING type
 PieceType King::type() {
     return PieceType::KING;
 };

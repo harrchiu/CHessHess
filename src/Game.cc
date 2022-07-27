@@ -17,10 +17,13 @@
 
 using namespace std;
 
+// CTOR
 Game::Game(Board *b) : isWhiteToMove{true}, board{b} {}
 
+// DTOR
 Game::~Game(){}
 
+// setup - runs the entire setup mode process
 void Game::setup() {
     string cmd;
     bool keepGoing = true;
@@ -35,12 +38,12 @@ void Game::setup() {
         // + Add Piece Case
         if (cmd == "+") {
             cin >> inPiece;
-            //Check Valid Piece (Add Piece Case will end if not valid)
+            // Check Valid Piece (Add Piece Case will end if not valid)
             if (validPieces.find(toupper(inPiece)) != string::npos) {
                 PieceType pieceType = (PieceType) validPieces.find(toupper(inPiece));
                 bool isWhite = inPiece == toupper(inPiece);
 
-                //Check Valid Square
+                // Check Valid Square
                 cin >> inSquare;
                 if (inSquare.length() == 2) {
                     size_t c = cols.find(toupper(inSquare[0]));
@@ -59,7 +62,7 @@ void Game::setup() {
             }
         // - Remove Piece Case
         } else if (cmd == "-") {
-            //Check Valid Square
+            // Check Valid Square
             cin >> inSquare;
             if (inSquare.length() == 2) {
                 size_t c = cols.find(toupper(inSquare[0]));
@@ -73,6 +76,7 @@ void Game::setup() {
             } else {
                 cout << "Invalid Square" << endl;
             }
+        // = set colour Case
         } else if (cmd == "=") {
             string colour;
             cin >> colour;
@@ -111,7 +115,7 @@ void Game::setup() {
                 cout << "Board must contain EXACTLY one black king" << endl;
                 keepGoing = true;
             }
-            //Check for pawns in first and last row
+            //Check for no pawns in first and last row
             for (Square &square : board->getBoard().at(0)) {
                 if (square.piece && square.piece->type() == PieceType::PAWN){
                     cout << "Pawns cannot be in first row" << endl;
@@ -138,25 +142,29 @@ void Game::setup() {
     }    
 }
 
+// strcmpNoCase - compares two strings without considering case
 bool strcmpNoCase(string& a, string &b){
-    for (int i=0;i<min(a.length(),b.length());++i){
+    for (int i=0;i< static_cast<int>(min(a.length(),b.length()));++i){
         if (toupper(a[i]) != toupper(b[i]))
             return false;
     }
     return a.length() == b.length();
 }
 
+// setPlayer - attachs a player to the game
 void Game::setPlayer(PieceColour c, unique_ptr<Player> p) {
     players[c] = move(p);
 };
 
+// playGame - continuously asks for moves from both players, applying and 
+// displaying them until the game is over. Returns the Outcome of the game
 Outcome Game::playGame() {
     board->handleFENStart();     // setup initial FEN history
 
     cout << "Let's Play!" << endl;
     string cmd;
     while (true) {
-        // TODO: move this to end of loop?
+        // Check if game is over
         if (board->getLegalMoves(isWhiteToMove).size() == 0) {
             if (board->isCheck(isWhiteToMove)) {
                 if (isWhiteToMove) {
@@ -168,17 +176,19 @@ Outcome Game::playGame() {
                 return Outcome::TIE;
             }
         }
-
-        // TODO: output of (WHITE or BLACK) to play. Player options:
-        // - move <start square> <end square>
-        // - undo
-        // - resign
         
-        // cout << "scooby dooby doo --- \n";
-        // board->printLegalMoves();   // TODO: harrison remove this
+        // Output turn instructions
+        cout << (isWhiteToMove ? "WHITE" : "BLACK") 
+                <<  " to play. Player options:" << endl
+                << "- move <start square> <end square>" << endl
+                << "- undo" << endl
+                << "- resign" << endl;
+        cout << "command: ";
 
         cin >> cmd;
+        // Command case : move 
         if (cmd == "move") {
+            // get move from current player
             Player* curPlayer;
             if (isWhiteToMove) {
                 curPlayer = players[0].get();
@@ -191,6 +201,7 @@ Outcome Game::playGame() {
                 isWhiteToMove = !isWhiteToMove;
                 cout << playerMove << " was played!" << endl;
                 display();
+            // retry if not valid
             } else {
                 cout << "Move was not valid!" << endl;
             }
@@ -224,6 +235,8 @@ Outcome Game::playGame() {
                 cout << "Move was not valid!" << endl;
             }
         }
+        // Command case : resign
+        // end the game and return the correct outcome
         else if (cmd == "resign") {
             if (isWhiteToMove) {
                 display(State::WHITE_RESIGN);   
@@ -232,6 +245,8 @@ Outcome Game::playGame() {
                 display(State::BLACK_RESIGN);  
                 return Outcome::WHITE_VICTORY;
             }
+        // Command case : undo
+        // undo the last move if there is one.
         } else if (cmd == "undo") {
             if (board->undoLastMove(true)) {
                 isWhiteToMove = !isWhiteToMove;
@@ -241,14 +256,17 @@ Outcome Game::playGame() {
                 cout << "No move to undo!" << endl;
             }
         } 
+        // Command case : legal
         // print legal moves for both sides
         else if (cmd == "legal"){
             board->printLegalMoves();
         }
+        // Command case : fen
         // print shortened-FEN for current board state
         else if (cmd == "fen"){
             cout << board->getFEN() << endl;
         }
+        // Command case : history
         // print all played moves in algebraic notation
         else if (cmd == "history"){
             int n = (int) board->playedMoveList.size();
@@ -271,27 +289,34 @@ Outcome Game::playGame() {
         else if (cmd == "display"){
             display();
         }
+        // Command case : INVALID
         else {
             cout << "Invalid Game Command" << endl;
         }
     }
 }
 
+// attemptMove - see if move m is valid, apply to board if it is.
+// returns whether or not the move was applied.
 bool Game::attemptMove(Move m) {
     vector<Move> validMoves = board->getLegalMoves(isWhiteToMove);
     vector<Move> matchingMoves;
 
-    for(int i=0;i<(int)validMoves.size();++i) { //check how many match
+    //check how many valid moves match start/end square
+    for(int i=0;i<(int)validMoves.size();++i) { 
         if (validMoves[i].start == m.start && validMoves[i].end == m.end) {
             matchingMoves.push_back(validMoves[i]);
         }
     }
-    if (matchingMoves.size() == (int)1) {   // only 1 matching apply it
+    // ifonly 1 is matching, apply it
+    if (matchingMoves.size() == (int)1) {   
         board->applyMove(matchingMoves.at(0),true);
         return true;
     }
-    if (matchingMoves.size() > (int)1) {    // if there is more than 1 matching
-        string promoteTo;                   // it is a promotion
+    // if there is more than 1 matching
+    // it is a promotion, get the promotion piece from cin and apply
+    if (matchingMoves.size() > (int)1) {    
+        string promoteTo;                   
         
         // move from algebraic notation would have promotion piece already
         PieceType pType = m.promotedTo;//PieceType::EMPTY;
@@ -331,10 +356,13 @@ bool Game::attemptMove(Move m) {
     return false;
 }
 
-void Game::display(State s) { //can send resign state
+// display - displays 
+void Game::display(State s) {
     bool inCheck = board->isCheck(isWhiteToMove);
     bool noValidMoves = board->getLegalMoves(isWhiteToMove).size() == 0;
     
+    // calculate the state based on inCheck, if there are valid moves,
+    // and who's turn it is
     State state;
     if (s != State::REGULAR) {
         state = s;
@@ -361,6 +389,8 @@ void Game::display(State s) { //can send resign state
             }
         }
     }
+
+    //display the board with that state
     board->display(state);
 }
 

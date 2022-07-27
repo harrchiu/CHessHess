@@ -4,6 +4,7 @@
 #include "Move.h" 
 #include "Board.h"
 
+// class to represent a chess player
 class Player {
     protected:
         PieceColour color;

@@ -3,8 +3,9 @@
 
 #include "Player.h" 
 
+// Class to represent Ai - level 3
 class Ai3 : public Player {
-    signed int checkBoardScore(Board*);
+    signed int checkBoardScore(Board*); 
     signed int checkMostDetrimentalResponseScore(Board*);
     public:
         Ai3(PieceColour p);        

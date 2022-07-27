@@ -3,18 +3,20 @@
 
 #include "Move.h"
 #include "State.h"
+#include <vector>
 
+// class to represent displays
 class Display {
     protected:
-        const int rows, cols;      
+        const int rows, cols;
+        std::vector<std::vector<char>> displayGrid;
     public:
         Display(int, int);
         virtual ~Display();
-
-        virtual void update(const Move &) = 0;
+        void setSquare(int, int, PieceType, bool);
+        void update(const Move &);
+        void restore(const Move &);
         virtual void display(State s) = 0;
-        virtual void setSquare(int, int, PieceType, bool) = 0;
-        virtual void restore(const Move &) = 0;
 };
 
 #endif

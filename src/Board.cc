@@ -19,8 +19,10 @@
 
 using namespace std;
 
-// initialize board to empty position
-Board::Board(int rows, int cols) : rows{rows}, cols{cols}, td{TextualDisplay{rows, cols}}, gd{GraphicalDisplay{rows, cols}} {
+// CTOR - initialize board to empty position
+Board::Board(int rows, int cols) :  rows{rows}, cols{cols}, 
+                                    td{TextualDisplay{rows, cols}}, 
+                                    gd{GraphicalDisplay{rows, cols}} {
     for (int i=0;i<rows;++i){
         vector<Square> cRow;
         for (int j=0;j<cols;++j){
@@ -30,22 +32,8 @@ Board::Board(int rows, int cols) : rows{rows}, cols{cols}, td{TextualDisplay{row
     }
 }
 
-// l-value/deep copy ctor
-// Board::Board(const Board& o) : rows{o.rows}, cols{o.cols} {
-//     for (int i=0;i<rows;++i){
-//         vector<Square> cRow;
-//         for (int j=0;j<cols;++j){
-//             Piece* copyPiece = nullptr;
-//             if (grid[i][j].piece){
-//                 copyPiece = new Piece(grid[i][j].piece);
-//             }
-//             cRow.push_back(Square(i,j,copyPiece));
-//         }
-//         grid.push_back(cRow);
-//     }
-// }
-
 // assume board is empty (not deleting pieces)
+// setupInitialPosition - sets the default board configuration
 void Board::setupInitialPosition() {
     // pawns
     for (int c=0;c<8;++c){
@@ -66,19 +54,12 @@ void Board::setupInitialPosition() {
     }
 }
 
-Board::~Board() {
-    // changed to unique ptr so not necessary?
+// DTOR
+Board::~Board() {}
 
-    // for (int i=0;i<rows;++i){
-    //     for (int j=0;j<cols;++j){
-    //         if (grid[i][j].piece){
-    //             delete grid[i][j].piece;
-    //         }
-    //     }
-    // }
-}
+// helper methods /////////////////////////////////////////
 
-// helper methods
+// getKingCoords - gets the coords of the king
 std::pair<int,int> Board::getKingCoords(bool isKingWhite) {
     for (int r=0;r<rows;++r){
         for (int c=0;c<cols;++c){
@@ -92,10 +73,13 @@ std::pair<int,int> Board::getKingCoords(bool isKingWhite) {
     return {-1,-1};
 }
 
+// isOnBoard - checks if square is in bounds of board
 bool Board::isOnBoard(const int r, const int c){
     return r >= 0 && c >= 0 && r < rows && c < cols;
 }
 
+// getMoves - gets all the moves that can be performed on the board
+// (not necessarily valid)
 vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
     vector<Move> moves;
 
@@ -229,7 +213,7 @@ vector<Move> Board::getMoves(bool isWhiteToMove, bool disableCastle) {
     return moves;
 }
 
-// here we go
+// getLegalMoves - gets all moves that can be validly performed
 vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
     vector<Move> moves = getMoves(isWhiteToMove);
     vector<Move> legalMoves = {};
@@ -247,6 +231,7 @@ vector<Move> Board::getLegalMoves(bool isWhiteToMove) {
 }
 
 // precondition: move is valid
+// applyMove - applies a move to the board
 void Board::applyMove(Move& m, bool updateDisplay) {
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
         grid.at(m.start.first).at(3).piece = 
@@ -306,39 +291,40 @@ void Board::applyMove(Move& m, bool updateDisplay) {
 }                   
 
 // returns whether a move was successfully undone
+// undoLastMove - undoes the last move applied
 bool Board::undoLastMove(bool updateDisplay){
     if (playedMoveList.empty()) return false;
     Move m = playedMoveList.back();
     playedMoveList.pop_back();
     previousFENs.pop_back();
 
-    //If CASTLE_Q, reverse the rook move 
+    // If CASTLE_Q, reverse the rook move 
     if (m.moveType == MoveType::CASTLE_Q_SIDE) {
         grid.at(m.start.first).at(0).piece = 
             move(grid.at(m.start.first).at(3).piece);
-    //If CASTLE_K, reverse the rook move
+    // If CASTLE_K, reverse the rook move
     } else if (m.moveType == MoveType::CASTLE_K_SIDE) {
         grid.at(m.start.first).at(7).piece = 
             move(grid.at(m.start.first).at(5).piece);
-    //If EN_PASSANT, add the taken pawn back
+    // If EN_PASSANT, add the taken pawn back
     } else if (m.moveType == MoveType::EN_PASSANT) {
         grid.at(m.start.first).at(m.end.second).piece = 
             make_unique<Pawn>(!grid
                                 .at(m.end.first)
                                 .at(m.end.second).piece->getIsWhite()); 
                                     // not the colour of the attacking piece
-    //If PROMOTE, change the piece back to a pawn
+    // If PROMOTE, change the piece back to a pawn
     } else if (m.moveType == MoveType::PROMOTION) {     // smart!
         grid.at(m.end.first).at(m.end.second).piece = 
             make_unique<Pawn>(grid
                             .at(m.end.first)
                             .at(m.end.second).piece->getIsWhite());
     } 
-    //Move the piece at end back to start square
+    // Move the piece at end back to start square
     grid.at(m.start.first).at(m.start.second).piece =
          move(grid.at(m.end.first).at(m.end.second).piece);
-    //If a piece was captured not through en_passent, add it back to the 
-    //end square
+    // If a piece was captured not through en_passent, add it back to the 
+    // end square
     if (m.capturedPiece != PieceType::EMPTY && m.moveType != MoveType::EN_PASSANT) {
         // m.moveType == MoveType::PROMOTION
         unique_ptr<Piece> p;
@@ -376,6 +362,7 @@ bool Board::undoLastMove(bool updateDisplay){
     return true;
 }
 
+// setSquare - sets a square to a specific piece
 void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {
     unique_ptr<Piece> myPiece;
     switch (pType) {
@@ -406,12 +393,13 @@ void Board::setSquare(int r, int c, PieceType pType, bool isWhite) {
     gd.setSquare(r, c, pType, isWhite);
 }
 
+// getBoard - returns the grid
 vector<vector<Square>>& Board::getBoard() {
     return grid;
 }
 
-// go through all opponent (including illegal) moves and check if they
-// capture the king
+// isCheck - go through all opponent (including illegal) moves and check if 
+// they capture the king
 bool Board::isCheck(bool isSideWhite, bool disableCastle) {
     vector<Move> opponentMoves = getMoves(!isSideWhite, disableCastle);
 
@@ -425,7 +413,7 @@ bool Board::isCheck(bool isSideWhite, bool disableCastle) {
     return false;
 }
 
-// can SIDE reach the square (r,c)
+// canReach - returns if a SIDE reach the square (r,c)
 bool Board::canReach(bool isSideWhite, int r, int c, bool disableCastle){
     vector<Move> moves = getMoves(isSideWhite, disableCastle);
     for (Move m : moves){
@@ -436,7 +424,8 @@ bool Board::canReach(bool isSideWhite, int r, int c, bool disableCastle){
     return false;
 }
 
-// was there a prev. move starting or ending at (r,c)
+// hasSquareBeenTouched - returns if or not there was a prev. 
+// move starting or ending at (r,c)
 bool Board::hasSquareBeenTouched(int r, int c){
     for (Move m : playedMoveList){
         if ((m.start.first == r && m.start.second == c) ||
@@ -447,11 +436,13 @@ bool Board::hasSquareBeenTouched(int r, int c){
     return false;
 }
 
+// display - displays the board
 void Board::display(State s) {
     td.display(s);
     gd.display(s);
 }
 
+// printLegalMoves - prints all curent legal moves
 void Board::printLegalMoves() {
      // print all legal moves
     vector<Move> whiteMoves = getLegalMoves(true);

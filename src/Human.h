@@ -3,6 +3,7 @@
 
 #include "Player.h" 
 
+// class to represent a human player
 class Human : public Player {
     public:
         Human(PieceColour);
